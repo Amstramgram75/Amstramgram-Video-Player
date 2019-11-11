@@ -1,0 +1,182 @@
+$backgroundColor: #fff;
+$textColor:#000;
+$hoverColor:#f00;
+
+
+$MOBILE_WIDTH:700px;
+:export {
+  MOBILE_WIDTH: $MOBILE_WIDTH;
+}
+$maxMOBILE:"only screen and (max-width: $MOBILE_WIDTH)";
+$max350: "only screen and (max-width: 350px)";
+$max400: "only screen and (max-width: 400px)";
+$min400: "only screen and (min-width: 400px)";
+$max500: "only screen and (max-width: 500px)";
+$max550: "only screen and (max-width: 550px)";
+$max600: "only screen and (max-width: 600px)";
+$max700: "only screen and (max-width: 700px)";
+$max800: "only screen and (max-width: 800px)";
+$min800: "only screen and (min-width: 800px)";
+$max1000: "only screen and (max-width: 1000px)";
+$max1200: "only screen and (max-width: 1200px)";
+$max1300: "only screen and (max-width: 1300px)";
+$max1400: "only screen and (max-width: 1400px)";
+$max1500: "only screen and (max-width: 1500px)";
+$max1600: "only screen and (max-width: 1600px)";
+$min1600: "only screen and (min-width: 1600px)";
+$max1700: "only screen and (max-width: 1700px)";
+$max1800: "only screen and (max-width: 1800px)";
+
+
+
+
+html, body, div, figure, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+:focus {
+	outline: 0;
+}
+.unselectable {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+.noTransition *{
+  transition:none !important;
+}
+.bold{
+  font-weight: bold;
+}
+.italic{
+  font-style: italic;
+}
+.fontSize2{
+  font-size: 2rem !important;
+}
+.hidden{
+  display: none;
+}
+.center{
+  text-align: center;
+}
+a, a:link, a:hover, a:visited, a:active{
+  color: $textColor;
+  text-decoration: none;
+}
+a:hover{
+  color: $hoverColor;
+}
+ul {
+  list-style: none;
+}
+.width40{
+  width: 40%;
+}
+.width50{
+  width: 50%;
+}
+.width60{
+  width: 60%;
+}
+.width70{
+  width: 70%;
+}
+.width80{
+  width: 80%;
+}
+.width90{
+  width: 90%;
+}
+.width100{
+  width: 100%;
+}
+.marginAuto{
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+.marginTop5{
+  margin-top: 5px !important;
+}
+.marginTop10{
+  margin-top: 10px !important;
+}
+.marginTop20{
+  margin-top: 20px !important;
+}
+.marginTop30{
+  margin-top: 30px !important;
+}
+.marginTop40{
+  margin-top: 40px !important;
+}
+.marginTop50{
+  margin-top: 50px !important;
+}
+.marginTop60{
+  margin-top: 60px !important;
+}
+.marginTop80{
+  margin-top: 80px !important;
+}
+.marginTop100{
+  margin-top: 100px !important;
+}
+.marginBottom5{
+  margin-bottom: 5px !important;
+}
+.marginBottom10{
+  margin-bottom: 10px !important;
+}
+.marginBottom20{
+  margin-bottom: 20px !important;
+}
+.marginBottom30{
+  margin-bottom: 30px !important;
+}
+.marginBottom40{
+  margin-bottom: 40px !important;
+}
+.marginBottom50{
+  margin-bottom: 50px !important;
+}
+.marginBottom60{
+  margin-bottom: 60px !important;
+}
+.marginBottom80{
+  margin-bottom: 80px !important;
+}
+.marginBottom100{
+  margin-bottom: 100px !important;
+}
+.clearfix:after { 
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+
+/*MAIN*/
+html, body {
+  height: 100%;
+}
+
+body {
+  line-height: 1;
+  background: $backgroundColor;
+  color: $textColor;
+}
