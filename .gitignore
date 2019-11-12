@@ -35,4 +35,3 @@ node_modules/
 *.bat
 assets/*.mp4
 demo/assets/*.mp4
-demo/assets/*.mp3
