@@ -1,0 +1,167 @@
+[
+	{
+		"path": "$ROOTPATH$\\app\\js\\amstramgramVideoPlayer.js",
+		"bookmarks": [
+			{
+				"line": 2,
+				"column": 0,
+				"label": "TODO"
+			},
+			{
+				"line": 231,
+				"column": 0,
+				"label": "INITIALISATION"
+			},
+			{
+				"line": 473,
+				"column": 0,
+				"label": "DÉBUT CLASS"
+			},
+			{
+				"line": 489,
+				"column": 0,
+				"label": "RÉCUPÉRATION / TRAITEMENT DES PARAMÈTRES"
+			},
+			{
+				"line": 581,
+				"column": 0,
+				"label": "CONSTRUCTION HTML"
+			},
+			{
+				"line": 608,
+				"column": 0,
+				"label": "DÉCLARATIONS DES VARIABLES"
+			},
+			{
+				"line": 695,
+				"column": 0,
+				"label": "PLAY"
+			},
+			{
+				"line": 727,
+				"column": 0,
+				"label": "PAUSE"
+			},
+			{
+				"line": 753,
+				"column": 0,
+				"label": "RESET"
+			},
+			{
+				"line": 786,
+				"column": 0,
+				"label": "HIDECONTROLS"
+			},
+			{
+				"line": 831,
+				"column": 0,
+				"label": "SHOWCONTROLS"
+			},
+			{
+				"line": 849,
+				"column": 0,
+				"label": "UPDATEBUTTONS"
+			},
+			{
+				"line": 953,
+				"column": 0,
+				"label": "SOURCE"
+			},
+			{
+				"line": 1074,
+				"column": 0,
+				"label": "ÉVÈNEMENTS MEDIA"
+			},
+			{
+				"line": 1169,
+				"column": 0,
+				"label": "UPDATEBUFFER"
+			},
+			{
+				"line": 1216,
+				"column": 0,
+				"label": "UPDATETIMERAIL"
+			},
+			{
+				"line": 1253,
+				"column": 0,
+				"label": "ÉVTS TACTILES SUR LA VIDÉO"
+			},
+			{
+				"line": 1364,
+				"column": 0,
+				"label": "ÉVTS GÉNÉRAUX"
+			},
+			{
+				"line": 1383,
+				"column": 0,
+				"label": "AFFICHER/CACHER LES CONTRÔLES"
+			},
+			{
+				"line": 1406,
+				"column": 0,
+				"label": "ÉVÉNEMENTS SUR RAIL"
+			},
+			{
+				"line": 1448,
+				"column": 0,
+				"label": "ÉVTS SOURIS SUR SLIDER"
+			},
+			{
+				"line": 1479,
+				"column": 0,
+				"label": "VOLUMECHANGE"
+			},
+			{
+				"line": 1534,
+				"column": 0,
+				"label": "VOLUME CLICK SUR HP"
+			},
+			{
+				"line": 1552,
+				"column": 0,
+				"label": "VOLUME POTENTIOMÈTRE - SOURIS & CLAVIER"
+			},
+			{
+				"line": 1645,
+				"column": 0,
+				"label": "FULLSCREEN"
+			},
+			{
+				"line": 1740,
+				"column": 0,
+				"label": "RESIZE"
+			},
+			{
+				"line": 1826,
+				"column": 0,
+				"label": "GETTERS/SETTERS"
+			},
+			{
+				"line": 1882,
+				"column": 0,
+				"label": "MÉTHODES"
+			},
+			{
+				"line": 1954,
+				"column": 0,
+				"label": "PROPRIÉTÉS GLOBALES"
+			},
+			{
+				"line": 1994,
+				"column": 0,
+				"label": "BUILDUI"
+			},
+			{
+				"line": 2094,
+				"column": 0,
+				"label": "UTILITAIRES"
+			},
+			{
+				"line": 2169,
+				"column": 0,
+				"label": "$ et $$"
+			}
+		]
+	}
+]

@@ -1,0 +1,1 @@
+new amstramgramVideoPlayer(document.querySelector('video'), {poster:"assets/castors.jpg", thumbnails:{src:"assets/castorsThumbs.jpg"}})
