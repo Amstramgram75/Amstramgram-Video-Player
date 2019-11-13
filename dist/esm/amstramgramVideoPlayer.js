@@ -249,16 +249,6 @@ const
   UA = w.navigator.userAgent.toLowerCase(),
   IS_MOBILE = (/ipad|iphone|ipod/i.test(UA) && !w.MSStream) || /android/i.test(UA);
 
-if (typeof Object.assign !== 'function' || !Array.from || !Array.prototype.includes || typeof window.CustomEvent !== "function") {
-  const scripts= d.getElementsByTagName('script'),
-        path= scripts[scripts.length-1].src.split('?')[0],
-        mydir= path.split('/').slice(0, -1).join('/')+'/',
-        s = d.createElement('script');
-  s.async="false";
-  s.src = mydir + "amstramgramVideoPlayerPolyfill.min.js";
-  d.head.appendChild(s);
-}
-
 //Edge ne comprend toujours pas getAttributeNames (IE11 non plus, bien évidemment)
 if (Element.prototype.getAttributeNames == undefined) {
   Element.prototype.getAttributeNames = function () {
@@ -975,6 +965,7 @@ class AmstramgramVideoPlayer {
       }, {});
       //S'il s'agit d'un changement de source
       if (media.getAttribute('src')) {
+        container.classList.add('amst_container_transition');
         //On reset le player
         self.pause();
         prevCurrentTime = 0;

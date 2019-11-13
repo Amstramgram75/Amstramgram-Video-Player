@@ -41,7 +41,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
   box-sizing: border-box;
 }
 
-.amst__video .amst__container {
+.amst__video .amst__container.amst_container_transition {
   transition: padding 0.4s;
 }
 
@@ -72,7 +72,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
   border: 0;
   margin: auto;
   cursor: pointer;
-  background: transparent url("amstramgramVideoPlayer.svg") no-repeat;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='240' height='101'%3E%3Cdefs%3E%3Cpath d='M2 1l16 9-16 9z' id='A'/%3E%3Cpath d='M0 2.5h3.5v15H0z' id='B'/%3E%3Cpath d='M2 6h7v8H2zm8 0l8-5v18l-8-5z' id='C'/%3E%3C/defs%3E%3Cg fill='%23fff'%3E%3Cuse x='1' xlink:href='%23A'/%3E%3Cuse x='23' xlink:href='%23B'/%3E%3Cuse x='32' xlink:href='%23B'/%3E%3Cuse x='40' xlink:href='%23C'/%3E%3Cpath d='M46 2.5l10 15' stroke-width='5' stroke='%23666' stroke-linecap='round'/%3E%3Cuse x='60' xlink:href='%23C'/%3E%3Cpath d='M80 0h9l-9 8zm11 0h9v8zM80 11v9h9zm20 0v9h-9z'/%3E%3Cpath d='M100 7h7V0zm13-7v7h7zm-13 13h7v7zm13 0h7l-7 7zm13-13h8v10h-8z'/%3E%3Cpath d='M120 7.5h20L130 16zm1 10.5h18v2h-18z'/%3E%3Cuse x='140' transform='rotate(180 150 10)' xlink:href='%23A'/%3E%3Cuse x='142' xlink:href='%23B'/%3E%3Cuse x='160' xlink:href='%23A'/%3E%3Cuse x='175' xlink:href='%23B'/%3E%3C/g%3E%3Ccircle cx='40' cy='61' r='37.5' opacity='.8' fill='none' stroke='%23fff' stroke-width='5'/%3E%3Cpath d='M28 42v38l34-19z' fill='%23fff'/%3E%3Ccircle cx='120' cy='61' r='37.5' fill='none' stroke='%23fff' stroke-width='5'/%3E%3Cg fill='%23fff'%3E%3Cpath d='M108 42v38l34-19z'/%3E%3Ccircle cx='200' cy='28' r='8'/%3E%3Ccircle cx='177.5' cy='37.5' r='7.5' opacity='.9'/%3E%3Ccircle cx='168' cy='60' r='7' opacity='.8'/%3E%3Ccircle cx='177.5' cy='82.5' r='6.5' opacity='.7'/%3E%3Ccircle cx='200' cy='92' r='6' opacity='.6'/%3E%3Ccircle cx='222.5' cy='82.5' r='5.5' opacity='.5'/%3E%3Ccircle cx='232' cy='60' r='5' opacity='.4'/%3E%3Ccircle cx='222.5' cy='37.5' r='4.5' opacity='.3'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .amst__mediaelement {

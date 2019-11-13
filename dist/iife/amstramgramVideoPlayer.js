@@ -1,4 +1,4 @@
-var amstramgramVideoPlayer = (function () {
+var AmstramgramVideoPlayer = (function () {
   'use strict';
 
   function _typeof(obj) {
@@ -343,18 +343,7 @@ var amstramgramVideoPlayer = (function () {
       //Détection de l'user agent pour savoir si on est sur mobile
   //Dans ce cas, on ne crée pas de potentiomètre de volume
   UA = w.navigator.userAgent.toLowerCase(),
-      IS_MOBILE = /ipad|iphone|ipod/i.test(UA) && !w.MSStream || /android/i.test(UA);
-
-  if (typeof Object.assign !== 'function' || !Array.from || !Array.prototype.includes || typeof window.CustomEvent !== "function") {
-    var scripts = d.getElementsByTagName('script'),
-        path = scripts[scripts.length - 1].src.split('?')[0],
-        mydir = path.split('/').slice(0, -1).join('/') + '/',
-        s = d.createElement('script');
-    s.async = "false";
-    s.src = mydir + "amstramgramVideoPlayerPolyfill.min.js";
-    d.head.appendChild(s);
-  } //Edge ne comprend toujours pas getAttributeNames (IE11 non plus, bien évidemment)
-
+      IS_MOBILE = /ipad|iphone|ipod/i.test(UA) && !w.MSStream || /android/i.test(UA); //Edge ne comprend toujours pas getAttributeNames (IE11 non plus, bien évidemment)
 
   if (Element.prototype.getAttributeNames == undefined) {
     Element.prototype.getAttributeNames = function () {
@@ -1151,7 +1140,8 @@ var amstramgramVideoPlayer = (function () {
         }, {}); //S'il s'agit d'un changement de source
 
         if (media.getAttribute('src')) {
-          //On reset le player
+          container.classList.add('amst_container_transition'); //On reset le player
+
           self.pause();
           prevCurrentTime = 0;
           floorCurrentTime = 0;

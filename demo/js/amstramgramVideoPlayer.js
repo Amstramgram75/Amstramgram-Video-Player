@@ -1,4 +1,4 @@
-var amstramgramVideoPlayer = (function () {
+var AmstramgramVideoPlayer = (function () {
   'use strict';
 
   function _typeof(obj) {

@@ -80,7 +80,7 @@ export default [
     output: {
       format: 'iife',
       file: `dist/iife/${name}.js`,
-      name: name
+      name: name[0].toUpperCase() + name.slice(1)
     },
     plugins: [
       ignoreImport({
@@ -94,7 +94,7 @@ export default [
     output: {
       format: 'iife',
       file: `dist/iife/${name}.min.js`,
-      name: name
+      name: name[0].toUpperCase() + name.slice(1)
     },
     plugins: [
       ignoreImport({

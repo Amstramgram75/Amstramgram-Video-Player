@@ -22,8 +22,8 @@
 		<link rel='stylesheet' href="css/amstramgramVideoPlayer.min.css">
 		<script src="js/amstramgramVideoPlayer.min.js"></script>
 		<script>
-			new amstramgramVideoPlayer(document.querySelector('video'), {
-				poster:"assets/castors.jpg", 
+			AmstramgramVideoPlayer.options({poster:"assets/castors_poster.jpg"})
+			new AmstramgramVideoPlayer(document.querySelector('video'), {
 				thumbnails:{src:"assets/castorsThumbs.jpg"}
 			});
 		</script>
