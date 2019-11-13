@@ -36,3 +36,4 @@ node_modules/
 assets/*.mp4
 demo/assets/*.mp4
 build/
+src/
