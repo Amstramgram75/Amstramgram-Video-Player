@@ -967,6 +967,7 @@ export default class AmstramgramVideoPlayer {
       }, {})
       //S'il s'agit d'un changement de source
       if (media.getAttribute('src')) {
+        container.classList.add('amst_container_transition')
         //On reset le player
         self.pause()
         prevCurrentTime = 0

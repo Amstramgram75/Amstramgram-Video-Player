@@ -1140,7 +1140,8 @@ var amstramgramVideoPlayer = (function () {
         }, {}); //S'il s'agit d'un changement de source
 
         if (media.getAttribute('src')) {
-          //On reset le player
+          container.classList.add('amst_container_transition'); //On reset le player
+
           self.pause();
           prevCurrentTime = 0;
           floorCurrentTime = 0;
