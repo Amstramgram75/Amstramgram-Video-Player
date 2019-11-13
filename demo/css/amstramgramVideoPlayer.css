@@ -1,0 +1,709 @@
+@charset "UTF-8";
+/* Accessibilité
+Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-how/ */
+.amst__offscreen {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal;
+}
+
+/* UTILES */
+.amst__hidden {
+  display: none !important;
+}
+
+.amst__notransition {
+  transition: none !important;
+}
+
+/* FIN UTILES */
+/* GÉNÉRAL */
+.amst__container {
+  background: #000;
+  box-sizing: border-box;
+  position: relative;
+  text-align: left;
+  text-indent: 0;
+  vertical-align: top;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+.amst__container * {
+  box-sizing: border-box;
+}
+
+.amst__video .amst__container {
+  transition: padding 0.4s;
+}
+
+.amst__container [tabindex]:focus {
+  outline: 0;
+}
+
+.amst__container [tabindex]::-moz-focus-inner {
+  border: 0;
+}
+
+.amst__container.amst__keyboard-active [tabindex]:focus {
+  outline: solid 2px #a10304;
+}
+
+/* Cache des controles natifs sur iOS */
+.amst__video video::-webkit-media-controls,
+.amst__video video::-webkit-media-controls-panel,
+.amst__video video::-webkit-media-controls-panel-container,
+.amst__video video::-webkit-media-controls-start-playback-button {
+  -webkit-appearance: none;
+  display: none !important;
+}
+
+.amst__container .amst__svg,
+.amst__button > button {
+  padding: 0;
+  border: 0;
+  margin: auto;
+  cursor: pointer;
+  background: transparent url("amstramgramVideoPlayer.svg") no-repeat;
+}
+
+.amst__mediaelement {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* GÉNÉRAL */
+/* FULLSCREEN */
+.amst__video.amst__isfullscreen {
+  display: flex;
+}
+
+.amst__video.amst__isfullscreen .amst__container {
+  margin: auto;
+}
+
+.amst__video.amst__isfullscreen .amst__mediaelement,
+.amst__video.amst__isfullscreen video,
+.amst__video video {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* FIN FULLSCREEN */
+/* LAYERS */
+.amst__layers > div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/*Poster*/
+.amst__layers > .amst__layer-poster {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 1;
+}
+
+.amst__layers > .amst__layer-poster canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/*Loading*/
+.amst__layers > .amst__layer-loading {
+  display: none;
+}
+
+.amst__buffering .amst__layer-loading {
+  display: flex;
+}
+
+.amst__loading {
+  height: 80px;
+  width: 80px;
+  margin: auto;
+}
+
+.amst__loading .amst__svg {
+  animation: amst__loading-spinner 1s linear infinite;
+  background-position: -160px -20px;
+  display: block;
+  height: 80px;
+  width: 80px;
+  z-index: 1;
+}
+
+@keyframes amst__loading-spinner {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+/*Play*/
+.amst__layer-play {
+  cursor: pointer;
+}
+
+.amst__layer-play .amst__svg {
+  background-position: -80px -21px;
+  height: 80px;
+  width: 80px;
+  transition: transform 0.15s ease-in, opacity 0.15s ease-in;
+}
+
+.amst__buffering .amst__layer-play .amst__svg {
+  opacity: 0.5;
+  transform: scale(0.5);
+}
+
+.amst__container.amst__no-touch .amst__layer-play > .amst__svg {
+  background-position: 0 -21px;
+}
+
+.amst__container.amst__no-touch .amst__layer-play:hover > .amst__svg {
+  background-position: -80px -21px;
+}
+
+/* FIN LAYERS */
+/* BARRE DE CONTRÔLE */
+.amst__controls {
+  display: flex;
+  width: 100%;
+  height: 35px;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  margin: 0;
+  padding: 0 10px;
+  z-index: 3;
+  transform-origin: bottom left;
+  transform: translateX(-50%) scaleY(1);
+  transition: transform 0.15s ease-in;
+  background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.35));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.35));
+}
+
+.amst__compact .amst__controls {
+  flex-wrap: wrap;
+  height: 60px;
+}
+
+/*Boutons*/
+.amst__button {
+  display: flex;
+  height: 35px;
+  width: 32px;
+}
+
+.amst__button > button {
+  width: 20px;
+  height: 20px;
+}
+
+.amst__compact .amst__controls > div:first-child {
+  margin-left: -6px;
+}
+
+/* FIN BARRE DE CONTRÔLE */
+/* INDICATEURS TEMPORELS */
+.amst__time, .amst__measureTime {
+  color: #fff;
+  font-family: "Helvetica", Arial, serif;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  height: 35px;
+}
+
+.amst__time {
+  order: 3;
+  height: 35px;
+  display: flex;
+  flex-direction: column;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.amst__measureTime {
+  position: absolute;
+  top: -10000px;
+  left: 0;
+}
+
+.amst__time > span, .amst__measureTime > span {
+  margin: auto;
+  line-height: 1;
+}
+
+.amst__compact .amst__time-duration {
+  flex-grow: 1;
+}
+
+.amst__compact .amst__duration {
+  width: 100% !important;
+  text-align: left;
+}
+
+.amst__compact .amst__duration:before {
+  content: " / ";
+  white-space: pre;
+}
+
+/*Seekingtouch*/
+.amst__container.amst__no-touch .amst__layer-seeking-touch {
+  display: none;
+}
+
+.amst__seeking-touch-cache {
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+  transform: scaleX(0);
+  background: rgba(255, 255, 255, 0.4);
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.amst__seeking-touch {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  border: solid 2px #fff;
+  border-radius: 0;
+  height: auto;
+}
+
+.amst__seeking-touch > span {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  box-sizing: content-box;
+}
+
+.amst__container .amst__layer-seeking-touch.amst__show .amst__seeking-touch-cache, .amst__container .amst__layer-seeking-touch.amst__show .amst__seeking-touch {
+  opacity: 1;
+}
+
+.amst__container.amst__thumbnails .amst__seeking-touch {
+  background-repeat: no-repeat;
+  box-sizing: content-box;
+}
+
+.amst__container.amst__thumbnails .amst__seeking-touch > span {
+  padding: 3px;
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+/* FIN INDICATEURS TEMPORELS */
+/* PLAY/PAUSE/PREVIOUS/NEXT */
+.amst__previous,
+.amst__playpause,
+.amst__next {
+  order: 2;
+}
+
+.amst__previous > button {
+  background-position: -140px 0;
+}
+
+.amst__playpause > button {
+  background-position: 0 0;
+}
+
+.amst__playpause > button.amst__pause {
+  background-position: -20px 0;
+}
+
+.amst__next > button {
+  background-position: -160px 0;
+}
+
+.amst__button > button[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* FIN PLAY/PAUSE/PREVIOUS/NEXT */
+/* BARRE DE PROGRESSION */
+.amst__rail {
+  order: 3;
+  direction: ltr;
+  display: flex;
+  flex-grow: 1;
+  padding: 0 10px;
+  opacity: 0.3;
+  transition: opacity 0.15s ease-in;
+  touch-action: none;
+}
+
+.amst__container.amst__loadedmetadata .amst__rail {
+  opacity: 1;
+}
+
+.amst__compact .amst__rail {
+  margin: 0;
+  width: 100%;
+  height: 25px;
+  order: 100;
+}
+
+.amst__slider,
+.amst__buffering-bar,
+.amst__loaded-bar,
+.amst__currenttime-bar,
+.amst__seeking-wrapper,
+.amst__seeking {
+  border-radius: 2px;
+  position: absolute;
+}
+
+/*Slider*/
+.amst__container .amst__slider {
+  position: relative;
+  background: rgba(255, 255, 255, 0.3);
+  height: 6px;
+  width: 100%;
+  margin: auto;
+  transition: transform 0.15s ease-in;
+  transform: scaleY(0.5);
+  transform-style: preserve-3d;
+  z-index: 1;
+}
+
+.amst__container.amst__no-touch.amst__loadedmetadata .amst__rail:hover .amst__slider {
+  transform: scaleY(1);
+  cursor: pointer;
+}
+
+.amst__container.amst__no-touch.amst__loadedmetadata.amst__keyboard-active .amst__slider:focus {
+  transform: scaleY(1);
+}
+
+/*Buffering*/
+.amst__buffering-bar {
+  display: none;
+  -webkit-animation: buffering-stripes 2s linear infinite;
+  animation: buffering-stripes 2s linear infinite;
+  background: -webkit-linear-gradient(135deg, rgba(255, 255, 255, 0.4) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.4) 75%, transparent 75%, transparent);
+  background: linear-gradient(-45deg, rgba(255, 255, 255, 0.4) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.4) 75%, transparent 75%, transparent);
+  background-size: 15px 15px;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes buffering-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 30px 0;
+  }
+}
+.amst__container.amst__buffering .amst__buffering-bar {
+  display: block;
+}
+
+.amst__loaded-bar {
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/*CurrentTime et handle*/
+.amst__currenttime-bar,
+.amst__handle > span {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.amst__currenttime-bar {
+  transform-origin: 0 0;
+  transform: scaleX(0);
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.amst__handle,
+.amst__handle > span {
+  cursor: pointer;
+  position: absolute;
+  z-index: 11;
+}
+
+.amst__handle {
+  height: 12px;
+  width: 12px;
+  transform-style: preserve-3d;
+  left: 0;
+  top: -3px;
+}
+
+.amst__handle > span {
+  background: #fff;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: transform 0.15s ease-in;
+  transform: scale(0);
+}
+
+.amst__container:not(.amst__no-touch).amst__loadedmetadata .amst__handle > span {
+  transform: scale(1, 2);
+}
+
+.amst__container.amst__no-touch.amst__loadedmetadata .amst__rail:hover .amst__handle > span,
+.amst__container.amst__no-touch.amst__loadedmetadata.amst__keyboard-active .amst__slider:focus .amst__handle > span {
+  transform: scaleY(1);
+}
+
+/*Curseur*/
+.amst__cursor {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.amst__container.amst__no-touch.amst__loadedmetadata .amst__cursor {
+  display: block;
+}
+
+.amst__cursor > span {
+  display: block;
+  position: absolute;
+  left: -5px;
+  top: -10px;
+  border: solid 5px #eee;
+  border-color: #eee transparent transparent;
+  transform-origin: top 50%;
+  transform: scale(0);
+  transition: transform 0.15s ease-in;
+}
+
+.amst__cursor > span::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: -1px;
+  top: 0;
+  background: #000;
+  width: 2px;
+  height: 11px;
+}
+
+.amst__container.amst__no-touch.amst__loadedmetadata .amst__slider:hover .amst__cursor > span {
+  transform: scale(1);
+}
+
+/*Seeking*/
+.amst__seeking-wrapper {
+  display: none;
+}
+
+.amst__container.amst__no-touch.amst__loadedmetadata .amst__seeking-wrapper {
+  display: block;
+}
+
+.amst__seeking {
+  background: #eee;
+  border: solid 1px #333;
+  height: auto;
+  padding: 3px;
+  bottom: 10px;
+  transform-origin: 50% 100%;
+  transform: translateX(-50%) scale(0);
+  transition: transform 0.15s ease-in;
+  pointer-events: none;
+}
+
+.amst__container.amst__no-touch.amst__loadedmetadata .amst__slider:hover .amst__seeking {
+  transform: translateX(-50%) scale(1);
+}
+
+.amst__container.amst__no-touch.amst__loadedmetadata.amst__thumbnails .amst__seeking {
+  background-repeat: no-repeat;
+  border: solid 2px #fff;
+  border-radius: 0;
+  padding: 0;
+  box-sizing: content-box;
+}
+
+.amst__seeking > span {
+  color: #666;
+  line-height: 11px;
+}
+
+.amst__container.amst__no-touch.amst__loadedmetadata.amst__thumbnails .amst__seeking > span {
+  color: #fff;
+  box-sizing: content-box;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px;
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+/* FIN BARRE DE PROGRESSION */
+/* BOUTON FULLSCREEN */
+.amst__fullscreen {
+  order: 3;
+}
+
+.amst__fullscreen > button {
+  background-position: -80px 0;
+}
+
+.amst__fullscreen > button.amst__unfullscreen {
+  background-position: -100px 0;
+}
+
+/* FIN BOUTON FULLSCREEN */
+/* VOLUME */
+.amst__volumebutton {
+  order: 3;
+  position: relative;
+}
+
+.amst__volumebutton > button {
+  background-position: -60px 0;
+}
+
+.amst__volumebutton > button.amst__unmute {
+  background-position: -40px 0;
+}
+
+.amst__volumebutton > .amst__volume-slider {
+  visibility: hidden;
+  backface-visibility: hidden;
+  background: rgba(50, 50, 50, 0.7);
+  border-radius: 0;
+  width: 25px;
+  height: 115px;
+  position: absolute;
+  left: 50%;
+  bottom: 98%;
+  margin: 0;
+  z-index: 1;
+  transform: translateX(-50%);
+  transition: visibility 0s linear 0.05s;
+}
+
+.amst__volume-slider {
+  cursor: pointer;
+}
+
+.amst__volumebutton:hover > .amst__volume-slider[aria-orientation=vertical],
+.amst__keyboard-active .amst__volumebutton > .amst__volume-slider[aria-orientation=vertical]:focus,
+.amst__keyboard-active .amst__volumebutton > button:focus ~ .amst__volume-slider[aria-orientation=vertical] {
+  visibility: visible;
+}
+
+.amst__volume-slider[aria-orientation=vertical] .amst__volume-total {
+  background: rgba(255, 255, 255, 0.5);
+  width: 2px;
+  height: 100px;
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  margin: 0;
+  transform: translateX(-50%);
+}
+
+.amst__volume-slider[aria-orientation=vertical] .amst__volume-current {
+  background: rgba(255, 255, 255, 0.9);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.amst__volume-slider[aria-orientation=vertical] .amst__volume-handle {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 1px;
+  cursor: ns-resize;
+  width: 16px;
+  height: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.amst__volume-slider[aria-orientation=horizontal] {
+  order: 3;
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+  width: 60px;
+  height: 35px;
+  padding: 0 5px;
+}
+
+.amst__volume-slider[aria-orientation=horizontal] .amst__volume-total {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  width: 100%;
+  height: 6px;
+  margin: auto;
+}
+
+.amst__no-touch .amst__volume-slider[aria-orientation=horizontal] .amst__volume-total {
+  transform: scaleY(0.5);
+  transition: transform 0.15s ease-in;
+}
+
+.amst__no-touch .amst__volume-slider[aria-orientation=horizontal]:hover .amst__volume-total,
+.amst__keyboard-active .amst__volume-slider[aria-orientation=horizontal]:focus .amst__volume-total {
+  transform: scaleY(1);
+}
+
+.amst__volume-slider[aria-orientation=horizontal] .amst__volume-current {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
+}
+
+/* FIN VOLUME */
+/* DOWNLOAD */
+.amst__download {
+  order: 3;
+  padding-left: 10px;
+  width: 42px;
+}
+
+.amst__download > button {
+  background-position: -120px 0;
+}
+
+/* FIN */
