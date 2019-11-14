@@ -8,18 +8,18 @@ import cssnano from 'cssnano'
 import sass from 'rollup-plugin-sass'
 
 const path = require('path'),
-      name = path.basename(__dirname)
-const pjson = require('./package.json');
-const cssBanner =  `amstramgramVideoPlayer.js
+      name = path.basename(__dirname),
+      pjson = require('./package.json'),
+      cssBanner =  `amstramgramVideoPlayer.js
 @version : ${pjson.version}
 @licence : ${pjson.license}
 @author : ${pjson.author.name}
-@url : ${pjson.homepage}`
-const banner = `/*
+@url : ${pjson.homepage}`,
+      banner = `/*
 ${cssBanner}
-*/`
-const cssBannerMin = `amstramgramVideoPlayer.js--@version:${pjson.version}--@licence:${pjson.license}--@url:${pjson.homepage}`
-const bannerMin = `/*${cssBannerMin}*/`
+*/`,
+      cssBannerMin = `amstramgramVideoPlayer.js--@version:${pjson.version}--@licence:${pjson.license}--@url:${pjson.homepage}`,
+      bannerMin = `/*${cssBannerMin}*/`
 
 export default [
   {
