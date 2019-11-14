@@ -1,7 +1,27 @@
 {
   "name": "amstramgramvideoplayer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple, lightweight although powerfull HTML5 Video Player",
+  "keywords": [
+    "video",
+    "media",
+    "player",
+    "responsive"
+  ],
+  "author": {
+    "name": "Amstramgram",
+    "email" : "contact@onfaitdessites.fr",
+    "url": "https://onfaitdessites.fr/"
+  },
+  "homepage": "https://github.com/Amstramgram75/Amstramgram-Video-Player",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Amstramgram75/Amstramgram-Video-Player"
+  },
+  "bugs": {
+    "url": "https://github.com/Amstramgram75/Amstramgram-Video-Player/issues"
+  },
+  "license": "MIT",
   "main": "cjs/amstramgramVideoPlayer.js",
   "module": "esm/amstramgramVideoPlayer.js",
   "exports": {
@@ -12,7 +32,5 @@
     "css",
     "esm",
     "src"
-  ],
-  "author": "Laurent",
-  "license": "ISC"
+  ]
 }

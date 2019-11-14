@@ -1,3 +1,10 @@
+/*
+amstramgramVideoPlayer.js
+@version : 1.0.0
+@licence : MIT
+@author : Amstramgram
+@url : https://github.com/Amstramgram75/Amstramgram-Video-Player
+*/
 (function(){
   //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
   if (typeof Object.assign !== 'function') {

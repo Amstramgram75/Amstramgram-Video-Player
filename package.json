@@ -1,7 +1,27 @@
 {
   "name": "amstramgramvideoplayer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple, lightweight although powerfull HTML5 Video Player",
+  "keywords": [
+    "video",
+    "media",
+    "player",
+    "responsive"
+  ],
+  "author": {
+    "name": "Amstramgram",
+    "email" : "contact@onfaitdessites.fr",
+    "url": "https://onfaitdessites.fr/"
+  },
+  "homepage": "https://github.com/Amstramgram75/Amstramgram-Video-Player",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Amstramgram75/Amstramgram-Video-Player"
+  },
+  "bugs": {
+    "url": "https://github.com/Amstramgram75/Amstramgram-Video-Player/issues"
+  },
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "dev": "webpack --watch --mode development",
@@ -9,8 +29,6 @@
     "build": "webpack --mode production",
     "pack": "rollup -c"
   },
-  "author": "Laurent",
-  "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -23,6 +41,7 @@
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.13.0",
     "npm-run-all": "^4.1.5",
+    "postcss-banner": "^3.0.1",
     "postcss-loader": "^3.0.0",
     "rollup": "^1.26.3",
     "rollup-plugin-babel": "^4.3.3",

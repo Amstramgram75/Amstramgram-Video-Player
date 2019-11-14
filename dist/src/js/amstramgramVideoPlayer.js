@@ -1,5 +1,3 @@
-import '../css/amstramgramVideoPlayer.scss'
-
 /*TODO :
   Menu contextuel
   Tuto thumnails

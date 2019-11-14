@@ -1,3 +1,10 @@
+/*
+amstramgramVideoPlayer.js
+@version : 1.0.0
+@licence : MIT
+@author : Amstramgram
+@url : https://github.com/Amstramgram75/Amstramgram-Video-Player
+*/
 var AmstramgramVideoPlayer = (function () {
   'use strict';
 
@@ -326,7 +333,6 @@ var AmstramgramVideoPlayer = (function () {
    *              INITIALISATION                  *
    *                                              *
    ************************************************/
-
   var w = window,
       d = document,
       //Définition du type de pointeur

@@ -3,22 +3,38 @@ import { terser } from 'rollup-plugin-terser'
 import ignoreImport from 'rollup-plugin-ignore-import'
 import copy from 'rollup-plugin-copy'
 import postcss from 'postcss'
+import postcssBanner from 'postcss-banner'
 import cssnano from 'cssnano'
 import sass from 'rollup-plugin-sass'
 
-const path = require('path');
-const name = path.basename(__dirname)
+const path = require('path'),
+      name = path.basename(__dirname)
+const pjson = require('./package.json');
+const cssBanner =  `amstramgramVideoPlayer.js
+@version : ${pjson.version}
+@licence : ${pjson.license}
+@author : ${pjson.author.name}
+@url : ${pjson.homepage}`
+const banner = `/*
+${cssBanner}
+*/`
+const cssBannerMin = `amstramgramVideoPlayer.js--@version:${pjson.version}--@licence:${pjson.license}--@url:${pjson.homepage}`
+const bannerMin = `/*${cssBannerMin}*/`
 
 export default [
   {
     input: `app/js/${name}.js`,
     output: {
       format: 'esm',
-      dir: 'dist/esm/'
+      dir: 'dist/esm/',
+      banner: banner
     },
     plugins: [
       sass({
-        output: `dist/css/${name}.css`
+        output: `dist/css/${name}.css`,
+        processor: css => postcss([postcssBanner({banner: cssBanner})])
+          .process(css)
+          .then(result => result.css)
       }),
       copy({
         targets: [
@@ -36,12 +52,13 @@ export default [
     input: `app/js/${name}.js`,
     output: {
       format: 'esm',
-      file: `dist/esm/${name}.min.js`
+      file: `dist/esm/${name}.min.js`,
+      banner: bannerMin
     },
     plugins: [
       sass({
         output: `dist/css/${name}.min.css`,
-        processor: css => postcss([cssnano])
+        processor: css => postcss([cssnano, postcssBanner({banner: cssBannerMin})])
           .process(css)
           .then(result => result.css)
       }),    
@@ -52,7 +69,8 @@ export default [
     input: `app/js/${name}.js`,
     output: {
       format: 'cjs',
-      file: `dist/cjs/${name}.js`
+      file: `dist/cjs/${name}.js`,
+      banner: banner
     },
     plugins: [
       ignoreImport({
@@ -65,7 +83,8 @@ export default [
     input: `app/js/${name}.js`,
     output: {
       format: 'cjs',
-      file: `dist/cjs/${name}.min.js`
+      file: `dist/cjs/${name}.min.js`,
+      banner: bannerMin
     },
     plugins: [
       ignoreImport({
@@ -80,7 +99,8 @@ export default [
     output: {
       format: 'iife',
       file: `dist/iife/${name}.js`,
-      name: name[0].toUpperCase() + name.slice(1)
+      name: name[0].toUpperCase() + name.slice(1),
+      banner: banner
     },
     plugins: [
       ignoreImport({
@@ -94,7 +114,8 @@ export default [
     output: {
       format: 'iife',
       file: `dist/iife/${name}.min.js`,
-      name: name[0].toUpperCase() + name.slice(1)
+      name: name[0].toUpperCase() + name.slice(1),
+      banner: bannerMin
     },
     plugins: [
       ignoreImport({

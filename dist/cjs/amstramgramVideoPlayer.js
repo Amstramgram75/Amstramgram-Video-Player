@@ -1,3 +1,10 @@
+/*
+amstramgramVideoPlayer.js
+@version : 1.0.0
+@licence : MIT
+@author : Amstramgram
+@url : https://github.com/Amstramgram75/Amstramgram-Video-Player
+*/
 'use strict';
 
 function _typeof(obj) {
@@ -325,7 +332,6 @@ function _nonIterableRest() {
  *              INITIALISATION                  *
  *                                              *
  ************************************************/
-
 var w = window,
     d = document,
     //Définition du type de pointeur
