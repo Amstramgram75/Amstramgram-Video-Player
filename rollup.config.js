@@ -1,5 +1,5 @@
 import babel from 'rollup-plugin-babel'
-import { terser } from 'rollup-plugin-terser'
+import {terser} from 'rollup-plugin-terser'
 import ignoreImport from 'rollup-plugin-ignore-import'
 import copy from 'rollup-plugin-copy'
 import postcss from 'postcss'

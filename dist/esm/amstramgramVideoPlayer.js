@@ -5,6 +5,14 @@ amstramgramVideoPlayer.js
 @author : Amstramgram
 @url : https://github.com/Amstramgram75/Amstramgram-Video-Player
 */
+/*
+amstramgramVideoPlayer.js
+version : 1.0.0
+licence : MIT
+author : Amstramgram
+url : https://github.com/Amstramgram75/Amstramgram-Video-Player
+*/
+
 /*TODO :
   Menu contextuel
   Tuto thumnails
