@@ -126,8 +126,7 @@ export default [
       copy({
         targets: [
           {src: `dist/iife/*`, dest: 'demo/js'},
-          {src: `dist/css/${name}.min.css`, dest: 'demo/css'},
-          {src: `dist/css/${name}.svg`, dest: 'demo/css'},
+          {src: `dist/css/${name}*.css`, dest: 'demo/css'}
         ]
       })
     ]
