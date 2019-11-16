@@ -93,7 +93,7 @@ new AmstramgramVideoPlayer(document.querySelector('video'),{
 ```
 
 __:small_orange_diamond: The following options can be set either by overiding the default options, when creating the instance or when updating the source :__  
-
+___
 :black_medium_small_square: <ins>__autoplay__</ins>&ensp;&ensp;{Boolean}  
 Default : `false`  
 If `true`, the attribute `autoplay` is added to the `<video>` tag.<br>
@@ -112,28 +112,101 @@ Default :
 `}`  
 _Donwload_ button properties.
 ___
+:black_medium_small_square: <ins>__duration__</ins>&ensp;&ensp;{Integer}  
+Default : 120  
+Video duration in __seconds__.  
+Updated on `loadedmetadata` event.
+___
+:black_medium_small_square: <ins>__format__</ins>&ensp;&ensp;{Number}  
+Default : 16/9  
+Video format ratio.  
+Updated on `loadedmetadata` event.
+___
+:black_medium_small_square: <ins>__fullscreen__</ins>&ensp;&ensp;{Object}  
+Default :  
+`{`   
+&ensp;&ensp;`label:`   
+&ensp;&ensp;&ensp;&ensp;`{`  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`enter: "Plein Écran",`  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`exit: "Quitter le plein écran",`  
+&ensp;&ensp;&ensp;&ensp;`},`   
+&ensp;&ensp;`disabled: false,`  
+&ensp;&ensp;`hidden: false`  
+`}`  
+_Fullscreen_ button properties.
+___
+:black_medium_small_square: <ins>__loop__</ins>&ensp;&ensp;{Boolean}   
+Default : `false`  
+Attribute added to the `<video>` tag.
+___
+:black_medium_small_square: <ins>__next__</ins>&ensp;&ensp;{Object}  
+Default :  
+`{`   
+&ensp;&ensp;`label: "Suivant",`  
+&ensp;&ensp;`disabled: true,`  
+&ensp;&ensp;`hidden: true`  
+`}`  
+_Next_ button properties.
+___
+:black_medium_small_square: <ins>__playsinline__</ins>&ensp;&ensp;{Boolean}   
+Default : `true`  
+When `true`, the attributes `playsinline` and `webkit-playsinline` are added to the `<video>` tag.
+___
+:black_medium_small_square: <ins>__poster__</ins>&ensp;&ensp;{String}   
+Default : `undefined`  
+Source of the image used as poster.
+___
+:black_medium_small_square: <ins>__preload__</ins>&ensp;&ensp;{String} `"auto"` | `"metadata"` | `"none"` | `"preload"`  
+Default : `"none"`  
+Value of the attribute `preload` for the `<video>` tag.
+___
+:black_medium_small_square: <ins>__previous__</ins>&ensp;&ensp;{Object}  
+Default :  
+`{`   
+&ensp;&ensp;`label: "Précédent",`  
+&ensp;&ensp;`disabled: true,`  
+&ensp;&ensp;`hidden: true`  
+`}`  
+_Next_ button properties.
+___
+:black_medium_small_square: <ins>__skipTime__</ins>&ensp;&ensp;{Number} or {String}  
+Default : `"1%"`  
+Value in seconds or percent of the total duration for the time skip aplied when left or right arrow are pressed.
+___
+:black_medium_small_square: <ins>__thumbnails__</ins>&ensp;&ensp;{Object}  
+Default :  
+`{`   
+&ensp;&ensp;`src: undefined,`  
+&ensp;&ensp;`number: 100,`  
+`}`  
+Defines the source of the image used for the preview thumbnails and the number of thumbnails included.
+___
+:black_medium_small_square: <ins>__volume__</ins>&ensp;&ensp;{Number}  
+Default : `0.8`  
+Volume of the video.
+___
+:black_medium_small_square: <ins>__fullscreen__</ins>&ensp;&ensp;{Object}  
+Default :  
+`{`   
+&ensp;&ensp;`label:`   
+&ensp;&ensp;&ensp;&ensp;`{`  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`mute: "Désactiver le son",`  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`exit: "Activer le son",`  
+&ensp;&ensp;&ensp;&ensp;`},`   
+&ensp;&ensp;`disabled: false,`  
+&ensp;&ensp;`hidden: false`  
+`}`  
+_Volume_ button properties.
+___
+:black_medium_small_square: <ins>__volumeGroup__</ins>&ensp;&ensp;{Integer}  
+Default : `0`  
+More details here.
+___
+___
+___
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-|`autoplay`|`Boolean`|`false`|If `true`, the attribute `autoplay` is added to the `<video>` tag.<br>__Please be aware that most of the browsers block this functionality if volume is not muted.__|
-|`crossorigin`|`"anonymous"`<br>`"use-credentials"`|`"anonymous"`|Attribute added to the `<video>` tag.|
-|`download`|`Object`|`{label: "Télécharger",`<br>`disabled: false,`<br>`hidden: false}`|_Donwload_ button properties.|
-|`duration`|`Integer`|`120`|Video duration in seconds.<br>Updated on `loadedmetadata` event.|
-|`format`|`Number`|`16/9`|Video format.<br>Updated on `loadedmetadata` event.|
-|`fullscreen`|`Object`|`{label:`<br>&ensp;`{enter: "Plein Écran",`<br>&ensp;`exit: "Quitter le plein écran"},`<br>`disabled: false,`<br>`hidden: false}`|_Fullscreen_ button properties.|
-|`loop`|`Boolean`|`false`|If `true`, the attribute `loop` is added to the `<video>` tag.|
-|`next`|`Object`|`{label: "Suivant",`<br>`disabled: true,`<br>`hidden: true}`|_Next_ button properties.|
-|`playsinline`|`Boolean`|`true`|If `true`, the attributes `playsinline` and `webkit-playsinline` are added to the `<video>` tag.|
-|`poster`|`String`|`undefined`|Source of the image used as poster.|
-|`preload`|`"auto"`<br>`"metadata"`<br>`"none"`|`"none"`|Value of the attribute `preload` for the `<video>` tag.|
-|`previous`|`Object`|`{label: "Précédent",`<br>`disabled: true,`<br>`hidden: true}`|_Previous_ button properties.|
-|`skipTime`|`Number` or `percent`|`"1%"`|Value in seconds or percent of the total duration for the time jump aplied when left or right arrow are pressed.|
-|`thumbnails`|`Object`|`{src: undefined,`<br>`number: 100}`|Defines the source of the image used for the preview thumbnails and the number of thumbnails included.|
-|`volume`|`Number`|`0.8`|Volume of the video.|
-|`volumeButton`|`Object`|`{label:`<br>&ensp;`{mute: "Désactiver le son",`<br>&ensp;`exit: "Activer le son"},`<br>`disabled: false`<br>`hidden: false}`|_Volume_ button properties.|
-|`volumeGroup`|`Integer`|`0`|More details here.|
-
-The following options can be set either by overiding the default options or when creating the instance :
+__:small_orange_diamond: The following options can be set either by overiding the default options or when creating the instance :__
+___
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
