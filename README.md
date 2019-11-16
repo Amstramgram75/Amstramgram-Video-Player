@@ -255,7 +255,7 @@ ___
 `source` is either a string pointing to the video file source, either an object of the form :  
 {  
 &ensp;&ensp;src: _string_ giving the video file path - __required__,  
-&ensp;&ensp;and any of the options listed [above](#login-optional-fields)  
+&ensp;&ensp;and any of the options listed [above](#test)  
 }
 #### currentTime(`time`)
 @param `time` {Number} - set the playback head position to the specified value, expressed in seconds. 
