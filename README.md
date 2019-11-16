@@ -92,7 +92,7 @@ new AmstramgramVideoPlayer(document.querySelector('video'),{
 });
 ```
 
-__:small_orange_diamond: The following options can be set either by overiding the default options, when creating the instance or when updating the source :__  
+__:small_orange_diamond: <span id="test">The following options can be set either by overiding the default options, when creating the instance or when updating the source :<span>__  
 ___
 :black_medium_small_square: <ins>__autoplay__</ins>&ensp;&ensp;{Boolean}  
 Default : `false`  
@@ -179,7 +179,8 @@ Default :
 &ensp;&ensp;`src: undefined,`  
 &ensp;&ensp;`number: 100,`  
 `}`  
-Defines the source of the image used for the preview thumbnails and the number of thumbnails included.
+`src` defines the path to the image used for the preview thumbnails and `number` gives the number of thumbnails included.  
+This number makes it possible to deduce the width of a thumbnail from the natural width property of the image. The height is then simply deduce from the video ratio.  
 ___
 :black_medium_small_square: <ins>__volume__</ins>&ensp;&ensp;{Number}  
 Default : `0.8`  
@@ -253,8 +254,8 @@ ___
 #### src(`source`)
 `source` is either a string pointing to the video file source, either an object of the form :  
 {  
-&ensp;&ensp;src: _string_ pointing to the video file source - __required__,  
-&ensp;&ensp;and any of the options listed above  
+&ensp;&ensp;src: _string_ giving the video file path - __required__,  
+&ensp;&ensp;and any of the options listed [above](#login-optional-fields)  
 }
 #### currentTime(`time`)
 @param `time` {Number} - set the playback head position to the specified value, expressed in seconds. 
