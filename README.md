@@ -1,5 +1,5 @@
-<style type="text/css">
-  .options {padding-left:1em}
+<style>
+  .options{padding-left:1em;}
 </style>
 
 
