@@ -1,3 +1,8 @@
+<style type="text/css">
+  .options {padding-left:1em}
+</style>
+
+
 <h1 align="center">Amstramgram Video Player</h1>
 
 [![GitHub Release](https://img.shields.io/badge/release-v1.0.0-orange)](https://github.com/Amstramgram75/Amstramgram-Video-Player/releases/tag/v1.0.0)
@@ -94,7 +99,7 @@ new AmstramgramVideoPlayer(document.querySelector('video'),{
 
 __<span style="font-size:0.9em">&#x25cf;The following options can be set either by overiding the default options, when creating the instance or when updating the source :</span>__  
 
-<div style="padding-left:1em;font-size:0.9em">
+<div class="options">
 
 &#9775; <ins style="margin-bottom:-0.5em">__autoplay__</ins>  
 {Boolean} - Default : `false`  
