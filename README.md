@@ -92,16 +92,25 @@ new AmstramgramVideoPlayer(document.querySelector('video'),{
 });
 ```
 
-__:red_circle: The following options can be set either by overiding the default options, when creating the instance or when updating the source :__  
+__:small_orange_diamond: The following options can be set either by overiding the default options, when creating the instance or when updating the source :__  
 
-:black_medium_square: <ins>__autoplay__</ins>&ensp;&ensp;{Boolean}  
+:black_medium_small_square: <ins>__autoplay__</ins>&ensp;&ensp;{Boolean}  
 Default : `false`  
 If `true`, the attribute `autoplay` is added to the `<video>` tag.<br>
 __*Please be aware that most of the browsers block this functionality if volume is not muted.</span>*__  
 ___
-:black_medium_square: <ins>__crossorigin__</ins>&ensp;&ensp;{String} `"anonymous"` | `"use-credentials"`  
+:black_medium_small_square: <ins>__crossorigin__</ins>&ensp;&ensp;{String} `"anonymous"` | `"use-credentials"`  
 Default : `"anonymous"`  
 Attribute added to the `<video>` tag.
+___
+:black_medium_small_square: <ins>__download__</ins>&ensp;&ensp;{Object}  
+Default :  
+`{`   
+&ensp;&ensp;`label: "Télécharger",`  
+&ensp;&ensp;`disabled: false,`  
+&ensp;&ensp;`hidden: false`  
+`}`  
+_Donwload_ button properties.
 ___
 
 | Option | Type | Default | Description |
