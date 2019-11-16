@@ -134,41 +134,41 @@ The following options can be set by overiding the default options :
 ## API
 
 ### Setters
-####src(`source`)
+#### src(`source`)
 `source` is either a string pointing to the video file source, either an object :  
 {  
 &ensp;&ensp;src: _string_ pointing to the video file source - __required__,  
 &ensp;&ensp;and any of the options listed above  
 }
-####currentTime(`time`)
+#### currentTime(`time`)
 @param `time` {Number} - set the playback head position to the specified value, expressed in seconds. 
-####volume(`vol`)
+#### volume(`vol`)
 @param `vol` {Number between 0 and 1} - set the volume. 
 
 ### Getters
-####src()  
+####  src()  
 {String}  
 return the source of the video file.
-####currentTime()
+#### currentTime()
 {Number}  
 return the current playback head position in seconds.
-####duration()
+#### duration()
 {Number}  
 return the duration of the video in seconds.
-####paused()
+#### paused()
 {Boolean}  
 return `true` if the video is paused, false if it's playing.
-####volume()
+#### volume()
 {Number}  
 return the current volume of the video. 0 is muted, 1 is max.
 ### Methods
-####pause()
+#### pause()
 Do what you may expect...
-####play()
+#### play()
 Do what you may expect...
-####togglePlayPause()
+#### togglePlayPause()
 Do what you may expect...
-####reset()
+#### reset()
 * Pauses the video.  
 * Stores the current picture in a canvas and displays it as a poster.  
 * Set the `src` attribute to `""`.  
@@ -177,13 +177,13 @@ Do what you may expect...
 
 Used internally if the instance is playing and another one starts to play.  
 Provided just in case...
-####hideControls(`delayed` = `false`, `forced` = `false`)
+#### hideControls(`delayed` = `false`, `forced` = `false`)
 Do what you may expect...  
 However... If `delayed` is set to `true`, the controls are hidden after a delay equal to the value given by the player option `hideControlsDelay`.  
 By default, the function is without effect if the video is paused (controls remains visible). But if you absolutly need to hide them while the video is paused, you can pass the second argument to `true`.
-####showControls()
+#### showControls()
 Do what you may expect...  
-####previous(`opt`)
+#### previous(`opt`)
 Set the _previous_ button properties.  
 `opt` is an object of the form :  
 {  
@@ -191,13 +191,13 @@ Set the _previous_ button properties.
 &ensp;&ensp;`hidden: {Boolean},`  _<span style="color:green;font-size:0.9em;">// if true, the button is hidden.</span>_  
 &ensp;&ensp;`disabled: {Boolean},`  _<span style="color:green;font-size:0.9em;">// if true, the button is disabled (opacity to 0.5; click without effect).</span>_  
 }
-####next(`opt`)
+#### next(`opt`)
 Set the _next_ button properties.  
 See _previous_ method above.
-####download(`opt`)
+#### download(`opt`)
 Set the download button properties.  
 See _previous_ method above.
-####fullscreen(`opt`)
+#### fullscreen(`opt`)
 Set the fullscreen button properties.  
 `opt` is an object of the form :  
 {  
@@ -209,7 +209,7 @@ Set the fullscreen button properties.
 &ensp;&ensp;`hidden: {Boolean},` _<span style="color:green;font-size:0.9em;">// if true, the button is hidden.</span>_  
 &ensp;&ensp;`disabled: {Boolean},`  _<span style="color:green;font-size:0.9em;">// if true, the button is disabled (opacity to 0.5; click without effect).</span>_  
 }
-####volumeButton(`opt`)
+#### volumeButton(`opt`)
 Set the volume button properties.  
 `opt` is an object of the form :  
 {  
