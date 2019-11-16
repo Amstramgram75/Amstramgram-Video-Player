@@ -92,8 +92,18 @@ new AmstramgramVideoPlayer(document.querySelector('video'),{
 });
 ```
 
-The following options can be set either by overiding the default options, when creating the instance or when updating the source :
-
+__<span style="font-size:0.9em">&#x25cf;The following options can be set either by overiding the default options, when creating the instance or when updating the source :</span>__  
+<div style="padding-left:1em;" markdown="1">
+<ins>__autoplay__</ins>  
+{Boolean} - Default : `false`  
+If `true`, the attribute `autoplay` is added to the `<video>` tag.<br>
+__*<span style="font-size:0.9em">Please be aware that most of the browsers block this functionality if volume is not muted.</span>*__  
+___
+<ins>__autoplay__</ins>  
+{Boolean} - Default : `false`  
+If `true`, the attribute `autoplay` is added to the `<video>` tag.<br>
+__*<span style="font-size:0.9em">Please be aware that most of the browsers block this functionality if volume is not muted.</span>*__  
+</div>
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 |`autoplay`|`Boolean`|`false`|If `true`, the attribute `autoplay` is added to the `<video>` tag.<br>__Please be aware that most of the browsers block this functionality if volume is not muted.__|
