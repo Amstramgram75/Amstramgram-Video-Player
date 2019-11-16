@@ -146,7 +146,7 @@ The following options can be set by overiding the default options :
 @param `vol` {Number between 0 and 1} - set the volume. 
 
 ### Getters
-####src()
+####src()  
 {String}  
 return the source of the video file.
 ####currentTime()
