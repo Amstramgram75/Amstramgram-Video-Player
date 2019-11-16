@@ -1,6 +1,7 @@
-<style>
-  div.options{padding-left:1em;}
-</style>
+(setq markdown-xhtml-header-content
+      "<style type='text/css'>
+div{color:red}
+</style>")
 
 
 <h1 align="center">Amstramgram Video Player</h1>
