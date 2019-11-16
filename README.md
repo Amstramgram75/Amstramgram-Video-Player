@@ -1,10 +1,4 @@
-(setq markdown-xhtml-header-content
-      "<style type='text/css'>
-div{color:red}
-</style>")
-
-
-<h1 align="center">Amstramgram Video Player</h1>
+<h1 align="center">Work in progress...</h1>
 
 [![GitHub Release](https://img.shields.io/badge/release-v1.0.0-orange)](https://github.com/Amstramgram75/Amstramgram-Video-Player/releases/tag/v1.0.0)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Amstramgram75/Amstramgram-Video-Player/blob/master/LICENSE)
@@ -98,21 +92,17 @@ new AmstramgramVideoPlayer(document.querySelector('video'),{
 });
 ```
 
-__<span style="font-size:0.9em">&#x25cf;The following options can be set either by overiding the default options, when creating the instance or when updating the source :</span>__  
+__:red_circle: The following options can be set either by overiding the default options, when creating the instance or when updating the source :__  
 
-<div class="options">
-
-&#9775; <ins style="margin-bottom:-0.5em">__autoplay__</ins>  
-{Boolean} - Default : `false`  
+:black_medium_square: <ins>__autoplay__</ins>&ensp;&ensp;{Boolean}  
+Default : `false`  
 If `true`, the attribute `autoplay` is added to the `<video>` tag.<br>
 __*Please be aware that most of the browsers block this functionality if volume is not muted.</span>*__  
 ___
-&#9775; <ins>__crossorigin__</ins>  
-{String} - `"anonymous"` | `"use-credentials"`- Default : `"anonymous"`  
+:black_medium_square: <ins>__crossorigin__</ins>&ensp;&ensp;{String} `"anonymous"` | `"use-credentials"`  
+Default : `"anonymous"`  
 Attribute added to the `<video>` tag.
 ___
-
-</div>
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
