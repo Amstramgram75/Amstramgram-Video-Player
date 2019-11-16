@@ -207,27 +207,51 @@ ___
 
 __:small_orange_diamond: The following options can be set either by overiding the default options or when creating the instance :__
 ___
+:black_medium_small_square: <ins>__hideControlsDelay__</ins>&ensp;&ensp;{Integer}  
+Default : `5000`  
+Delay in ms between any interaction with the UI and the hidding of the controls.
+___
+:black_medium_small_square: <ins>__videoVolumeOrientation__</ins>&ensp;&ensp;{String} `"horizontal"` | `"vertical"`  
+Default : `"vertical"`  
+If `"horizontal"`, the volume slider is horizontally displayed. In all other cases, the slider is vertical.
+___
+:black_medium_small_square: <ins>__railMinWidthForNormalUI__</ins>&ensp;&ensp;{Integer}  
+Default : `600`  
+Minimal width in pixels available for the time slider in the normal UI. If the available space is inferior to this number, the compact UI is displayed.
+___
+___
+___
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-|`hideControlsDelay`|`Number`|`5000`|Delay in ms between any interaction with the UI and the hidding of the controls.|
-|`videoVolumeOrientation`|`"horizontal"`<br>`"vertical"`|`"vertical"`|If `"horizontal"`, the volume slider is horizontally displayed. In all other cases, the slider is vertical|
-|`railMinWidthForNormalUI`|`Integer`|`600`|Minimal width in pixels available for the time slider in the normal UI. If the available space is inferior to this number, the compact UI is displayed.|
+__:small_orange_diamond: The following options can be set by overiding the default options :__
+___
+:black_medium_small_square: <ins>__appLabel__</ins>&ensp;&ensp;{String}  
+Default : `"Lecteur vidéo"`  
+Text affected to the player `aria-label`.  
+___
+:black_medium_small_square: <ins>__pauseLabel__</ins>&ensp;&ensp;{String}  
+Default : `"Lecture"`  
+Text affected to the `title` and the `aria-label` of the button _Pause_.  
+___
+:black_medium_small_square: <ins>__playLabel__</ins>&ensp;&ensp;{String}  
+Default : `"Pause"`  
+Text affected to the `title` and the `aria-label` of the button _Play_.  
+___
+:black_medium_small_square: <ins>__volumeHelpLabel__</ins>&ensp;&ensp;{String}  
+Default : `"Utilisez les flèches Haut/Bas du clavier pour augmenter ou diminuer le volume"`  
+Text affected to the volume slider `title`.  
+___
+:black_medium_small_square: <ins>__volumeSliderLabel__</ins>&ensp;&ensp;{String}  
+Default : `"Potentiomètre de volume"`  
+Text affected to the volume slider `aria-label`.  
+___
+___
+___
 
-The following options can be set by overiding the default options :
-
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-|`appLabel`|`String`|`"Lecteur vidéo"`|Text affected to the player `aria-label`.|
-|`pauseLabel`|`String`|`"Lecture"`|Text affected to the `title` and the `aria-label` of the button _Pause_.|
-|`playLabel`|`String`|`"Lecture"`|Text affected to the `title` and the `aria-label` of the button _Play_.|
-|`volumeHelpLabel`|`String`|`"Utilisez les flèches Haut/Bas du clavier pour augmenter ou diminuer le volume"`|Text affected to the volume slider `title`.|
-|`volumeSliderLabel`|`String`|`"Potentiomètre de volume"`|Text affected to the volume slider `aria-label`.|
 ## API
 
 ### Setters
 #### src(`source`)
-`source` is either a string pointing to the video file source, either an object :  
+`source` is either a string pointing to the video file source, either an object of the form :  
 {  
 &ensp;&ensp;src: _string_ pointing to the video file source - __required__,  
 &ensp;&ensp;and any of the options listed above  
