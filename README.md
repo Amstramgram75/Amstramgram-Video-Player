@@ -11,18 +11,16 @@ Simple, elegant, ligthweight although powerfull and versatile HTML5 video player
 
 
 ## Table of contents
-  * [Features](#features)
-  * [Installation](#installation)
-  * [Importing](#importing)
-  * [Usage](#usage)
-  * [Customization](#customization)
-  * [API](#api)
-  * [Responsive images](#responsive-images)
-  * [Compatibility](#compatibility)
-  * [Contributing](#contributing)
-  * [Donation](#donation)
-  * [Credits](#credits)
-  * [License](#license)
+* [Features](#features)
+* [Installation](#installation)
+* [Importing](#importing)
+* [Usage](#usage)
+* [Customization](#customization)
+* [API](#api)
+* [Compatibility](#compatibility)
+* [Donation](#donation)
+* [Credits](#credits)
+* [License](#license)
 
 ## Features
 
@@ -83,6 +81,7 @@ Initialize the script by running :
 ```js
 new AmstramgramVideoPlayer(document.querySelector('video'))
 ```
+___
 ## Customization
 
 You can pass an object with custom options as the second parameter.
@@ -360,3 +359,43 @@ Set the _volume_ button properties.
 &ensp;&ensp;`hidden: {Boolean},` _<span style="color:green;font-size:0.9em;">// if true, the button is hidden.</span>_  
 &ensp;&ensp;`disabled: {Boolean},`  _<span style="color:green;font-size:0.9em;">// if true, the button is disabled (opacity to 0.5; click without effect).</span>_  
 }
+___
+## Compatibility
+All modern browers on desktop, Android and iOS are supported.  
+__Internet Explorer 11__ needs some polyfills (what a surprise !) :
+* [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill)
+* [Array.from](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from#Polyfill)
+* [Array.prototype.includes](https://tc39.github.io/ecma262/#sec-array.prototype.includes)
+* [window.CustomEvent](//https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill)
+
+If you have absolutly no idea about how to polyfill, copy the `amstramgramVideoPlayerPolyfill.min.js` file (from any `dist` folders) to your javascript directory and simply add those lines to the `HEAD` section of your `HTML` page :
+```js
+<script>
+  if (typeof Object.assign !== 'function' || !Array.from || !Array.prototype.includes || typeof window.CustomEvent !== "function") {
+    var d = document,
+        s = d.createElement('script');
+    s.async = "false";
+    s.src = "<path to amstramgramVideoPlayerPolyfill.min.js>";
+    d.head.appendChild(s);
+  } 
+</script>
+```
+Thus, the polyfill file will only be downloaded if needed...
+___
+## Donation
+If you find this project useful and want to say thanks, you can buy me a cup of coffee, a beer, a computer, a sofa, a haunted manor or whatever you want...  
+...:blush:...
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)]((https://paypal.me/Amstramgram75))
+___
+## Credits
+I've been mainly inspired by [mediaelement.js](https://www.mediaelementjs.com/), a pionneer in the long and difficult attempt to harmonise media players in `HTML5`.  
+Alternatively, I've also used [plyr.js](https://plyr.io/).  
+There is plenty of libraries of this kind. Most of them offer Flash fallback and Youtube, Vimeo and others integration. In turn, they are quite heavy...  
+This one is focused on lightweight.  
+The long term project is to extend it to audio.  
+So, stay tune !
+___
+## License
+Copyright (c) 2019 [Amstramgram](https://github.com/Amstramgram75)  
+This content is released under the MIT License.
