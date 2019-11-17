@@ -16,12 +16,42 @@
 		</script>
 	</head>
 	<body>
-		<div style="width:80%;max-width:1000px;margin:auto">
-			<video src="https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4"></video>
- 		</div>
+		<h1>Amstramgram Video Player</h1>
+		<div style="width: 80%; max-width: 1000px; margin: auto;">
+			<video 
+				src="https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4" 
+				autoplay 
+				muted 
+				loop>
+			</video>
+		</div>
+		<pre>
+			<code class="html">
+<h4>HTML</h4>
+&lt;div style=&quot;width: 80%; max-width: 1000px; margin: auto;&quot;&gt;
+	&lt;video 
+		src=&quot;https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4&quot; 
+		autoplay 
+		muted 
+		loop&gt;
+	&lt;/video&gt;
+			</code>
+			<code class="javascript">
+<h4>JAVASCRIPT</h4>
+AmstramgramVideoPlayer.options({poster:"assets/castorsPoster.jpg"})
+new AmstramgramVideoPlayer(document.querySelector('video'), {
+	thumbnails:{src:"assets/castorsThumbs.jpg"}
+});
+			</code>
+		</pre>
+		<link rel="stylesheet" href="css/main.css">
 		<link rel='stylesheet' href="css/amstramgramVideoPlayer.min.css">
+		<script src="js/highlight.pack.js"></script>
 		<script src="js/amstramgramVideoPlayer.min.js"></script>
 		<script>
+			hljs.initHighlightingOnLoad();
+			hljs.getLanguage('javascript').k.amst = ' AmstramgramVideoPlayer';
+			console.log(hljs.getLanguage('javascript').k)
 			AmstramgramVideoPlayer.options({poster:"assets/castorsPoster.jpg"})
 			new AmstramgramVideoPlayer(document.querySelector('video'), {
 				thumbnails:{src:"assets/castorsThumbs.jpg"}

@@ -1,8 +1,8 @@
 /*
 amstramgramVideoPlayer.js
-@version : 1.0.0
 @licence : MIT
 @author : Amstramgram
+@version : 1.0.0
 @url : https://github.com/Amstramgram75/Amstramgram-Video-Player
 */
 var AmstramgramVideoPlayer = (function () {
@@ -215,9 +215,9 @@ var AmstramgramVideoPlayer = (function () {
       PROPRIÉTES GLOBALES
       - appLabel : texte à appliquer à l'aria-label du lecteur.
         Défaut : 'Lecteur vidéo'.
-      - playLabel : texte affecté au titre du bouton Pause et à son attribut aria-label.
+      - pauseLabel : texte affecté au titre du bouton Pause et à son attribut aria-label.
         Défaut : 'Pause'.
-      - playLabel : texte affecté au titre du bouton Play et à son attribut aria-label.
+      - playLabel : texte affecté au titre du bouton Pause et à son attribut aria-label.
         Défaut : 'Lecture'.
       - volumeHelpLabel : texte à appliquer au titre du potentiomètre.
         Défaut : 'Utilisez les flèches Haut/Bas du clavier pour augmenter ou diminuer le volume'.
