@@ -27,14 +27,15 @@ Simple, elegant, ligthweight although powerfull and versatile HTML5 video player
 ## Features
 
 * Written in pure JavaScript, no dependencies required
+* Touch-devices support
 * Two UI modes : normal / compact
 * Preview thumbnails support
-* Touch-devices support
-* SVG buttons, no extra files to download
+* SVG buttons included in css, no extra files to download
 * Previous, play/pause, next, fullscreen, download buttons
-* Display of current time and total duration
 * All buttons titles configurables
-* Around 13.52KB gzipped
+* Display of current time and total duration
+* Around 13.52KB gzipped (js + css)
+___
 
 ## Installation
 
@@ -51,8 +52,8 @@ npm -i -d amstramgramvideoplayer
 <link rel="stylesheet" href="css/amstramgramVideoPlayer.min.css">
 <script src="js/amstramgramVideoPlayer.min.js"></script>
   ```
+___
 ## Importing
-
 #### Traditional approach
 
 If you don't use JavaScript modules and include the file with a `<script>` tag, you don't have to import anything explicitly. `AmstramgramVideoPlayer` will be available in the global scope.
@@ -74,7 +75,7 @@ import AmstramgramVideoPlayer from 'amstramgramVideoPlayer';
 ```scss
 @import 'amstramgramVideoPlayer/css/amstramgramVideoPlayer.min.scss';
 ```
-
+___
 ## Usage
 
 Initialize the script by running :
@@ -282,7 +283,7 @@ return the video duration in seconds.
 ___
 #### paused()
 {Boolean}  
-return `true` if the video is paused, false if it's playing.
+return `true` if the video is paused, `false` if it's playing.
 ___
 #### volume()
 {Number}  
@@ -293,7 +294,7 @@ ___
 #### pause()
 Do what you may expect...
 ___
-##### play()
+#### play()
 Do what you may expect...
 ___
 #### togglePlayPause()
@@ -312,7 +313,7 @@ ___
 #### hideControls(`delayed` = `false`, `forced` = `false`)
 Do what you may expect...  
 However... If `delayed` is set to `true`, the controls are hidden after a delay equal to the value given by the player option `hideControlsDelay`.  
-By default, the function is without effect if the video is paused (controls remains visible). But if you absolutly need to hide them while the video is paused, you can pass the second argument to `true`.
+By default, the function is without effect if the video is paused (controls remains visible). But if you absolutly need to hide them while the video is paused, pass the second argument to `true`.
 ___
 #### showControls()
 Do what you may expect...  
@@ -328,14 +329,14 @@ Set the _previous_ button properties.
 ___
 #### next(`opt`)
 Set the _next_ button properties.  
-See _previous_ method above.
+See _previous()_ method above.
 ___
 #### download(`opt`)
-Set the download button properties.  
-See _previous_ method above.
+Set the _download_ button properties.  
+See _previous()_ method above.
 ___
 #### fullscreen(`opt`)
-Set the fullscreen button properties.  
+Set the _fullscreen_ button properties.  
 `opt` is an object of the form :  
 {  
 &ensp;&ensp;`{label:`  
@@ -348,7 +349,7 @@ Set the fullscreen button properties.
 }
 ___
 #### volumeButton(`opt`)
-Set the volume button properties.  
+Set the _volume_ button properties.  
 `opt` is an object of the form :  
 {  
 &ensp;&ensp;`{label:`  
