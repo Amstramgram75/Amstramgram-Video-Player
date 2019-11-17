@@ -125,8 +125,8 @@ export default [
       terser(),
       copy({
         targets: [
-          {src: `dist/iife/*`, dest: 'demo/js'},
-          {src: `dist/css/${name}*.css`, dest: 'demo/css'}
+          {src: `dist/iife/*`, dest: 'docs/js'},
+          {src: `dist/css/${name}*.css`, dest: 'docs/css'}
         ]
       })
     ]

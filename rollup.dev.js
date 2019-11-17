@@ -20,14 +20,14 @@ export default [
     input: `app/js/${name}.js`,
     output: {
       format: 'iife',
-      dir: 'demo/js/',
+      dir: 'docs/js/',
       name:  name[0].toUpperCase() + name.slice(1),
       banner: banner
     },
     plugins: [
       babel(),
       sass({
-        output: `demo/css/${name}.css`
+        output: `docs/css/${name}.css`
       }),
       sass({
         output: `demo/css/${name}.min.css`,
