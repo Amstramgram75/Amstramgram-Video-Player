@@ -9,6 +9,7 @@
 
 Simple, elegant, ligthweight although powerfull and versatile HTML5 video player.
 
+[Demo page](https://amstramgram75.github.io/Amstramgram-Video-Player/)
 
 ## Table of contents
 * [Features](#features)
