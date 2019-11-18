@@ -17,11 +17,14 @@
 	</head>
 	<body>
 		<h1>Amstramgram Video Player</h1>
+		<h2>Basic</h2>
 		<div style="width: 80%; max-width: 1000px; margin: auto;">
 			<video 
+				id="vid01"
 				src="https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4" 
+				poster="assets/castorsPoster.jpg"
 				autoplay 
-				muted 
+				muted
 				loop>
 			</video>
 		</div>
@@ -30,6 +33,7 @@
 <h4>HTML</h4>
 &lt;div style=&quot;width: 80%; max-width: 1000px; margin: auto;&quot;&gt;
 	&lt;video 
+		id=&quot;vid01&quot; 
 		src=&quot;https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4&quot; 
 		autoplay 
 		muted 
@@ -39,7 +43,7 @@
 			<code class="javascript">
 <h4>JAVASCRIPT</h4>
 AmstramgramVideoPlayer.options({poster:"assets/castorsPoster.jpg"})
-new AmstramgramVideoPlayer(document.querySelector('video'), {
+new AmstramgramVideoPlayer(document.querySelector('#vid01'), {
 	thumbnails:{src:"assets/castorsThumbs.jpg"}
 });
 			</code>
@@ -49,10 +53,12 @@ new AmstramgramVideoPlayer(document.querySelector('video'), {
 		<script src="js/highlight.pack.js"></script>
 		<script src="js/amstramgramVideoPlayer.min.js"></script>
 		<script>
+			//Highlight.js initialisation
 			hljs.initHighlightingOnLoad();
 			hljs.getLanguage('javascript').k.amst = ' AmstramgramVideoPlayer';
-			AmstramgramVideoPlayer.options({poster:"assets/castorsPoster.jpg"})
-			new AmstramgramVideoPlayer(document.querySelector('video'), {
+			//Basic
+			AmstramgramVideoPlayer.options({poster:"assets/defaultPoster.jpg"})
+			new AmstramgramVideoPlayer(document.querySelector('#vid01'), {
 				thumbnails:{src:"assets/castorsThumbs.jpg"}
 			});
 		</script>
