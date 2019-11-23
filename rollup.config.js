@@ -32,7 +32,7 @@ export default [
     plugins: [
       sass({
         output: `dist/css/${name}.css`,
-        processor: css => postcss([postcssBanner({banner: cssBanner})])
+        processor: css => postcss()
           .process(css)
           .then(result => result.css)
       }),
@@ -40,10 +40,6 @@ export default [
         targets: [
           {src: 'app/css/*', dest: 'dist/css'},
           {src: 'app/css/*', dest: 'dist/src/css'},
-          {src: 'app/js/*', dest: 'dist/src/js'},
-          {src: `app/js/${name}Polyfill.min.js`, dest: 'dist/esm'},
-          {src: `app/js/${name}Polyfill.min.js`, dest: 'dist/cjs'},
-          {src: `app/js/${name}Polyfill.min.js`, dest: 'dist/iife'},
         ]
       })
     ]  
@@ -62,6 +58,25 @@ export default [
           .process(css)
           .then(result => result.css)
       }),    
+      terser(),
+    ]
+  },
+  {
+    input: `app/js/${name}Polyfill.js`,
+    output: {
+      format: 'iife',
+      file: `dist/esm/${name}Polyfill.js`,
+      banner: banner
+    },
+  },
+  {
+    input: `app/js/${name}Polyfill.js`,
+    output: {
+      format: 'iife',
+      file: `dist/esm/${name}Polyfill.min.js`,
+      banner: bannerMin
+    },
+    plugins: [
       terser()
     ]
   },
@@ -125,6 +140,9 @@ export default [
       terser(),
       copy({
         targets: [
+          {src: 'dist/esm/*', dest: 'dist/src/js'},
+          {src: `dist/esm/${name}Polyfill*`, dest: 'dist/cjs'},
+          {src: `dist/esm/${name}Polyfill*`, dest: 'dist/iife'},
           {src: `dist/iife/*`, dest: 'docs/js'},
           {src: `dist/css/${name}*.css`, dest: 'docs/css'}
         ]

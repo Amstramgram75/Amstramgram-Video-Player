@@ -1,11 +1,4 @@
-/*
-amstramgramVideoPlayer.js
-version : 1.0.0
-licence : MIT
-author : Amstramgram
-url : https://github.com/Amstramgram75/Amstramgram-Video-Player
-*/
-
+import '../css/amstramgramVideoPlayer.scss'
 /*TODO :
   Menu contextuel
   Tuto thumnails
@@ -470,7 +463,7 @@ if (storage && storage.getItem('amst_supportPassiveEvents')) {
  *                 DÉBUT CLASS                  *
  *                                              *
  ************************************************/
-export default class AmstramgramVideoPlayer {
+class AmstramgramVideoPlayer {
   /*Fonction statique permettant de redéfinir les options par défaut 
     Usage : 
       AmstramgramVideoPlayer.options({volume:0})
@@ -2266,6 +2259,7 @@ let _$$ = (context)=>{
   }
   return $$
 }
+export default AmstramgramVideoPlayer;
 /************************************************
  *                                              *
  *              THIS IS THE END...              *

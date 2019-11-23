@@ -30,12 +30,11 @@ export default [
         output: `docs/css/${name}.css`
       }),
       sass({
-        output: `demo/css/${name}.min.css`,
+        output: `docs/css/${name}.min.css`,
         processor: css => postcss([cssnano])
           .process(css)
           .then(result => result.css)
       }),    
-
     ]  
   }
 ]

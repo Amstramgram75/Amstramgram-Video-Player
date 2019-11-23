@@ -3,157 +3,157 @@
 		"path": "$ROOTPATH$\\app\\js\\amstramgramVideoPlayer.js",
 		"bookmarks": [
 			{
-				"line": 237,
+				"line": 230,
 				"column": 0,
 				"label": "INITIALISATION"
 			},
 			{
-				"line": 469,
+				"line": 462,
 				"column": 0,
 				"label": "DÉBUT CLASS"
 			},
 			{
-				"line": 485,
+				"line": 478,
 				"column": 0,
 				"label": "RÉCUPÉRATION / TRAITEMENT DES PARAMÈTRES"
 			},
 			{
-				"line": 577,
+				"line": 570,
 				"column": 0,
 				"label": "CONSTRUCTION HTML"
 			},
 			{
-				"line": 604,
+				"line": 597,
 				"column": 0,
 				"label": "DÉCLARATIONS DES VARIABLES"
 			},
 			{
-				"line": 694,
+				"line": 687,
 				"column": 0,
 				"label": "PLAY"
 			},
 			{
-				"line": 732,
+				"line": 725,
 				"column": 0,
 				"label": "PAUSE"
 			},
 			{
-				"line": 758,
+				"line": 751,
 				"column": 0,
 				"label": "RESET"
 			},
 			{
-				"line": 791,
+				"line": 784,
 				"column": 0,
 				"label": "HIDECONTROLS"
 			},
 			{
-				"line": 836,
+				"line": 829,
 				"column": 0,
 				"label": "SHOWCONTROLS"
 			},
 			{
-				"line": 854,
+				"line": 847,
 				"column": 0,
 				"label": "UPDATEBUTTONS"
 			},
 			{
-				"line": 974,
+				"line": 967,
 				"column": 0,
 				"label": "SOURCE"
 			},
 			{
-				"line": 1094,
+				"line": 1087,
 				"column": 0,
 				"label": "ÉVÈNEMENTS MEDIA"
 			},
 			{
-				"line": 1189,
+				"line": 1182,
 				"column": 0,
 				"label": "UPDATEBUFFER"
 			},
 			{
-				"line": 1236,
+				"line": 1229,
 				"column": 0,
 				"label": "UPDATETIMERAIL"
 			},
 			{
-				"line": 1273,
+				"line": 1266,
 				"column": 0,
 				"label": "ÉVTS TACTILES SUR LA VIDÉO"
 			},
 			{
-				"line": 1384,
+				"line": 1377,
 				"column": 0,
 				"label": "ÉVTS GÉNÉRAUX"
 			},
 			{
-				"line": 1403,
+				"line": 1396,
 				"column": 0,
 				"label": "AFFICHER/CACHER LES CONTRÔLES"
 			},
 			{
-				"line": 1426,
+				"line": 1419,
 				"column": 0,
 				"label": "ÉVÉNEMENTS SUR RAIL"
 			},
 			{
-				"line": 1468,
+				"line": 1461,
 				"column": 0,
 				"label": "ÉVTS SOURIS SUR SLIDER"
 			},
 			{
-				"line": 1499,
+				"line": 1492,
 				"column": 0,
 				"label": "VOLUMECHANGE"
 			},
 			{
-				"line": 1554,
+				"line": 1547,
 				"column": 0,
 				"label": "VOLUME CLICK SUR HP"
 			},
 			{
-				"line": 1572,
+				"line": 1565,
 				"column": 0,
 				"label": "VOLUME POTENTIOMÈTRE - SOURIS & CLAVIER"
 			},
 			{
-				"line": 1665,
+				"line": 1658,
 				"column": 0,
 				"label": "FULLSCREEN"
 			},
 			{
-				"line": 1760,
+				"line": 1753,
 				"column": 0,
 				"label": "RESIZE"
 			},
 			{
-				"line": 1846,
+				"line": 1839,
 				"column": 0,
 				"label": "GETTERS/SETTERS"
 			},
 			{
-				"line": 1904,
+				"line": 1897,
 				"column": 0,
 				"label": "MÉTHODES"
 			},
 			{
-				"line": 1989,
+				"line": 1982,
 				"column": 0,
 				"label": "PROPRIÉTÉS GLOBALES"
 			},
 			{
-				"line": 2029,
+				"line": 2022,
 				"column": 0,
 				"label": "BUILDUI"
 			},
 			{
-				"line": 2129,
+				"line": 2122,
 				"column": 0,
 				"label": "UTILITAIRES"
 			},
 			{
-				"line": 2204,
+				"line": 2197,
 				"column": 0,
 				"label": "$ et $$"
 			}

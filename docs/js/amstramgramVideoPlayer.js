@@ -1,8 +1,8 @@
 /*
 amstramgramVideoPlayer.js
+@version : 1.0.0
 @licence : MIT
 @author : Amstramgram
-@version : 1.0.0
 @url : https://github.com/Amstramgram75/Amstramgram-Video-Player
 */
 var AmstramgramVideoPlayer = (function () {
@@ -78,14 +78,6 @@ var AmstramgramVideoPlayer = (function () {
   function _nonIterableSpread() {
     throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
-
-  /*
-  amstramgramVideoPlayer.js
-  version : 1.0.0
-  licence : MIT
-  author : Amstramgram
-  url : https://github.com/Amstramgram75/Amstramgram-Video-Player
-  */
 
   /*TODO :
     Menu contextuel
@@ -319,6 +311,7 @@ var AmstramgramVideoPlayer = (function () {
    *              INITIALISATION                  *
    *                                              *
    ************************************************/
+
   var w = window,
       d = document,
       //Définition du type de pointeur
@@ -2370,6 +2363,18 @@ var AmstramgramVideoPlayer = (function () {
 
     return AmstramgramVideoPlayer;
   }();
+  /************************************************
+   *                                              *
+   *             FIN GETTERS/SETTERS              *
+   *                  FIN CLASS                   *
+   *                                              *
+   *          /////////////////////////           *
+   *                                              *
+   *             PROPRIÉTÉS GLOBALES              *
+   *                                              *
+   ************************************************/
+
+
   AmstramgramVideoPlayer.currentPlayer = undefined;
   AmstramgramVideoPlayer.players = [];
   AmstramgramVideoPlayer.defaultOptions = {

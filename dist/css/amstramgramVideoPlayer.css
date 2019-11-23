@@ -1,11 +1,11 @@
+@charset "UTF-8";
 /*
  * amstramgramVideoPlayer.js
- * @version : 1.0.0
- * @licence : MIT
- * @author : Amstramgram
- * @url : https://github.com/Amstramgram75/Amstramgram-Video-Player
+ * version : 1.0.0
+ * licence : MIT
+ * author : Amstramgram
+ * url : https://github.com/Amstramgram75/Amstramgram-Video-Player
  */
-@charset "UTF-8";
 /* Accessibilité
 Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-how/ */
 .amst__offscreen {
