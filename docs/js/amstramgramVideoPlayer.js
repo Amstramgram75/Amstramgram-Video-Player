@@ -59,46 +59,24 @@ var AmstramgramVideoPlayer = (function () {
     return obj;
   }
 
-  function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
   }
 
-  function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
-  }
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
 
-  function _iterableToArrayLimit(arr, i) {
-    if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
-      return;
+      return arr2;
     }
-
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _e = undefined;
-
-    try {
-      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-        _arr.push(_s.value);
-
-        if (i && _arr.length === i) break;
-      }
-    } catch (err) {
-      _d = true;
-      _e = err;
-    } finally {
-      try {
-        if (!_n && _i["return"] != null) _i["return"]();
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-
-    return _arr;
   }
 
-  function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
   /*
@@ -605,7 +583,7 @@ var AmstramgramVideoPlayer = (function () {
     }]);
 
     function AmstramgramVideoPlayer(el, params) {
-      var _this = this;
+      var _this5 = this;
 
       _classCallCheck(this, AmstramgramVideoPlayer);
 
@@ -688,7 +666,7 @@ var AmstramgramVideoPlayer = (function () {
 
       attributes = attributes.filter(function (param) {
         return param != 'muted';
-      }).concat(['download', 'duration', 'format', 'fullscreen', 'hideControlsDelay', 'next', 'previous', 'skipTime', 'thumbnails', 'videoVolumeOrientation', 'volume', 'volumeButton', 'volumeForced', 'volumeGroup', 'railMinWidthForNormalUI']); //Si des paramètres ont été passés à l'instance, ils priment sur ceux qui sont définis par les attributs.
+      }).concat(['download', 'duration', 'format', 'fullscreen', 'hideControlsDelay', 'next', 'onInit', 'previous', 'skipTime', 'thumbnails', 'videoVolumeOrientation', 'volume', 'volumeButton', 'volumeForced', 'volumeGroup', 'railMinWidthForNormalUI']); //Si des paramètres ont été passés à l'instance, ils priment sur ceux qui sont définis par les attributs.
       //On élimine toute propriété qui n'aurait rien à faire là en ne retenant que celles qui sont listées dans le tableau attributes
 
       if (params) params = Object.keys(params).filter(function (key) {
@@ -812,7 +790,13 @@ var AmstramgramVideoPlayer = (function () {
           //Largeur de la vignette déterminée après le chargement de l'image spécifiée 
       //en divisant la largeur de cette image par le nombre de vignettes déclaré en paramètre
       thumbWidth = 0,
-          volumeBeforeMute;
+          volumeBeforeMute; //Objet stockant les écouteurs posés sur l'événement click des boutons previous et next
+      //via la méthode on.
+
+      this.events = {
+        'next': [],
+        'previous': []
+      };
       /************************************************
        *                                              *
        *          FIN INSERTION DANS LE DOM           *
@@ -828,7 +812,13 @@ var AmstramgramVideoPlayer = (function () {
         //https://developers.google.com/web/updates/2016/03/play-returns-promise
         var playPromise = media.play();
         if (playPromise) playPromise["catch"](function () {
-          return _pause();
+          //We try again
+          setTimeout(function () {
+            playPromise = media.play();
+            playPromise["catch"](function () {
+              return _pause();
+            });
+          }, 50);
         }); //Si une autre instance est en cours de lecture, on la reset
 
         if (AmstramgramVideoPlayer.currentPlayer && AmstramgramVideoPlayer.currentPlayer != self) AmstramgramVideoPlayer.currentPlayer.reset(); //On déclare l'instance comme lecteur courant
@@ -1004,6 +994,25 @@ var AmstramgramVideoPlayer = (function () {
        ************************************************/
 
       /*
+      Mise en place des écouteurs d'événements click sur les boutons previous et next.
+      L'événement déclenche les écouteurs posés via la méthode on.
+      */
+
+      $('.amst__next').on('click', function () {
+        var _this = this;
+
+        _toConsumableArray(self.events['next']).forEach(function (listener) {
+          return listener.bind(_this);
+        });
+      });
+      $('.amst__previous').on('click', function () {
+        var _this2 = this;
+
+        _toConsumableArray(self.events['previous']).forEach(function (listener) {
+          return listener.bind(_this2);
+        });
+      });
+      /*
       Chacun des boutons next, previous, download, volume et fullscreen peut être désactivé ou caché.
       Par ailleurs, les boutons next, previous et download disposent d'un label configurable.
       Les boutons fullscreen et volumeButton disposent eux de deux labels configurables
@@ -1023,12 +1032,26 @@ var AmstramgramVideoPlayer = (function () {
       function getMovie() {
         window.location = self.src.substring(0, self.src.lastIndexOf('/')) + '/index.php?file=' + self.src.substring(self.src.lastIndexOf('/') + 1);
       }
+
+      $('.amst__next').on('click', function () {
+        var _this3 = this;
+
+        _toConsumableArray(self.events['next']).forEach(function (listener) {
+          return listener.apply(_this3);
+        });
+      });
+      $('.amst__previous').on('click', function () {
+        var _this4 = this;
+
+        _toConsumableArray(self.events['previous']).forEach(function (listener) {
+          return listener.apply(_this4);
+        });
+      });
       /*
       Mise à jour des class et attributs du bouton
       name : nom du bouton
       label : label du bouton
       */
-
 
       function updateButtonsAttributes(name, label) {
         var lowerCaseName = name.toLowerCase(),
@@ -1131,14 +1154,13 @@ var AmstramgramVideoPlayer = (function () {
 
         mySrc = _typeof(mySrc) === 'object' ? mySrc : {
           src: mySrc
-        };
-        if (mySrc.volumeGroup < 1) mySrc.volumeGroup = self.params.volumeGroup;
+        }; // if (isNaN(mySrc.volumeGroup)) mySrc.volumeGroup = self.params.volumeGroup
 
         if (!isNaN(mySrc.volume) && (mySrc.volumeForced === true || !storage.getItem("amst_volumegroup".concat(mySrc.volumeGroup)))) {
           //Si un volume a été spécifié et que 
           //l'option volumeForced est présente ou que le volumeGroup ne figure pas dans sessionStorage
           self.params.volume = mySrc.volume;
-          if (mySrc.volumeGroup > 0) storage.setItem("amst_volumegroup".concat(mySrc.volumeGroup), mySrc.volume);
+          storage.setItem("amst_volumegroup".concat(mySrc.volumeGroup), mySrc.volume);
         } else if (storage.getItem("amst_volumegroup".concat(mySrc.volumeGroup))) {
           self.params.volume = storage.getItem("amst_volumegroup".concat(mySrc.volumeGroup));
         } //On ne conserve dans mySrc que les propriétés relevantes. 
@@ -1156,7 +1178,7 @@ var AmstramgramVideoPlayer = (function () {
         if (media.getAttribute('src')) {
           container.classList.add('amst_container_transition'); //On reset le player
 
-          self.pause();
+          self.media.pause();
           prevCurrentTime = 0;
           floorCurrentTime = 0;
           buffered = undefined; //On supprime l'ensemble des attributs HTML présents dans le tag <video>
@@ -1179,13 +1201,7 @@ var AmstramgramVideoPlayer = (function () {
           seekingTouchWidth = undefined;
           seekingTouch.removeAttribute('style'); //Mise à jour des paramètres de l'instance.
 
-          for (var _i = 0, _Object$entries = Object.entries(mySrc); _i < _Object$entries.length; _i++) {
-            var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-                key = _Object$entries$_i[0],
-                value = _Object$entries$_i[1];
-
-            self.params[key] = value;
-          }
+          self.params = mergeDeep(self.params, mySrc);
         } //Le cas échéant, on charge l'image contenant les vignettes
 
 
@@ -1287,7 +1303,7 @@ var AmstramgramVideoPlayer = (function () {
       }, passive ? {
         passive: true
       } : false).on('loadedmetadata', function () {
-        var myFormat = _this.params.format = media.videoWidth / media.videoHeight; //Actualisation de la taille du container en fonction du format réel de la vidéo
+        var myFormat = _this5.params.format = media.videoWidth / media.videoHeight; //Actualisation de la taille du container en fonction du format réel de la vidéo
 
         if (AmstramgramVideoPlayer.currentFullScreenPlayer == self) {
           w.dispatchEvent(new CustomEvent('optimizedResize'));
@@ -1303,9 +1319,9 @@ var AmstramgramVideoPlayer = (function () {
         //Pour iOS sur reset du player
         media.currentTime = floorCurrentTime;
       }).on('durationchange', function () {
-        _this.params.duration = media.duration; //Mise à jour de skipTime
+        _this5.params.duration = media.duration; //Mise à jour de skipTime
 
-        skipTime = typeof _this.params.skipTime == 'string' && _this.params.skipTime.slice(-1) == '%' ? parseFloat(_this.params.skipTime) * media.duration / 100 : parseFloat(_this.params.skipTime); //Mise à jour des champs indicateurs de temps
+        skipTime = typeof _this5.params.skipTime == 'string' && _this5.params.skipTime.slice(-1) == '%' ? parseFloat(_this5.params.skipTime) * media.duration / 100 : parseFloat(_this5.params.skipTime); //Mise à jour des champs indicateurs de temps
 
         if (media.duration >= 3600) {
           //Si la durée du media est supérieure à 1 heure
@@ -1349,7 +1365,7 @@ var AmstramgramVideoPlayer = (function () {
       }).on('ended', function () {
         media.currentTime = 0;
 
-        _this.pause();
+        _this5.pause();
       }).on('pause', function () {
         return cancelAnimationFrame(updateTimeRailAnimation);
       }).on('playing', function () {
@@ -1359,7 +1375,7 @@ var AmstramgramVideoPlayer = (function () {
       }).on('seeked', function () {
         //L'évènement est ausssi déclenché à la suite de l'évènement ended.
         //Dans ce cas, currentTime vaut 0, la vidéo est en pause et on affiche le poster
-        if (floorCurrentTime == 0 && _this.paused) {
+        if (floorCurrentTime == 0 && _this5.paused) {
           layerPosterCanvas.width = 0;
           layerPosterCanvas.height = 0;
           layerPoster.classList.remove('amst__hidden');
@@ -1630,7 +1646,7 @@ var AmstramgramVideoPlayer = (function () {
       //même si un buffering est en cours.
 
       $$([media, layerLoading]).on('click', function () {
-        return _this.pause();
+        return _this5.pause();
       }, false); //Tout évènement souris provoque l'ajout de la classe 'keyboard-inactive' au container
       //Cette classe empêche l'affichage d'une bordure sur les éléments qui ont le focus
 
@@ -1641,11 +1657,11 @@ var AmstramgramVideoPlayer = (function () {
       } : false); // Un click sur le bouton Play/Pause déclenche une bascule Play/Pause   
 
       $('.amst__playpause').on('click', function () {
-        return _this.togglePlayPause();
+        return _this5.togglePlayPause();
       }); //Un click sur le gros bouton Play au centre de la vidéo déclenche une lecture 
 
       layerPlay.on('click', function () {
-        return _this.play();
+        return _this5.play();
       });
       /************************************************
        *                                              *
@@ -1810,13 +1826,13 @@ var AmstramgramVideoPlayer = (function () {
         } //Stockage du volume pour le groupe correspondant
 
 
-        if (storage && self.params.volumeGroup > 0) {
+        if (storage && self.params.volumeGroup > -1) {
           storage.setItem("amst_volumegroup".concat(self.params.volumeGroup), self.volume);
         }
 
         self.params.volume = self.volume; //Propagation du changement de volume au éventuels autres players du même volumeGroup
 
-        if (self.params.volumeGroup > 0 && AmstramgramVideoPlayer.players.length > 1) {
+        if (self.params.volumeGroup > -1 && AmstramgramVideoPlayer.players.length > 1) {
           AmstramgramVideoPlayer.players.forEach(function (player) {
             if (player != self && player.params.volumeGroup == self.params.volumeGroup && player.volume != self.volume) {
               player.volume = self.volume;
@@ -2135,13 +2151,7 @@ var AmstramgramVideoPlayer = (function () {
        *                 FINALISATION                 *
        *                                              *
        ************************************************/
-
-
-      if (params && typeof params.oninit === "function") {
-        setTimeout(function () {
-          params.oninit(self);
-        }, 1);
-      } //La fonction pointerDetected() écoute l'évènement 'pointerDetected' dispatché par la class
+      //La fonction pointerDetected() écoute l'évènement 'pointerDetected' dispatché par la class
       //lorsque le type de pointeur a été détecté.
 
 
@@ -2159,6 +2169,12 @@ var AmstramgramVideoPlayer = (function () {
 
 
       AmstramgramVideoPlayer.players.push(this);
+
+      if (params && typeof params.onInit === "function") {
+        setTimeout(function () {
+          params.onInit(self);
+        }, 0);
+      }
     }
     /************************************************
      *                                              *
@@ -2240,7 +2256,7 @@ var AmstramgramVideoPlayer = (function () {
       key: "next",
       value: function next(opt) {
         if (isObject(opt)) {
-          this.params = mergeDeep(this.params, {
+          this.params = mergeDeep(this.params.next, {
             next: opt
           });
           this.container.dispatchEvent(new CustomEvent('amstEvent__nextButton'));
@@ -2277,6 +2293,24 @@ var AmstramgramVideoPlayer = (function () {
         }
       }
     }, {
+      key: "on",
+      value: function on(event, listener) {
+        if (event == 'next' || event == 'previous') {
+          this.events[event].push(listener);
+        }
+      }
+    }, {
+      key: "off",
+      value: function off(event, listener) {
+        if (event == 'next' || event == 'previous') {
+          var idx = this.events[event].indexOf(listener);
+
+          if (idx > -1) {
+            this.events[event].splice(idx, 1);
+          }
+        }
+      }
+    }, {
       key: "src",
       set: function set(src) {
         /*
@@ -2307,7 +2341,7 @@ var AmstramgramVideoPlayer = (function () {
     }, {
       key: "paused",
       get: function get() {
-        return this.media.paused;
+        return this.media.paused; // return this.media.isPlaying
       }
     }, {
       key: "duration",

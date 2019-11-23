@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
+		<title>Amstramgram Video Player - Demo - Basic</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta name="author" content="onfaitdessites.fr">
 		<link rel="shortcut icon" href="#" />
@@ -14,52 +15,178 @@
 				d.head.appendChild(s);
 			} 
 		</script>
+		<style>body{background:#000;}header,.content{opacity:0;}</style>
 	</head>
 	<body>
-		<h1>Amstramgram Video Player</h1>
-		<h2>Basic</h2>
-		<div style="width: 80%; max-width: 1000px; margin: auto;">
-			<video 
-				id="vid01"
-				src="https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4" 
-				poster="assets/castorsPoster.jpg"
-				autoplay 
-				muted
-				loop>
-			</video>
-		</div>
-		<pre>
-			<code class="html">
+	<header class="header">
+		<input class="menu-btn" type="checkbox" id="menu-btn" autocomplete="off"/>
+		<a href="https://github.com/Amstramgram75/Amstramgram-Video-Player" class="logo">Amstramgram Video Player</a>
+		<ul class="menu">
+			<li class="active"><a href="index.html">Basic</a></li>
+			<li><a href="playlist.html">PlayList</a></li>
+			<li><a href="thumbnails.html">Thumbnails</a></li>
+			<li><a href="doc.html">Doc</a></li>
+		</ul>
+		<label class="menu-icon" for="menu-btn"></label>
+	</header>
+		<div class="content">
+			<!-- EXAMPLE 1 -->
+			<h2>Basic 1</h2>
+			<div class="videoContainer">
+				<video 
+					id="vid01"
+					src="https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4"
+					autoplay
+					muted
+					preload="auto"
+					loop>
+				</video>
+			</div>
+			<p>First not so basic example with <b><i>autoplay</i></b>, <b><i>loop</i></b>, <b><i>muted</i></b>, <b><i>thumbnails</i></b> and <b><i>volumeForced</i></b> options.<br>
+				The volume of the player is stored in the session storage.<br>
+				Thus, if you unmute the video, the new volume level will be stored to eventually be recalled when you refresh the page.<br>
+				But in those conditions, the player shoud not auto start as most of the modern browsers block the autoplay feature if the audio volume is not set to 0.<br>
+				To prevent this, we use the <b><i>volumeForced</i></b> option who kindly tells the player to ignore the stored volume.
+			</p>
+			<div class="codeContainer">
+				<input type="checkbox" id="code01" class="inputCode" autocomplete="off"/>
+<pre>
+<code class="html">
 <h4>HTML</h4>
-&lt;div style=&quot;width: 80%; max-width: 1000px; margin: auto;&quot;&gt;
-	&lt;video 
-		id=&quot;vid01&quot; 
-		src=&quot;https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4&quot; 
-		autoplay 
-		muted 
-		loop&gt;
-	&lt;/video&gt;
-			</code>
-			<code class="javascript">
+<p>The <b><i>src</i></b>, <b><i>autoplay</i></b>, <b><i>muted</i></b> and <b><i>loop</i></b> properties are all set via the video tag attributes.</p>
+&lt;video 
+	id=&quot;vid01&quot; 
+	src=&quot;https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4&quot; 
+	autoplay 
+	muted 
+	loop&gt;
+&lt;/video&gt;
+</code>
+<code class="javascript">
 <h4>JAVASCRIPT</h4>
-AmstramgramVideoPlayer.options({poster:"assets/castorsPoster.jpg"})
+AmstramgramVideoPlayer.options({poster:"assets/defaultPoster.jpg"})
 new AmstramgramVideoPlayer(document.querySelector('#vid01'), {
-	thumbnails:{src:"assets/castorsThumbs.jpg"}
+	//Setting the path for the thumbnails source.
+	thumbnails:{src:"assets/castorsThumbs.jpg"},
+	//When the player is ready, the main block "content" of the page 
+	//whose opacity was initialy set to 0 is transitioned to 1.
+	onInit: function(){document.querySelector('.content').classList.add('ready')}
 });
-			</code>
-		</pre>
+</code>
+</pre><label for="code01">Code</label>
+			</div>
+			<!-- EXAMPLE 2 -->
+			<h2>Basic 2</h2>
+			<div class="videoContainer">
+				<video id="vid02"></video>
+			</div>
+			<p>
+				This time, we specify a 5:27 <b><i>duration</i></b> (327 seconds) and a <b><i>poster</i></b>, use the <b><i>videoVolumeOrientation</i></b> option to display an horizontal volume slider, hide the <b><i>download</i></b> button, translate the <b><i>fullscreen</i></b> labels in czech (why not ?!!) and set the <b><i>volumeGroup</i></b> to 1.
+			</p>
+			<div class="codeContainer">
+				<input type="checkbox" id="code02" class="inputCode" autocomplete="off"/>
+<pre>
+<code class="html">
+<h4>HTML</h4>
+&lt;video id=&quot;vid02&quot;&gt;&lt;/video&gt;
+</code>
+<code class="javascript">
+<h4>JAVASCRIPT</h4>
+new AmstramgramVideoPlayer(document.querySelector('#vid02'), {
+	src:"https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
+	duration:327,
+	poster:"assets/francePoster.jpg",
+	videoVolumeOrientation:'horizontal',
+	download:{
+		hidden:true
+	},
+	fullscreen:{
+		label:{
+			enter: "Celá obrazovka",
+			exit: "Běžné zobrazení"
+		}
+	},
+	volumeGroup: 1
+});
+</code>
+</pre><label for="code02">Code</label>		
+			</div>
+			<!-- EXAMPLE 3 -->
+			<h2>Basic 3</h2>
+			<div class="videoContainer small">
+				<video id="vid03" poster="assets/paquesPoster.jpg"></video>
+			</div>
+			<p>
+				For this last basic example, we declare a poster via an attribute added to the video tag. Furthermore, we again use the <b><i>videoVolumeOrientation</i></b> option to display an horizontal volume slider and set the <b><i>volumeGroup</i></b> to 1, as the previous example.<br>
+				The video block container has a max-width of 600 pixels.<br>
+				If you have a large enougth screen, until now, you should have seen the normal UI.<br>
+				In this particular case, because space avalaible for the time rail is inferior at 600 pixels, the compact UI is used (for further details, have a look at the <b><i>railMinWidthForNormalUI</i></b> option).<br>
+				If you click to play, you may observe how the player height will smoothly grow to accomodate the actual video format.<br>
+				You should also notice that the total duration displayed changes from 2 minutes (the default value) to 40 seconds as soon as metadata are loaded.<br>
+				Last but not least, you can check how the volumes of the players 2 and 3 are linked : they both belong to the same <b><i>volumeGroup</i></b>.<br>
+				If you modify the volume level and refresh the page, this last level will be restore.  
+			</p>
+			<div class="codeContainer">
+				<input type="checkbox" id="code03" class="inputCode" autocomplete="off"/>
+<pre>
+<code class="html">
+<h4>HTML</h4>
+&lt;video id=&quot;vid03&quot; poster=&quot;assets/paquesPoster.jpg&quot;&gt;&lt;/video&gt;
+</code>
+<code class="javascript">
+<h4>JAVASCRIPT</h4>
+new AmstramgramVideoPlayer(document.querySelector('#vid03'), {
+	src:"https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
+	videoVolumeOrientation:'horizontal',
+	volumeGroup: 1
+});
+</code>
+</pre><label for="code03">Code</label>
+			</div>
+			<footer>
+				All videos courtesy of <a href="https://jefaisdesbetises.net" target="_blank">Jean-Baptiste Lévêque<br>&#x25cf;JeFaisDesBetises.net&#x25cf;</a>
+			</footer>
+		</div>
 		<link rel="stylesheet" href="css/main.css">
 		<link rel='stylesheet' href="css/amstramgramVideoPlayer.min.css">
 		<script src="js/highlight.pack.js"></script>
-		<script src="js/amstramgramVideoPlayer.min.js"></script>
+		<script src="js/amstramgramVideoPlayer.js"></script>
 		<script>
 			//Highlight.js initialisation
 			hljs.initHighlightingOnLoad();
+			hljs.configure({tabReplace: '   '}); // 2 spaces
+			//Set highlight clas for the word AmstramgramVideoPlayer
 			hljs.getLanguage('javascript').k.amst = ' AmstramgramVideoPlayer';
 			//Basic
-			AmstramgramVideoPlayer.options({poster:"assets/defaultPoster.jpg"})
 			new AmstramgramVideoPlayer(document.querySelector('#vid01'), {
-				thumbnails:{src:"assets/castorsThumbs.jpg"}
+				//Setting the path for the thumbnails source.
+				thumbnails:{src:"assets/castorsThumbs.jpg"},
+				volumeForced:true,
+				//When the player is ready, the main block "content" of the page 
+				//whose opacity was initialy set to 0 is transitioned to 1.
+				onInit: function(){document.body.classList.add('ready')}
+			});
+			new AmstramgramVideoPlayer(document.querySelector('#vid02'), {
+				src:"https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
+				duration:327,
+				poster:"assets/francePoster.jpg",
+				videoVolumeOrientation:'horizontal',
+				next:{label:"Un test", disabled:true, hidden:false},
+				download:{
+					hidden:true
+				},
+				fullscreen:{
+					label:{
+						enter: "Celá obrazovka",
+						exit: "Běžné zobrazení"
+					}
+				},
+				volumeGroup: 1
+			});
+			new AmstramgramVideoPlayer(document.querySelector('#vid03'), {
+				src:"https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
+				videoVolumeOrientation:'horizontal',
+				volumeGroup: 1
 			});
 		</script>
 	</body>

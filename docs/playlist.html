@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="author" content="onfaitdessites.fr">
+		<link rel="shortcut icon" href="#" />
+		<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0">
+		<script>
+			if (typeof Object.assign !== 'function' || !Array.from || !Array.prototype.includes || typeof window.CustomEvent !== "function") {
+				var d = document,
+						s = d.createElement('script');
+				s.async = "false";
+				s.src = "js/amstramgramVideoPlayerPolyfill.min.js";
+				d.head.appendChild(s);
+			} 
+		</script>
+		<style>body{background:#000;}header,.content{opacity:0;}</style>
+	</head>
+	<body>
+		<header class="header">
+			<input class="menu-btn" type="checkbox" id="menu-btn" autocomplete="off"/>
+			<a href="https://github.com/Amstramgram75/Amstramgram-Video-Player" class="logo">Amstramgram Video Player</a>
+			<ul class="menu">
+				<li><a href="index.html">Basic</a></li>
+				<li class="active"><a href="playlist.html">PlayList</a></li>
+				<li><a href="thumbnails.html">Thumbnails</a></li>
+				<li><a href="doc.html">Doc</a></li>
+			</ul>
+			<label class="menu-icon" for="menu-btn"></label>
+		</header>
+		<div class="content">
+			<h2>Playlist</h2>
+			<div class="wrapper">
+				<div class="videoContainer">
+					<video></video>
+					<h3></h3>
+				</div>
+				<ul class="playlistMenu"></ul>
+			</div>
+			<div class="codeContainer">
+<pre class="visible">
+<code class="html">
+<h4>HTML</h4>
+&lt;div class=&quot;wrapper&quot;&gt;
+	&lt;div class=&quot;videoContainer&quot;&gt;
+		&lt;video&gt;&lt;/video&gt;
+		&lt;h3&gt;&lt;/h3&gt;
+	&lt;/div&gt;
+	&lt;ul class=&quot;playlistMenu&quot;&gt;&lt;/ul&gt;
+&lt;/div&gt;
+</code>
+<code class="javascript">
+<h4>JAVASCRIPT</h4>
+const playlist = [
+										{
+											title:"Les castors auto-contructeurs",
+											src:"https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4",
+											duration:210,
+											poster:"assets/castorsPoster.jpg",
+											thumbnails:{src:"assets/castorsThumbs.jpg"},
+											format:16/9
+										},
+										{
+											title:"France",
+											src:"https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
+											duration:327,
+											poster:"assets/francePoster.jpg",
+											thumbnails:{src:"assets/franceThumbs.jpg"},
+											format:16/9
+										},
+										{
+											title:"Joyeuses Pâques",
+											src:"https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
+											duration:40,
+											poster:"assets/paquesPoster.jpg",
+											thumbnails:{src:"assets/paquesThumbs.jpg"},
+											format:4/3
+										},
+										{
+											title:"Le plouc",
+											src:"https://jefaisdesbetises.net/medias/LePlouc-jefaisdesbetises.com.mp4",
+											duration:186,
+											poster:"assets/posterLePlouc.jpg",
+											thumbnails:{src:"assets/lePloucThumbs.jpg"},
+											format:16/9
+										},
+									],
+			previousDefaultLabel = "No video to see on this side...",
+			nextDefaultLabel = "No more video..."
+let currentVideoIndex = 0,
+		ulContent = ""
+playlist.forEach(function(el, id){
+	ulContent += "&lt;li class='c&quot;+id+&quot;'&gt;&lt;span&gt;&quot;+el.title+&quot;&lt;/span&gt;&lt;/li&gt;"
+})
+document.querySelector('.playlistMenu').innerHTML = ulContent
+document.querySelectorAll('.playlistMenu li').forEach(function(li, id){
+	li.addEventListener('click', function(){
+		if(!this.classList.contains('active')){
+			currentVideoIndex = id
+			setSrc()
+		}
+	})
+})
+AmstramgramVideoPlayer.options({
+	appLabel: "Video Player",
+	playLabel: "Play",
+	volumeHelpLabel: "Use Up/Down Arrow keys to increase or decrease volume.",
+	volumeSliderLabel: "Volume Slider",
+	download: {label: "Download"},
+	fullscreen: {
+		label:{enter: "Go Fullscreen", exit: "Exit Fullscreen"}
+	},
+	next: {hidden: false},
+	previous: {hidden: false},
+	volumeButton:{
+		label:{mute: "Mute", exit: "Unmute"}
+	},
+	volumeGroup: 1
+})
+const player = new AmstramgramVideoPlayer(document.querySelector('video'),{
+	onInit: function(){
+		document.body.classList.add('ready');
+		player.on('next', function(){
+			currentVideoIndex++
+			setSrc()
+		})
+		player.on('previous', function(){
+			currentVideoIndex--
+			setSrc()
+		})
+		setSrc()
+	}
+})
+function setSrc(){
+	if (document.querySelector('.playlistMenu li.active')) document.querySelector('.playlistMenu li.active').classList.remove('active')
+	const prevDisabled = (currentVideoIndex == 0),
+				nextDisabled = (currentVideoIndex == playlist.length - 1)
+				prevLabel = prevDisabled?previousDefaultLabel:playlist[currentVideoIndex-1].title,
+				nexLabel = nextDisabled?nextDefaultLabel:playlist[currentVideoIndex+1].title,
+				isPlaying = !player.paused
+	player.src = {
+		src:playlist[currentVideoIndex].src,
+		duration:playlist[currentVideoIndex].duration,
+		poster:playlist[currentVideoIndex].poster,
+		thumbnails:playlist[currentVideoIndex].thumbnails,
+		format:playlist[currentVideoIndex].format,
+		previous:{label:prevLabel, disabled:prevDisabled},
+		next:{label:nexLabel, disabled:nextDisabled}
+	}
+	document.querySelector('h3').innerHTML = playlist[currentVideoIndex].title
+	document.querySelector('.playlistMenu li:nth-of-type('+(currentVideoIndex+1)+')').classList.add('active')
+	if (isPlaying) player.play()
+}
+</code>
+</pre><div class="codeButton">Code</div>
+			</div>
+			<footer>
+				All videos courtesy of <a href="https://jefaisdesbetises.net" target="_blank">Jean-Baptiste Lévêque<br>&#x25cf;JeFaisDesBetises.net&#x25cf;</a>
+			</footer>
+		</div>
+		<link rel="stylesheet" href="css/main.css">
+		<link rel='stylesheet' href="css/amstramgramVideoPlayer.min.css">
+		<script src="js/highlight.pack.js"></script>
+		<script src="js/amstramgramVideoPlayer.js"></script>
+		<script>
+			//Highlight.js initialisation
+			hljs.initHighlightingOnLoad();
+			hljs.configure({tabReplace: '   '}); // 2 spaces
+			//Set highlight clas for the word AmstramgramVideoPlayer
+			hljs.getLanguage('javascript').k.amst = ' AmstramgramVideoPlayer';
+			const playlist = [
+												{
+													title:"Les castors auto-contructeurs",
+													src:"https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4",
+													duration:210,
+													poster:"assets/castorsPoster.jpg",
+													thumbnails:{src:"assets/castorsThumbs.jpg"},
+													format:16/9
+												},
+												{
+													title:"France",
+													src:"https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
+													duration:327,
+													poster:"assets/francePoster.jpg",
+													thumbnails:{src:"assets/franceThumbs.jpg"},
+													format:16/9
+												},
+												{
+													title:"Joyeuses Pâques",
+													src:"https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
+													duration:40,
+													poster:"assets/paquesPoster.jpg",
+													thumbnails:{src:"assets/paquesThumbs.jpg"},
+													format:4/3
+												},
+												{
+													title:"Le plouc",
+													src:"https://jefaisdesbetises.net/medias/LePlouc-jefaisdesbetises.com.mp4",
+													duration:186,
+													poster:"assets/posterLePlouc.jpg",
+													thumbnails:{src:"assets/lePloucThumbs.jpg"},
+													format:16/9
+												},
+											],
+						previousDefaultLabel = "No video to see on this side...",
+						nextDefaultLabel = "No more video..."
+			let currentVideoIndex = 0,
+					ulContent = ""
+			playlist.forEach(function(el,id){
+				ulContent += "<li class='c"+id+"'><span>"+el.title+"</span></li>"
+			})
+			document.querySelector('.playlistMenu').innerHTML = ulContent
+			document.querySelectorAll('.playlistMenu li').forEach(function(li, id){
+				li.addEventListener('click', function(){
+					if(!this.classList.contains('active')){
+						currentVideoIndex = id
+						setSrc()
+					}
+				})
+			})
+			AmstramgramVideoPlayer.options({
+				appLabel: "Video Player",
+				playLabel: "Play",
+				volumeHelpLabel: "Use Up/Down Arrow keys to increase or decrease volume.",
+				volumeSliderLabel: "Volume Slider",
+				download: {label: "Download"},
+				fullscreen: {
+					label:{enter: "Go Fullscreen", exit: "Exit Fullscreen"}
+				},
+				next: {hidden: false},
+				previous: {hidden: false},
+				volumeButton:{
+					label:{mute: "Mute", exit: "Unmute"}
+				},
+				volumeGroup: 1
+			})
+			const player = new AmstramgramVideoPlayer(document.querySelector('video'),{
+				onInit: function(){
+					document.body.classList.add('ready');
+					player.on('next', function(){
+						currentVideoIndex++
+						setSrc()
+					})
+					player.on('previous', function(){
+						currentVideoIndex--
+						setSrc()
+					})
+					setSrc()
+				}
+			})
+			function setSrc(){
+				if (document.querySelector('.playlistMenu li.active')) document.querySelector('.playlistMenu li.active').classList.remove('active')
+				const prevDisabled = (currentVideoIndex == 0),
+							nextDisabled = (currentVideoIndex == playlist.length - 1)
+							prevLabel = prevDisabled?previousDefaultLabel:playlist[currentVideoIndex-1].title,
+							nexLabel = nextDisabled?nextDefaultLabel:playlist[currentVideoIndex+1].title,
+							isPlaying = !player.paused
+				player.src = {
+					src:playlist[currentVideoIndex].src,
+					duration:playlist[currentVideoIndex].duration,
+					poster:playlist[currentVideoIndex].poster,
+					thumbnails:playlist[currentVideoIndex].thumbnails,
+					format:playlist[currentVideoIndex].format,
+					previous:{label:prevLabel, disabled:prevDisabled},
+					next:{label:nexLabel, disabled:nextDisabled}
+				}
+				document.querySelector('h3').innerHTML = playlist[currentVideoIndex].title
+				document.querySelector('.playlistMenu li:nth-of-type('+(currentVideoIndex+1)+')').classList.add('active')
+				if (isPlaying) player.play()
+			}
+		</script>
+	</body>
+</html>

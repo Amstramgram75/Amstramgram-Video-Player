@@ -28,132 +28,132 @@
 				"label": "DÉCLARATIONS DES VARIABLES"
 			},
 			{
-				"line": 691,
+				"line": 694,
 				"column": 0,
 				"label": "PLAY"
 			},
 			{
-				"line": 723,
+				"line": 732,
 				"column": 0,
 				"label": "PAUSE"
 			},
 			{
-				"line": 749,
+				"line": 758,
 				"column": 0,
 				"label": "RESET"
 			},
 			{
-				"line": 782,
+				"line": 791,
 				"column": 0,
 				"label": "HIDECONTROLS"
 			},
 			{
-				"line": 827,
+				"line": 836,
 				"column": 0,
 				"label": "SHOWCONTROLS"
 			},
 			{
-				"line": 845,
+				"line": 854,
 				"column": 0,
 				"label": "UPDATEBUTTONS"
 			},
 			{
-				"line": 949,
+				"line": 974,
 				"column": 0,
 				"label": "SOURCE"
 			},
 			{
-				"line": 1071,
+				"line": 1094,
 				"column": 0,
 				"label": "ÉVÈNEMENTS MEDIA"
 			},
 			{
-				"line": 1166,
+				"line": 1189,
 				"column": 0,
 				"label": "UPDATEBUFFER"
 			},
 			{
-				"line": 1213,
+				"line": 1236,
 				"column": 0,
 				"label": "UPDATETIMERAIL"
 			},
 			{
-				"line": 1250,
+				"line": 1273,
 				"column": 0,
 				"label": "ÉVTS TACTILES SUR LA VIDÉO"
 			},
 			{
-				"line": 1361,
+				"line": 1384,
 				"column": 0,
 				"label": "ÉVTS GÉNÉRAUX"
 			},
 			{
-				"line": 1380,
+				"line": 1403,
 				"column": 0,
 				"label": "AFFICHER/CACHER LES CONTRÔLES"
 			},
 			{
-				"line": 1403,
+				"line": 1426,
 				"column": 0,
 				"label": "ÉVÉNEMENTS SUR RAIL"
 			},
 			{
-				"line": 1445,
+				"line": 1468,
 				"column": 0,
 				"label": "ÉVTS SOURIS SUR SLIDER"
 			},
 			{
-				"line": 1476,
+				"line": 1499,
 				"column": 0,
 				"label": "VOLUMECHANGE"
 			},
 			{
-				"line": 1531,
+				"line": 1554,
 				"column": 0,
 				"label": "VOLUME CLICK SUR HP"
 			},
 			{
-				"line": 1549,
+				"line": 1572,
 				"column": 0,
 				"label": "VOLUME POTENTIOMÈTRE - SOURIS & CLAVIER"
 			},
 			{
-				"line": 1642,
+				"line": 1665,
 				"column": 0,
 				"label": "FULLSCREEN"
 			},
 			{
-				"line": 1737,
+				"line": 1760,
 				"column": 0,
 				"label": "RESIZE"
 			},
 			{
-				"line": 1823,
+				"line": 1846,
 				"column": 0,
 				"label": "GETTERS/SETTERS"
 			},
 			{
-				"line": 1879,
+				"line": 1904,
 				"column": 0,
 				"label": "MÉTHODES"
 			},
 			{
-				"line": 1951,
+				"line": 1989,
 				"column": 0,
 				"label": "PROPRIÉTÉS GLOBALES"
 			},
 			{
-				"line": 1991,
+				"line": 2029,
 				"column": 0,
 				"label": "BUILDUI"
 			},
 			{
-				"line": 2091,
+				"line": 2129,
 				"column": 0,
 				"label": "UTILITAIRES"
 			},
 			{
-				"line": 2166,
+				"line": 2204,
 				"column": 0,
 				"label": "$ et $$"
 			}

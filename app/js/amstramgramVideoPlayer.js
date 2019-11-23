@@ -557,7 +557,7 @@ export default class AmstramgramVideoPlayer {
     }
     //On supprime muted de la liste des attributs à traiter
     //On rajoute les propriétés susceptibles d'être passées lors de la création de l'instance
-    attributes = attributes.filter(param=>{return param != 'muted'}).concat(['download', 'duration', 'format', 'fullscreen', 'hideControlsDelay', 'next', 'previous', 'skipTime', 'thumbnails', 'videoVolumeOrientation', 'volume', 'volumeButton', 'volumeForced', 'volumeGroup', 'railMinWidthForNormalUI'])
+    attributes = attributes.filter(param=>{return param != 'muted'}).concat(['download', 'duration', 'format', 'fullscreen', 'hideControlsDelay', 'next', 'onInit', 'previous', 'skipTime', 'thumbnails', 'videoVolumeOrientation', 'volume', 'volumeButton', 'volumeForced', 'volumeGroup', 'railMinWidthForNormalUI'])
     //Si des paramètres ont été passés à l'instance, ils priment sur ceux qui sont définis par les attributs.
     //On élimine toute propriété qui n'aurait rien à faire là en ne retenant que celles qui sont listées dans le tableau attributes
     if (params) 
@@ -681,6 +681,9 @@ export default class AmstramgramVideoPlayer {
         //en divisant la largeur de cette image par le nombre de vignettes déclaré en paramètre
         thumbWidth = 0,
         volumeBeforeMute
+    //Objet stockant les écouteurs posés sur l'événement click des boutons previous et next
+    //via la méthode on.
+    this.events = {'next':[], 'previous':[]}
 
 
 /************************************************
@@ -696,7 +699,13 @@ export default class AmstramgramVideoPlayer {
     function _play(){
       //https://developers.google.com/web/updates/2016/03/play-returns-promise
       let playPromise = media.play()
-      if (playPromise) playPromise.catch(()=>_pause())
+      if (playPromise) playPromise.catch(()=>{
+        //We try again
+        setTimeout(()=>{
+          playPromise = media.play()
+          playPromise.catch(()=>_pause())
+        }, 50)
+      })
       //Si une autre instance est en cours de lecture, on la reset
       if (AmstramgramVideoPlayer.currentPlayer && AmstramgramVideoPlayer.currentPlayer != self) AmstramgramVideoPlayer.currentPlayer.reset()
       //On déclare l'instance comme lecteur courant
@@ -848,6 +857,16 @@ export default class AmstramgramVideoPlayer {
  *                                              *
  ************************************************/
     /*
+    Mise en place des écouteurs d'événements click sur les boutons previous et next.
+    L'événement déclenche les écouteurs posés via la méthode on.
+    */
+    $('.amst__next').on('click', function(){
+      [...self.events['next']].forEach(listener => listener.bind(this));
+    })
+    $('.amst__previous').on('click', function(){
+      [...self.events['previous']].forEach(listener => listener.bind(this));
+    })
+    /*
     Chacun des boutons next, previous, download, volume et fullscreen peut être désactivé ou caché.
     Par ailleurs, les boutons next, previous et download disposent d'un label configurable.
     Les boutons fullscreen et volumeButton disposent eux de deux labels configurables
@@ -866,6 +885,12 @@ export default class AmstramgramVideoPlayer {
     function getMovie(){
       window.location = self.src.substring(0, self.src.lastIndexOf('/')) + '/index.php?file=' + self.src.substring(self.src.lastIndexOf('/') + 1)
     }
+    $('.amst__next').on('click', function(){
+      [...self.events['next']].forEach(listener => listener.apply(this));
+    })
+    $('.amst__previous').on('click', function(){
+      [...self.events['previous']].forEach(listener => listener.apply(this));
+    })
     /*
     Mise à jour des class et attributs du bouton
     name : nom du bouton
@@ -954,12 +979,12 @@ export default class AmstramgramVideoPlayer {
       let mySrc = e.detail
       //Le cas échéant, on transforme  le paramètre passé au setter en objet
       mySrc = (typeof mySrc === 'object')?mySrc:{src:mySrc}
-      if (mySrc.volumeGroup < 1) mySrc.volumeGroup = self.params.volumeGroup
+      // if (isNaN(mySrc.volumeGroup)) mySrc.volumeGroup = self.params.volumeGroup
       if (!isNaN(mySrc.volume) && (mySrc.volumeForced === true || !storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`))) {
         //Si un volume a été spécifié et que 
         //l'option volumeForced est présente ou que le volumeGroup ne figure pas dans sessionStorage
         self.params.volume = mySrc.volume
-        if (mySrc.volumeGroup > 0) storage.setItem(`amst_volumegroup${mySrc.volumeGroup}`, mySrc.volume)
+        storage.setItem(`amst_volumegroup${mySrc.volumeGroup}`, mySrc.volume)
       } else if (storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`)) {
         self.params.volume = storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`)
       }
@@ -975,7 +1000,7 @@ export default class AmstramgramVideoPlayer {
       if (media.getAttribute('src')) {
         container.classList.add('amst_container_transition')
         //On reset le player
-        self.pause()
+        self.media.pause()
         prevCurrentTime = 0
         floorCurrentTime = 0
         buffered = undefined
@@ -993,9 +1018,7 @@ export default class AmstramgramVideoPlayer {
         seekingTouchWidth = undefined
         seekingTouch.removeAttribute('style')
         //Mise à jour des paramètres de l'instance.
-        for (let [key, value] of Object.entries(mySrc)) {
-          self.params[key] = value
-        }
+        self.params = mergeDeep(self.params, mySrc)
       }
       //Le cas échéant, on charge l'image contenant les vignettes
       if (self.params.thumbnails.src) {
@@ -1510,12 +1533,12 @@ export default class AmstramgramVideoPlayer {
         }
       }
       //Stockage du volume pour le groupe correspondant
-      if (storage && self.params.volumeGroup > 0) {
+      if (storage && self.params.volumeGroup > -1) {
         storage.setItem(`amst_volumegroup${self.params.volumeGroup}`, self.volume)
       }
       self.params.volume = self.volume
       //Propagation du changement de volume au éventuels autres players du même volumeGroup
-      if (self.params.volumeGroup > 0 && AmstramgramVideoPlayer.players.length > 1) {
+      if (self.params.volumeGroup > -1 && AmstramgramVideoPlayer.players.length > 1) {
         AmstramgramVideoPlayer.players.forEach((player)=>{
           if (player != self && player.params.volumeGroup == self.params.volumeGroup && player.volume != self.volume) {
             player.volume = self.volume
@@ -1795,10 +1818,6 @@ export default class AmstramgramVideoPlayer {
  *                 FINALISATION                 *
  *                                              *
  ************************************************/
-    if (params && typeof params.oninit === "function") {
-      setTimeout(function(){params.oninit(self)},1)
-    }
-
     //La fonction pointerDetected() écoute l'évènement 'pointerDetected' dispatché par la class
     //lorsque le type de pointeur a été détecté.
     function pointerDetected(){
@@ -1813,6 +1832,10 @@ export default class AmstramgramVideoPlayer {
     }
     //On ajoute l'instance dans le tableau regroupant toutes les autres instances de players
     AmstramgramVideoPlayer.players.push(this)
+    
+    if (params && typeof params.onInit === "function") {
+      setTimeout(function(){params.onInit(self)},0)
+    }
   }
 /************************************************
  *                                              *
@@ -1851,7 +1874,9 @@ export default class AmstramgramVideoPlayer {
 
   get paused(){
     return this.media.paused
+    // return this.media.isPlaying
   }
+  
   get duration(){
     return this.media.duration
   }
@@ -1919,7 +1944,7 @@ export default class AmstramgramVideoPlayer {
   }
   next(opt){
     if (isObject(opt)) {
-      this.params = mergeDeep(this.params, {next:opt})
+      this.params = mergeDeep(this.params.next, {next:opt})
       this.container.dispatchEvent(new CustomEvent('amstEvent__nextButton'))
     }
   }
@@ -1939,6 +1964,19 @@ export default class AmstramgramVideoPlayer {
     if (isObject(opt)) {
       this.params = mergeDeep(this.params, {volumeButton:opt})
       this.container.dispatchEvent(new CustomEvent('amstEvent__volumeButton'))
+    }
+  }
+  on(event, listener){
+    if (event == 'next' || event == 'previous') {
+      this.events[event].push(listener)
+    }
+  }
+  off(event, listener) {
+    if (event == 'next' || event == 'previous') {
+        const idx = this.events[event].indexOf(listener);
+        if (idx > -1) {
+          this.events[event].splice(idx, 1);
+        }
     }
   }
 }
