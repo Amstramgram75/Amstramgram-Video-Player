@@ -1,8 +1,8 @@
 /*
 amstramgramVideoPlayer.js
-@version : 1.0.0
 @licence : MIT
 @author : Amstramgram
+@version : 1.0.0
 @url : https://github.com/Amstramgram75/Amstramgram-Video-Player
 */
 var AmstramgramVideoPlayer = (function () {
