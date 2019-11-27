@@ -775,7 +775,7 @@ class AmstramgramVideoPlayer {
       media.src = self.params.src
     }
     //On écoute l'évènement 'amstEvent__' généré par la méthode reset()
-    container.on('amstEvent__', _reset, false)
+    container.on('amstEvent__reset', _reset, false)
 /************************************************
  *                                              *
  *                  FIN RESET                   *

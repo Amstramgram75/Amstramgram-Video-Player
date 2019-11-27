@@ -68,6 +68,9 @@ h3{
 .videoContainer{
   margin-bottom: 1em;;
 }
+video{
+  width: 100%;
+}
 .videoContainer.small{
   width: 100%;
   max-width: 600px;

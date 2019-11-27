@@ -814,6 +814,7 @@ var AmstramgramVideoPlayer = (function () {
           }, 50);
         }); //Si une autre instance est en cours de lecture, on la reset
 
+        console.log(AmstramgramVideoPlayer.currentPlayer);
         if (AmstramgramVideoPlayer.currentPlayer && AmstramgramVideoPlayer.currentPlayer != self) AmstramgramVideoPlayer.currentPlayer.reset(); //On déclare l'instance comme lecteur courant
 
         AmstramgramVideoPlayer.currentPlayer = self;
@@ -876,6 +877,7 @@ var AmstramgramVideoPlayer = (function () {
        ************************************************/
 
       function _reset() {
+        console.log('reset');
         /*La fonction est appelée si une autre instance passe en lecture
         et que le présent lecteur avait auparavant été lancé.
         Elle assure le reset complet de la source et le passage de preload en none
@@ -885,6 +887,7 @@ var AmstramgramVideoPlayer = (function () {
         et on l'affiche dans un canvas à la place du poster.
         */
         //Dimensionnement du canvas
+
         layerPosterCanvas.width = media.videoWidth;
         layerPosterCanvas.height = media.videoHeight; //Copie de l'image dans le canvas
 
@@ -899,7 +902,7 @@ var AmstramgramVideoPlayer = (function () {
       } //On écoute l'évènement 'amstEvent__' généré par la méthode reset()
 
 
-      container.on('amstEvent__', _reset, false);
+      container.on('amstEvent__reset', _reset, false);
       /************************************************
        *                                              *
        *                  FIN RESET                   *
