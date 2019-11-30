@@ -50,13 +50,20 @@ h2{
   margin-bottom: 0.5em;
 }
 h2:before, h2:after{
-  content: '\25CF';
+  content: '';
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: #c9be9f;
 }
 h2:before{
-  padding-right:0.5em;
+  margin-right:0.2em;
 }
 h2:after{
-  padding-left:0.5em;
+  margin-left:0.2em;
 }
 h3{
   font-weight: normal;
@@ -158,8 +165,15 @@ footer{
   cursor: pointer;
 }
 .playlistMenu li.active::before{/*Bullet*/
-  content: '\25CF';
-  padding-right: 5px;
+  content: '';
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  margin-right: 0.5em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: #c9be9f;
 } 
 .playlistMenu li span::before {/*Underlined when hover*/
   content:'';
@@ -175,9 +189,16 @@ footer{
   width: calc(100% + 13px);
   left: -13px;
 }
-.playlistMenu li.active span::after {
-  content: '\25CF';
-  padding-left: 5px;
+.playlistMenu li.active span::after {/*Bullet*/
+  content: '';
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  margin-left: 0.5em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: #c9be9f;
 }
 @media screen and (max-width: 1050px) {
   .content>div:not(.videoContainer), .content>p{
@@ -348,10 +369,14 @@ li.active a{
   list-style: none;
 }
 .header li:before{/*Bullet*/
-  content: '\25CF';
-  font-size: 2em;
-  position: relative;
-  top: 3px;
+  content: '';
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: #a10304;
 } 
 .header li a {
   display: inline-block;
@@ -466,10 +491,14 @@ li.active a{
     display:none;
   }
   .header li::after {
-    content: '\25CF';
-    font-size: 2em;
-    position: relative;
-    top: 3px;
+    content: '';
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: middle;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background: #a10304;
   }
   .header li a {
     padding: 15px 10px;

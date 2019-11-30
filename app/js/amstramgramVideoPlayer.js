@@ -665,6 +665,7 @@ class AmstramgramVideoPlayer {
         isBuffering = false,
         //setTimeout contrôlant la disparition de la barre de contrôle
         hideControlsTimeOut,
+        controlsArehidden = false,
         //Largeur de l'élément seeking = $('.amst__seeking'), actualisée au premier mouvement de la souris sur la barre temporelle
         //Necessaire pour positionner l'élément ainsi que son background
         seekingWidth,
@@ -818,6 +819,7 @@ class AmstramgramVideoPlayer {
         //Sinon, on cache...
         container.focus()
         controls.style[transformPrefix] = 'translateX(-50%) scaleY(0)'
+        controlsArehidden = true
       }
     }
     //On écoute le custom event 'amstEvent__hideControls' généré par la méthode hideControls()
@@ -835,6 +837,7 @@ class AmstramgramVideoPlayer {
       //On annule l'éventuelle programmation en cours
       if (hideControlsTimeOut) clearTimeout(hideControlsTimeOut)
       controls.style[transformPrefix] = ''
+      controlsArehidden = false
       //Si la vidéo est en lecture, on programme la disparition de la barre
       if (!media.paused) _hideControls({detail:{delayed:true}})
     }
@@ -1292,7 +1295,7 @@ class AmstramgramVideoPlayer {
               startTime = new Date().getTime(),
               //Durée maximale, exprimée en ms, comprise entre touchstart et touchend pour que 
               //l'évènement résultant soit considéré comme un click si aucun touchmove n'a été détecté.
-              maxDelay = 800,
+              maxDelay = 200,
               //Position temporelle exprimée en pourcentage par rapport à la durée du média
               timeRatio = (media.duration)?media.currentTime/media.duration:undefined
         let startX = e.changedTouches[0].pageX,//Abscisse de l'évènement
@@ -1307,13 +1310,20 @@ class AmstramgramVideoPlayer {
         target.on('touchend', touchEnd, passive?{passive:true}:false)
         target.on('touchmove', touchMove, passive?{passive:false}:false)
         function touchMove(e){
+          const moveThreshold = 5
           //Si la vidéo n'est pas chargée et n'a donc pas de durée définie
           //Ou si la vidéo est en pause et qu'on a détecté un swipe vertical,
           //on ne fait rien.
           //Ainsi, s'il s'agit d'un swipe vertical, on ne bloque pas le scroll.
-          if (!media.duration || (self.paused && horizontalMove < -5)) return
-          //Dans tous les autres case, on bloque le scroll éventuel.
-          e.preventDefault()
+          if (!media.duration || (self.paused && horizontalMove < -moveThreshold)) return
+          //Si le swipe vertical en cours a provoqué un changement d'état de la barre de controle,
+          //on bloque le scroll éventuel et on sort.
+          if (toggleControls) {
+            e.preventDefault()
+            return 
+          }
+          //Si on n'a pas encore détecté de swipe vertical
+          if (horizontalMove > -moveThreshold) e.preventDefault()
           //Mesure des distances
           distX = e.changedTouches[0].pageX - startX
           distY = e.changedTouches[0].pageY - startY
@@ -1323,7 +1333,7 @@ class AmstramgramVideoPlayer {
           } else {//Vertical
             horizontalMove --
           }
-          if (horizontalMove >= 5) {//Si le mouvement horizontal se confirme
+          if (horizontalMove >= moveThreshold) {//Si le mouvement horizontal se confirme
             seekingRatio = Math.min(Math.max(timeRatio + (distX / playerWidth),0),0.999)
             if (!seekingTouchWidth) seekingTouchWidth = seekingTouch.offsetWidth
             const translate = Math.min(Math.max(seekingRatio * playerWidth - 0.5 * seekingTouchWidth, 0), playerWidth - seekingTouchWidth) + 'px'
@@ -1334,23 +1344,28 @@ class AmstramgramVideoPlayer {
             seekingTouch.css(css)
             $('.amst__seeking-touch-cache').style[transformPrefix] = `scaleX(${seekingRatio})`
             $('.amst__seeking-touch > span').innerHTML = secondsToTimeCode(media.duration * seekingRatio, (media.duration > 3600))
-            if (horizontalMove == 5) {
+            if (horizontalMove == moveThreshold) {
               //On affiche le layer seeking
               layerSeekingTouch.classList.add('amst__show')
               //on cache la barre de contrôle sans délai et ce même si la vidéo est en pause
               _hideControls({detail:{delayed: false, forced:true}})
             }
           }
-          if (-5 == horizontalMove) {//Si le mouvement vertical se confirme
-            toggleControls = true
+          if (horizontalMove == -moveThreshold) {//Si le mouvement vertical se confirme
             if (distY < 0) {
-              _showControls()
+              if (controlsArehidden) {
+                _showControls()
+                toggleControls = true
+              } 
             } else {
-              _hideControls()
+              if (!controlsArehidden) { 
+                _hideControls()
+                toggleControls = true
+              } 
             }
           }
         }
-        function touchEnd(){
+        function touchEnd(e){
           if (seekingRatio != undefined) {//Si seeking et donc swipe horizontal
             //On place la tête de lecture au temps résultant
             media.currentTime = media.duration * seekingRatio
@@ -1358,8 +1373,8 @@ class AmstramgramVideoPlayer {
             layerSeekingTouch.classList.remove('amst__show')
             _showControls()
           } else if (!toggleControls) {//Si aucun mouvement n'a été détecté
-            //Si le touchend intervient avant le délai maximum défini par maxDelay
             if (maxDelay > new Date().getTime() - startTime) {
+              //Si le touchend intervient avant le délai maximum défini par maxDelay
               //On bascule entre pause et lecture
               self.togglePlayPause()
             } /*else { TODO : afficher le menu contextuel
