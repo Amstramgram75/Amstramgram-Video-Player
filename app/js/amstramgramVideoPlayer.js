@@ -586,7 +586,8 @@ class AmstramgramVideoPlayer {
     el.parentNode.insertBefore(wrapper, el)
     //Pour éviter tout problème sous Androïd, on reset la source de l'élément original
     //avant de le supprimer
-    el.removeAttribute('src')
+    el.setAttribute('src','')
+    // el.removeAttribute('src')
     el.parentNode.removeChild(el)
     
 /************************************************
