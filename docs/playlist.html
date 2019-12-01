@@ -59,56 +59,67 @@
 </code>
 <code class="javascript">
 <h4>JAVASCRIPT</h4>
-const playlist = [
-										{
-											title:"Les castors auto-contructeurs",
-											src:"https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4",
-											duration:210,
-											poster:"assets/castorsPoster.jpg",
-											thumbnails:{src:"assets/castorsThumbs.jpg"},
-											format:16/9
-										},
-										{
-											title:"France",
-											src:"https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
-											duration:327,
-											poster:"assets/francePoster.jpg",
-											thumbnails:{src:"assets/franceThumbs.jpg"},
-											format:16/9
-										},
-										{
-											title:"Joyeuses Pâques",
-											src:"https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
-											duration:40,
-											poster:"assets/paquesPoster.jpg",
-											thumbnails:{src:"assets/paquesThumbs.jpg"},
-											format:4/3
-										},
-										{
-											title:"Le plouc",
-											src:"https://jefaisdesbetises.net/medias/LePlouc-jefaisdesbetises.com.mp4",
-											duration:186,
-											poster:"assets/posterLePlouc.jpg",
-											thumbnails:{src:"assets/lePloucThumbs.jpg"},
-											format:16/9
-										},
-									],
-			previousDefaultLabel = "No video to see on this side...",
-			nextDefaultLabel = "No more video..."
-let currentVideoIndex = 0,
-		ulContent = ""
-playlist.forEach(function(el, id){
-	ulContent += "&lt;li class='c&quot;+id+&quot;'&gt;&lt;span&gt;&quot;+el.title+&quot;&lt;/span&gt;&lt;/li&gt;"
+//Definition of the properties for each video in the playlist
+const 
+	playlist = [
+		{
+			title: "Les castors auto-contructeurs",
+			src: "https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4",
+			duration: 210,
+			poster: "assets/castorsPoster.jpg",
+			thumbnails: {src:"assets/castorsThumbs.jpg"},
+			format: 16/9
+		},
+		{
+			title: "France",
+			src: "https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
+			duration: 327,
+			poster: "assets/francePoster.jpg",
+			thumbnails: {src:"assets/franceThumbs.jpg"},
+			format: 16/9
+		},
+		{
+			title: "Joyeuses Pâques",
+			src: "https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
+			duration: 40,
+			poster: "assets/paquesPoster.jpg",
+			thumbnails: {src:"assets/paquesThumbs.jpg"},
+			format: 4/3
+		},
+		{
+			title: "Le plouc",
+			src: "https://jefaisdesbetises.net/medias/LePlouc-jefaisdesbetises.com.mp4",
+			duration: 186,
+			poster: "assets/posterLePlouc.jpg",
+			thumbnails: {src:"assets/lePloucThumbs.jpg"},
+			format: 16/9
+		},
+	],
+	previousDefaultLabel = "No video to see on this side...",
+	nextDefaultLabel = "No more video..."
+
+let 
+	currentVideoIndex = 0,
+	playlistMenuContent = ""
+
+//Playlist Menu construction
+playlist.forEach(function(el){
+	playlistMenuContent += &quot;&lt;li&gt;&lt;span&gt;&quot;+el.title+&quot;&lt;/span&gt;&lt;/li&gt;&quot;
 })
-document.querySelector('.playlistMenu').innerHTML = ulContent
+document.querySelector('.playlistMenu').innerHTML = playlistMenuContent
+
+//Set a click event listener for each line of the Playlist Menu
 document.querySelectorAll('.playlistMenu li').forEach(function(li, id){
 	li.addEventListener('click', function(){
 		if(!this.classList.contains('active')){
+			//If the line is not active, we change the source
 			currentVideoIndex = id
 			setSrc()
 		}
 	})
 })
+
+//Global properties for the class
 AmstramgramVideoPlayer.options({
 	appLabel: "Video Player",
 	playLabel: "Play",
@@ -116,47 +127,75 @@ AmstramgramVideoPlayer.options({
 	volumeSliderLabel: "Volume Slider",
 	download: {label: "Download"},
 	fullscreen: {
-		label:{enter: "Go Fullscreen", exit: "Exit Fullscreen"}
+		label: {enter: "Go Fullscreen", exit: "Exit Fullscreen"}
 	},
 	next: {hidden: false},
 	previous: {hidden: false},
 	volumeButton:{
-		label:{mute: "Mute", exit: "Unmute"}
+		label: {mute: "Mute", exit: "Unmute"}
 	},
+	//Same volumeGroup as players 2 and 3 of the Basic page.
 	volumeGroup: 1
 })
+
+//We create our player
 const player = new AmstramgramVideoPlayer(document.querySelector('video'),{
 	onInit: function(){
+		//When the player is ready, the main block "content" of the page 
+		//whose opacity was initialy set to 0 is transitioned to 1.
 		document.body.classList.add('ready');
-		player.on('next', function(){
+		//We set a click event listener for the Next and Previous buttons
+		this.on('next', function(){
 			currentVideoIndex++
 			setSrc()
 		})
-		player.on('previous', function(){
+		this.on('previous', function(){
 			currentVideoIndex--
 			setSrc()
 		})
 		setSrc()
 	}
 })
+
+
 function setSrc(){
+	//Reset the Playlist menu
 	if (document.querySelector('.playlistMenu li.active')) document.querySelector('.playlistMenu li.active').classList.remove('active')
-	const prevDisabled = (currentVideoIndex == 0),
-				nextDisabled = (currentVideoIndex == playlist.length - 1)
-				prevLabel = prevDisabled?previousDefaultLabel:playlist[currentVideoIndex-1].title,
-				nexLabel = nextDisabled?nextDefaultLabel:playlist[currentVideoIndex+1].title,
-				isPlaying = !player.paused
+
+	const 
+		//If it's the first video, we disable the Previous button
+		prevDisabled = (currentVideoIndex == 0),
+		//If it's the last video, we disable the Next button
+		nextDisabled = (currentVideoIndex == playlist.length - 1)
+		//If the Previous button is disabled, we give to its label the default value
+		//else its label is set to the previous video title.
+		prevLabel = prevDisabled?previousDefaultLabel:playlist[currentVideoIndex-1].title,
+		//If the Next button is disabled, we give to its label the default value
+		//else its label is set to the next video title.
+		nextLabel = nextDisabled?nextDefaultLabel:playlist[currentVideoIndex+1].title,
+		media = playlist[currentVideoIndex],
+		//Is the player playing ?
+		isPlaying = !player.paused,
+		//Set loop for Joyeuses Pâques
+		loop = (currentVideoIndex==2)?true:false
+
+	//We set the source properties
 	player.src = {
-		src:playlist[currentVideoIndex].src,
-		duration:playlist[currentVideoIndex].duration,
-		poster:playlist[currentVideoIndex].poster,
-		thumbnails:playlist[currentVideoIndex].thumbnails,
-		format:playlist[currentVideoIndex].format,
-		previous:{label:prevLabel, disabled:prevDisabled},
-		next:{label:nexLabel, disabled:nextDisabled}
+		src: media.src,
+		duration: media.duration,
+		poster: media.poster,
+		thumbnails: media.thumbnails,
+		format: media.format,
+		previous: {label:prevLabel, disabled: prevDisabled},
+		next: {label: nextLabel, disabled: nextDisabled},
+		loop: loop
 	}
+
+	//Display the video title
 	document.querySelector('h3').innerHTML = playlist[currentVideoIndex].title
+	//Update the menu
 	document.querySelector('.playlistMenu li:nth-of-type('+(currentVideoIndex+1)+')').classList.add('active')
+	//If the player was playing before...
 	if (isPlaying) player.play()
 }
 </code>
@@ -169,63 +208,76 @@ function setSrc(){
 		<link rel="stylesheet" href="css/main.css">
 		<link rel='stylesheet' href="css/amstramgramVideoPlayer.min.css">
 		<script src="js/highlight.pack.js"></script>
-		<script src="js/amstramgramVideoPlayer.js"></script>
+		<script src="js/amstramgramVideoPlayer.min.js"></script>
 		<script>
 			//Highlight.js initialisation
 			hljs.initHighlightingOnLoad();
 			hljs.configure({tabReplace: '   '}); // 2 spaces
 			//Set highlight clas for the word AmstramgramVideoPlayer
 			hljs.getLanguage('javascript').k.amst = ' AmstramgramVideoPlayer';
-			const playlist = [
-												{
-													title:"Les castors auto-contructeurs",
-													src:"https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4",
-													duration:210,
-													poster:"assets/castorsPoster.jpg",
-													thumbnails:{src:"assets/castorsThumbs.jpg"},
-													format:16/9
-												},
-												{
-													title:"France",
-													src:"https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
-													duration:327,
-													poster:"assets/francePoster.jpg",
-													thumbnails:{src:"assets/franceThumbs.jpg"},
-													format:16/9
-												},
-												{
-													title:"Joyeuses Pâques",
-													src:"https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
-													duration:40,
-													poster:"assets/paquesPoster.jpg",
-													thumbnails:{src:"assets/paquesThumbs.jpg"},
-													format:4/3
-												},
-												{
-													title:"Le plouc",
-													src:"https://jefaisdesbetises.net/medias/LePlouc-jefaisdesbetises.com.mp4",
-													duration:186,
-													poster:"assets/posterLePlouc.jpg",
-													thumbnails:{src:"assets/lePloucThumbs.jpg"},
-													format:16/9
-												},
-											],
-						previousDefaultLabel = "No video to see on this side...",
-						nextDefaultLabel = "No more video..."
-			let currentVideoIndex = 0,
-					ulContent = ""
-			playlist.forEach(function(el,id){
-				ulContent += "<li class='c"+id+"'><span>"+el.title+"</span></li>"
+
+
+			//Definition of the properties for each video in the playlist
+			const 
+				playlist = [
+					{
+						title: "Les castors auto-contructeurs",
+						src: "https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4",
+						duration: 210,
+						poster: "assets/castorsPoster.jpg",
+						thumbnails: {src:"assets/castorsThumbs.jpg"},
+						format: 16/9
+					},
+					{
+						title: "France",
+						src: "https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
+						duration: 327,
+						poster: "assets/francePoster.jpg",
+						thumbnails: {src:"assets/franceThumbs.jpg"},
+						format: 16/9
+					},
+					{
+						title: "Joyeuses Pâques",
+						src: "https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
+						duration: 40,
+						poster: "assets/paquesPoster.jpg",
+						thumbnails: {src:"assets/paquesThumbs.jpg"},
+						format: 4/3,
+					},
+					{
+						title: "Le plouc",
+						src: "https://jefaisdesbetises.net/medias/LePlouc-jefaisdesbetises.com.mp4",
+						duration: 186,
+						poster: "assets/posterLePlouc.jpg",
+						thumbnails: {src:"assets/lePloucThumbs.jpg"},
+						format: 16/9
+					},
+				],
+				previousDefaultLabel = "No video to see on this side...",
+				nextDefaultLabel = "No more video..."
+
+			let 
+				currentVideoIndex = 0,
+				playlistMenuContent = ""
+
+			//Playlist Menu construction
+			playlist.forEach(function(el){
+				playlistMenuContent += "<li><span>"+el.title+"</span></li>"
 			})
-			document.querySelector('.playlistMenu').innerHTML = ulContent
+			document.querySelector('.playlistMenu').innerHTML = playlistMenuContent
+
+			//Set a click event listener for each line of the Playlist Menu
 			document.querySelectorAll('.playlistMenu li').forEach(function(li, id){
 				li.addEventListener('click', function(){
 					if(!this.classList.contains('active')){
+						//If the line is not active, we change the source
 						currentVideoIndex = id
 						setSrc()
 					}
 				})
 			})
+
+			//Global properties for the class
 			AmstramgramVideoPlayer.options({
 				appLabel: "Video Player",
 				playLabel: "Play",
@@ -233,47 +285,77 @@ function setSrc(){
 				volumeSliderLabel: "Volume Slider",
 				download: {label: "Download"},
 				fullscreen: {
-					label:{enter: "Go Fullscreen", exit: "Exit Fullscreen"}
+					label: {enter: "Go Fullscreen", exit: "Exit Fullscreen"}
 				},
 				next: {hidden: false},
 				previous: {hidden: false},
 				volumeButton:{
-					label:{mute: "Mute", exit: "Unmute"}
+					label: {mute: "Mute", exit: "Unmute"}
 				},
+				//Same volumeGroup as players 2 and 3 of the Basic page.
 				volumeGroup: 1
 			})
+
+			//We create our player
 			const player = new AmstramgramVideoPlayer(document.querySelector('video'),{
 				onInit: function(){
+					//When the player is ready, the main block "content" of the page 
+					//whose opacity was initialy set to 0 is transitioned to 1.
 					document.body.classList.add('ready');
-					player.on('next', function(){
+					//We set a click event listener for the Next and Previous buttons
+					this.on('next', function(){
 						currentVideoIndex++
 						setSrc()
 					})
-					player.on('previous', function(){
+					this.on('previous', function(){
 						currentVideoIndex--
 						setSrc()
 					})
 					setSrc()
 				}
 			})
+
+
 			function setSrc(){
+				//Reset the Playlist menu
 				if (document.querySelector('.playlistMenu li.active')) document.querySelector('.playlistMenu li.active').classList.remove('active')
-				const prevDisabled = (currentVideoIndex == 0),
-							nextDisabled = (currentVideoIndex == playlist.length - 1)
-							prevLabel = prevDisabled?previousDefaultLabel:playlist[currentVideoIndex-1].title,
-							nexLabel = nextDisabled?nextDefaultLabel:playlist[currentVideoIndex+1].title,
-							isPlaying = !player.paused
+
+				const 
+					//If it's the first video, we disable the Previous button
+					prevDisabled = (currentVideoIndex == 0),
+					//If it's the last video, we disable the Next button
+					nextDisabled = (currentVideoIndex == playlist.length - 1)
+					//If the Previous button is disabled, we give to its label the default value
+					//else its label is set to the previous video title.
+					prevLabel = prevDisabled?previousDefaultLabel:playlist[currentVideoIndex-1].title,
+					//If the Next button is disabled, we give to its label the default value
+					//else its label is set to the next video title.
+					nextLabel = nextDisabled?nextDefaultLabel:playlist[currentVideoIndex+1].title,
+					media = playlist[currentVideoIndex],
+					//Is the player playing ?
+					isPlaying = !player.paused,
+					//Set loop for Joyeuses Pâques
+					loop = (currentVideoIndex==2)?true:false
+				
+				//We set the source properties
 				player.src = {
-					src:playlist[currentVideoIndex].src,
-					duration:playlist[currentVideoIndex].duration,
-					poster:playlist[currentVideoIndex].poster,
-					thumbnails:playlist[currentVideoIndex].thumbnails,
-					format:playlist[currentVideoIndex].format,
-					previous:{label:prevLabel, disabled:prevDisabled},
-					next:{label:nexLabel, disabled:nextDisabled}
+					src: media.src,
+					duration: media.duration,
+					poster: media.poster,
+					thumbnails: media.thumbnails,
+					format: media.format,
+					previous: {label:prevLabel, disabled: prevDisabled},
+					next: {label: nextLabel, disabled: nextDisabled},
+					loop: loop
 				}
+
+
+
+				//Display the video title
 				document.querySelector('h3').innerHTML = playlist[currentVideoIndex].title
+				//Update the menu
 				document.querySelector('.playlistMenu li:nth-of-type('+(currentVideoIndex+1)+')').classList.add('active')
+				//If the player was playing before...
 				if (isPlaying) player.play()
 			}
 		</script>

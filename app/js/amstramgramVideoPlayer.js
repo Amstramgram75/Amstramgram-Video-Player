@@ -1843,7 +1843,7 @@ class AmstramgramVideoPlayer {
     AmstramgramVideoPlayer.players.push(this)
     
     if (params && typeof params.onInit === "function") {
-      setTimeout(function(){params.onInit(self)},0)
+      setTimeout(function(){params.onInit.call(self)},0)
     }
   }
 /************************************************

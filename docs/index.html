@@ -37,7 +37,8 @@
 					id="vid01"
 					src="https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4"
 					autoplay
-					muted>
+					muted
+					loop>
 				</video>
 			</div>
 			<p>First not so basic example with <b><i>autoplay</i></b>, <b><i>loop</i></b>, <b><i>muted</i></b>, <b><i>thumbnails</i></b> and <b><i>volumeForced</i></b> options.<br>
@@ -62,13 +63,14 @@
 </code>
 <code class="javascript">
 <h4>JAVASCRIPT</h4>
-AmstramgramVideoPlayer.options({poster:"assets/defaultPoster.jpg"})
 new AmstramgramVideoPlayer(document.querySelector('#vid01'), {
-	//Setting the path for the thumbnails source.
-	thumbnails:{src:"assets/castorsThumbs.jpg"},
+	//Thumbnails source path
+	thumbnails: {src: "assets/castorsThumbs.jpg"},
+	//Ignore the volume eventually stored in session storage
+	volumeForced: true,
 	//When the player is ready, the main block "content" of the page 
 	//whose opacity was initialy set to 0 is transitioned to 1.
-	onInit: function(){document.querySelector('.content').classList.add('ready')}
+	onInit: function(){document.body.classList.add('ready')}
 });
 </code>
 </pre><label for="code01">Code</label>
@@ -91,19 +93,33 @@ new AmstramgramVideoPlayer(document.querySelector('#vid01'), {
 <code class="javascript">
 <h4>JAVASCRIPT</h4>
 new AmstramgramVideoPlayer(document.querySelector('#vid02'), {
-	src:"https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
-	duration:327,
-	poster:"assets/francePoster.jpg",
-	videoVolumeOrientation:'horizontal',
-	download:{
-		hidden:true
+	//Video source path
+	src: "https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
+	//Video duration
+	duration: 327,
+	//Poster source path
+	poster: "assets/francePoster.jpg",
+	//Set the volume display to horizontal orientation
+	videoVolumeOrientation: "horizontal",
+	//Next button properties
+	next:{
+		label: "Un test", 
+		disabled: true, 
+		hidden: false
 	},
+	//Download button properties
+	download:{
+		hidden: true
+	},
+	//Fullscreen button properties
 	fullscreen:{
 		label:{
 			enter: "Celá obrazovka",
 			exit: "Běžné zobrazení"
 		}
 	},
+	//Same volumeGroup as player 3 :
+	//Volumes of players 2 and 3 are linked
 	volumeGroup: 1
 });
 </code>
@@ -121,8 +137,8 @@ new AmstramgramVideoPlayer(document.querySelector('#vid02'), {
 				In this particular case, because space avalaible for the time rail is inferior at 600 pixels, the compact UI is used (for further details, have a look at the <b><i>railMinWidthForNormalUI</i></b> option).<br>
 				If you click to play, you may observe how the player height will smoothly grow to accomodate the actual video format.<br>
 				You should also notice that the total duration displayed changes from 2 minutes (the default value) to 40 seconds as soon as metadata are loaded.<br>
-				Last but not least, you can check how the volumes of the players 2 and 3 are linked : they both belong to the same <b><i>volumeGroup</i></b>.<br>
-				If you modify the volume level and refresh the page, this last level will be restore.  
+				Last but not least, you can check how the volume levels of the players 2 and 3 are linked&nbsp;: they both belong to the same <b><i>volumeGroup</i></b>.<br>
+				If you modify the volume level and refresh the page, this last level will be applied to the players 2 and 3.  
 			</p>
 			<div class="codeContainer">
 				<input type="checkbox" id="code03" class="inputCode" autocomplete="off"/>
@@ -134,8 +150,12 @@ new AmstramgramVideoPlayer(document.querySelector('#vid02'), {
 <code class="javascript">
 <h4>JAVASCRIPT</h4>
 new AmstramgramVideoPlayer(document.querySelector('#vid03'), {
-	src:"https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
-	videoVolumeOrientation:'horizontal',
+	//Video source path
+	src: "https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
+	//Set the volume display to horizontal orientation
+	videoVolumeOrientation: "horizontal",
+	//Same volumeGroup as player 2 :
+	//Volumes of players 2 and 3 are linked
 	volumeGroup: 1
 });
 </code>
@@ -155,35 +175,64 @@ new AmstramgramVideoPlayer(document.querySelector('#vid03'), {
 			hljs.configure({tabReplace: '   '}); // 2 spaces
 			//Set highlight clas for the word AmstramgramVideoPlayer
 			hljs.getLanguage('javascript').k.amst = ' AmstramgramVideoPlayer';
-			//Basic
+			
+			/*
+			Basic 1
+			*/
 			new AmstramgramVideoPlayer(document.querySelector('#vid01'), {
-				//Setting the path for the thumbnails source.
-				thumbnails:{src:"assets/castorsThumbs.jpg"},
-				volumeForced:true,
+				//Thumbnails source path
+				thumbnails: {src: "assets/castorsThumbs.jpg"},
+				//Ignore the volume eventually stored in session storage
+				volumeForced: true,
 				//When the player is ready, the main block "content" of the page 
 				//whose opacity was initialy set to 0 is transitioned to 1.
 				onInit: function(){document.body.classList.add('ready')}
 			});
+
+			/*
+			Basic 2
+			*/
 			new AmstramgramVideoPlayer(document.querySelector('#vid02'), {
-				src:"https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
-				duration:327,
-				poster:"assets/francePoster.jpg",
-				videoVolumeOrientation:'horizontal',
-				next:{label:"Un test", disabled:true, hidden:false},
-				download:{
-					hidden:true
+				//Video source path
+				src: "https://jefaisdesbetises.net/medias/France-jefaisdesbetises.com.mp4",
+				//Video duration
+				duration: 327,
+				//Poster source path
+				poster: "assets/francePoster.jpg",
+				//Set the volume display to horizontal orientation
+				videoVolumeOrientation: "horizontal",
+				//Next button properties
+				next:{
+					label: "Un test", 
+					disabled: true, 
+					hidden: false
 				},
+				//Download button properties
+				download:{
+					hidden: true
+				},
+				//Fullscreen button properties
 				fullscreen:{
 					label:{
 						enter: "Celá obrazovka",
 						exit: "Běžné zobrazení"
 					}
 				},
+				//Same volumeGroup as player 3 :
+				//Volumes of players 2 and 3 are linked
 				volumeGroup: 1
 			});
+			
+			/*
+			Basic 3
+			*/
 			new AmstramgramVideoPlayer(document.querySelector('#vid03'), {
-				src:"https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
-				videoVolumeOrientation:'horizontal',
+				//Video source path
+				src: "https://jefaisdesbetises.net/medias/JoyeusesPaques-jefaisdesbetises.com.mp4",
+				//Set the volume display to horizontal orientation
+				videoVolumeOrientation: "horizontal",
+				//Same volumeGroup as player 2 :
+				//Volumes of players 2 and 3 are linked
 				volumeGroup: 1
 			});
 		</script>
