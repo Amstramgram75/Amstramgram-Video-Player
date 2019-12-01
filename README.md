@@ -34,7 +34,7 @@ Simple, elegant, ligthweight although powerfull and versatile HTML5 video player
 * All buttons titles configurables
 * Display of current time and total duration
 * __Sass__ so you can include in your build processes
-* Around 13.52KB gzipped (js + css)
+* Around 13.15 Ko gzipped (js + css)
 
 __BUT no subtitles, Youtube or Vimeo support.__
 ___
