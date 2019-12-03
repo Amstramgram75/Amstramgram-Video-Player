@@ -144,7 +144,8 @@ export default [
           {src: `dist/esm/${name}Polyfill*`, dest: 'dist/cjs'},
           {src: `dist/esm/${name}Polyfill*`, dest: 'dist/iife'},
           {src: `dist/iife/*`, dest: 'docs/js'},
-          {src: `dist/css/${name}*.css`, dest: 'docs/css'}
+          {src: `dist/css/${name}*.css`, dest: 'docs/css'},
+          {src: `README.md`, dest: 'dist/'}
         ]
       })
     ]

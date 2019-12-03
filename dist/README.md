@@ -33,7 +33,10 @@ Simple, elegant, ligthweight although powerfull and versatile HTML5 video player
 * Previous, play/pause, next, fullscreen, download buttons
 * All buttons titles configurables
 * Display of current time and total duration
-* Around 13.52KB gzipped (js + css)
+* __Sass__ so you can include in your build processes
+* Around 13.15 Ko gzipped (js + css)
+
+__BUT no subtitles, Youtube or Vimeo support.__
 ___
 
 ## Installation
@@ -85,26 +88,43 @@ new AmstramgramVideoPlayer(document.querySelector('video'))
 ___
 ## Customization
 
-You can pass an object with custom options as the second parameter.
+Before you create an instance, you can override the class default options :
+```js
+AmstramgramVideoPlayer.options({
+  // Custom options
+});
+```
+When creating an instance, you can pass an object with custom options as the second parameter.
 
 ```js
 new AmstramgramVideoPlayer(document.querySelector('video'),{
-    // Custom options
+  // Custom options
 });
 ```
-
+When setting the source, you can pass a simple string giving the video file path or an object including the source path and several others options as duration, poster, thumbnails and so on...
+```js
+const player = new AmstramgramVideoPlayer(document.querySelector('video'));
+player.src = {
+  src: 'video file path',
+  duration: 'duration of the video',
+  poster: 'poster path',
+  thumbnails: 'thumbnails path',
+  ...
+}
+```
+___
 __:small_orange_diamond: <span id="options0">The following options can be set either by overriding the default options, when creating the instance or when updating the source :<span>__  
 ___
-:black_medium_small_square: <ins>__autoplay__</ins>&ensp;&ensp;{Boolean}  
+:black_medium_small_square: __autoplay__&ensp;&ensp;{Boolean}  
 Default : `false`  
 If `true`, the attribute `autoplay` is added to the `<video>` tag.<br>
-__*Please be aware that most of the browsers block this functionality if volume is not muted.</span>*__  
+__*Please be aware that most of the browsers block this functionality if volume is not muted.*__  
 ___
-:black_medium_small_square: <ins>__crossorigin__</ins>&ensp;&ensp;{String} `"anonymous"` | `"use-credentials"`  
+:black_medium_small_square: __crossorigin__&ensp;&ensp;{String} `"anonymous"` | `"use-credentials"`  
 Default : `"anonymous"`  
 Value of the attribute `crossorigin` for the `<video>` tag.
 ___
-:black_medium_small_square: <ins>__download__</ins>&ensp;&ensp;{Object}  
+:black_medium_small_square: __download__&ensp;&ensp;{Object}  
 Default :  
 `{`   
 &ensp;&ensp;`label: "Télécharger",`  
@@ -113,17 +133,17 @@ Default :
 `}`  
 _Donwload_ button properties.
 ___
-:black_medium_small_square: <ins>__duration__</ins>&ensp;&ensp;{Integer}  
+:black_medium_small_square: __duration__&ensp;&ensp;{Integer}  
 Default : 120  
 Video duration in __seconds__.  
 Updated on `loadedmetadata` event.
 ___
-:black_medium_small_square: <ins>__format__</ins>&ensp;&ensp;{Number}  
+:black_medium_small_square: __format__&ensp;&ensp;{Number}  
 Default : 16/9  
 Video format ratio.  
 Updated on `loadedmetadata` event.
 ___
-:black_medium_small_square: <ins>__fullscreen__</ins>&ensp;&ensp;{Object}  
+:black_medium_small_square: __fullscreen__&ensp;&ensp;{Object}  
 Default :  
 `{`   
 &ensp;&ensp;`label:`   
@@ -136,11 +156,11 @@ Default :
 `}`  
 _Fullscreen_ button properties.
 ___
-:black_medium_small_square: <ins>__loop__</ins>&ensp;&ensp;{Boolean}   
+:black_medium_small_square: __loop__&ensp;&ensp;{Boolean}   
 Default : `false`  
 Attribute added to the `<video>` tag.
 ___
-:black_medium_small_square: <ins>__next__</ins>&ensp;&ensp;{Object}  
+:black_medium_small_square: __next__&ensp;&ensp;{Object}  
 Default :  
 `{`   
 &ensp;&ensp;`label: "Suivant",`  
@@ -149,19 +169,19 @@ Default :
 `}`  
 _Next_ button properties.
 ___
-:black_medium_small_square: <ins>__playsinline__</ins>&ensp;&ensp;{Boolean}   
+:black_medium_small_square: __playsinline__&ensp;&ensp;{Boolean}   
 Default : `true`  
-When `true`, the attributes [playsinline](https://webkit.org/blog/6784/new-video-policies-for-ios/ "New <video> Policies for iOS") and [webkit-playsinline](https://webkit.org/blog/6784/new-video-policies-for-ios/ "New <video> Policies for iOS") are added to the `<video>` tag.[I'm an inline-style link with title]
+When `true`, the attributes [playsinline](https://webkit.org/blog/6784/new-video-policies-for-ios/ "New <video> Policies for iOS") and [webkit-playsinline](https://webkit.org/blog/6784/new-video-policies-for-ios/ "New <video> Policies for iOS") are added to the `<video>` tag.
 ___
-:black_medium_small_square: <ins>__poster__</ins>&ensp;&ensp;{String}   
+:black_medium_small_square: __poster__&ensp;&ensp;{String}   
 Default : `undefined`  
 Path of the image used as poster.
 ___
-:black_medium_small_square: <ins>__preload__</ins>&ensp;&ensp;{String} `"auto"` | `"metadata"` | `"none"` | `"preload"`  
+:black_medium_small_square: __preload__&ensp;&ensp;{String} `"auto"` | `"metadata"` | `"none"` | `"preload"`  
 Default : `"none"`  
 Value of the attribute `preload` for the `<video>` tag.
 ___
-:black_medium_small_square: <ins>__previous__</ins>&ensp;&ensp;{Object}  
+:black_medium_small_square: __previous__&ensp;&ensp;{Object}  
 Default :  
 `{`   
 &ensp;&ensp;`label: "Précédent",`  
@@ -170,24 +190,24 @@ Default :
 `}`  
 _Next_ button properties.
 ___
-:black_medium_small_square: <ins>__skipTime__</ins>&ensp;&ensp;{Number} or {String}  
+:black_medium_small_square: __skipTime__&ensp;&ensp;{Number} or {String}  
 Default : `"1%"`  
 Value in seconds or percent of the total duration for the time skip aplied when left or right arrows are pressed.
 ___
-:black_medium_small_square: <ins>__thumbnails__</ins>&ensp;&ensp;{Object}  
+:black_medium_small_square: __thumbnails__&ensp;&ensp;{Object}  
 Default :  
 `{`   
 &ensp;&ensp;`src: undefined,`  
 &ensp;&ensp;`number: 100,`  
 `}`  
-`src` defines the path to the image used for the preview thumbnails and `number` gives the number of thumbnails included.  
+`src` is a string defining the path of the image used for the preview thumbnails and `number` gives the number of thumbnails included.  
 This number makes it possible to deduce the width of a thumbnail from the natural width property of the image. Then, the height is simply deduce from the video ratio.  
 ___
-:black_medium_small_square: <ins>__volume__</ins>&ensp;&ensp;{Number}  
+:black_medium_small_square: __volume__&ensp;&ensp;{Number}  
 Default : `0.8` on desktop, `1` on mobile and tablet.  
 Volume of the video.
 ___
-:black_medium_small_square: <ins>__volumeButton__</ins>&ensp;&ensp;{Object}  
+:black_medium_small_square: __volumeButton__&ensp;&ensp;{Object}  
 Default :  
 `{`   
 &ensp;&ensp;`label:`   
@@ -200,7 +220,7 @@ Default :
 `}`  
 _Volume_ button properties.
 ___
-:black_medium_small_square: <ins>__volumeGroup__</ins>&ensp;&ensp;{Integer}  
+:black_medium_small_square: __volumeGroup__&ensp;&ensp;{Integer}  
 Default : `0`  
 More details here.
 ___
@@ -209,15 +229,15 @@ ___
 
 __:small_orange_diamond: The following options can be set either by overriding the default options or when creating the instance :__
 ___
-:black_medium_small_square: <ins>__hideControlsDelay__</ins>&ensp;&ensp;{Integer}  
+:black_medium_small_square: __hideControlsDelay__&ensp;&ensp;{Integer}  
 Default : `5000`  
 Delay in ms between any interaction with the UI and the hidding of the controls.
 ___
-:black_medium_small_square: <ins>__videoVolumeOrientation__</ins>&ensp;&ensp;{String} `"horizontal"` | `"vertical"`  
+:black_medium_small_square: __videoVolumeOrientation__&ensp;&ensp;{String} `"horizontal"` | `"vertical"`  
 Default : `"vertical"`  
 If `"horizontal"`, the volume slider is horizontally displayed. In all other cases, the slider is vertical.
 ___
-:black_medium_small_square: <ins>__railMinWidthForNormalUI__</ins>&ensp;&ensp;{Integer}  
+:black_medium_small_square: __railMinWidthForNormalUI__&ensp;&ensp;{Integer}  
 Default : `600`  
 Minimal width in pixels available for the time slider in the normal UI. If the available space is inferior to this number, the compact UI is displayed.
 ___
@@ -226,25 +246,45 @@ ___
 
 __:small_orange_diamond: The following options can be set by overriding the default options :__
 ___
-:black_medium_small_square: <ins>__appLabel__</ins>&ensp;&ensp;{String}  
+:black_medium_small_square: __appLabel__&ensp;&ensp;{String}  
 Default : `"Lecteur vidéo"`  
 Text given to the player `aria-label`.  
 ___
-:black_medium_small_square: <ins>__pauseLabel__</ins>&ensp;&ensp;{String}  
+:black_medium_small_square: __pauseLabel__&ensp;&ensp;{String}  
 Default : `"Lecture"`  
 Text given to the `title` and the `aria-label` of the _Pause_ button.  
 ___
-:black_medium_small_square: <ins>__playLabel__</ins>&ensp;&ensp;{String}  
+:black_medium_small_square: __playLabel__&ensp;&ensp;{String}  
 Default : `"Pause"`  
 Text given to the `title` and the `aria-label` of the _Play_ button.  
 ___
-:black_medium_small_square: <ins>__volumeHelpLabel__</ins>&ensp;&ensp;{String}  
+:black_medium_small_square: __volumeHelpLabel__&ensp;&ensp;{String}  
 Default : `"Utilisez les flèches Haut/Bas du clavier pour augmenter ou diminuer le volume"`  
 Text given to the volume slider `title`.  
 ___
-:black_medium_small_square: <ins>__volumeSliderLabel__</ins>&ensp;&ensp;{String}  
+:black_medium_small_square: __volumeSliderLabel__&ensp;&ensp;{String}  
 Default : `"Potentiomètre de volume"`  
 Text given to the volume slider `aria-label`.  
+___
+___
+___
+
+__:small_orange_diamond: The following option can be set when creating the instance :__
+___
+:black_medium_small_square: __onInit__&ensp;&ensp;{function}  
+Function called when the instance is initialised.  
+___
+___
+___
+
+__:small_orange_diamond: Some options can be set directly in the `video` tag :__
+___
+autoplay, crossorigin, height, loop, muted, src, playsinline, poster, preload, width.
+```html
+<video src="the video path" autoplay loop muted poster="the poster path"></video>
+```
+If specified, the attributes `width` an `height` are used to calculate the video ratio.
+Those options are overrided by the options set when initialising the instance.
 ___
 ___
 ___
@@ -252,40 +292,44 @@ ___
 ## API
 ___
 ### Setters
-#### src(`source`)
-@param `source` is either a string pointing to the video file source, either an object of the form :  
+#### src = `source`
+`source` is either a string pointing to the video file source, either an object of the form :  
 {  
 &ensp;&ensp;src: {String}, giving the video file path - __required__,  
 &ensp;&ensp;and any of the options listed [above](#options0)  
 }
 ___
-#### currentTime(`time`)
-@param `time` {Number}  
+#### currentTime = `time`
+`time` {Number}  
 Set the playback head position to the specified value, expressed in seconds. 
 ___
-#### volume(`vol`)
-@param `vol` {Number between 0 and 1}  
+#### volume = `vol`
+`vol` {Number between 0 and 1}  
 Set the volume. 
 ___
 ___
 ### Getters
-####  src()  
+####  src 
 {String}  
 return the video file path.
 ___
-#### currentTime()
+#### currentTime
 {Number}  
 return the current playback head position in seconds.
 ___
-#### duration()
+#### duration
 {Number}  
 return the video duration in seconds.
 ___
-#### paused()
+#### media
+{HTMLVideoElement}  
+return the HTML `video` element of the player.
+___
+#### paused
 {Boolean}  
 return `true` if the video is paused, `false` if it's playing.
 ___
-#### volume()
+#### volume
 {Number}  
 return the current volume of the video. 0 is muted, 1 is max.
 ___
@@ -322,9 +366,9 @@ ___
 Set the _previous_ button properties.  
 `opt` is an object of the form :  
 {  
-&ensp;&ensp;`label: {String},`  _<span style="color:green;font-size:0.9em;">// passed to the title attribute of the button.</span>_  
-&ensp;&ensp;`hidden: {Boolean},`  _<span style="color:green;font-size:0.9em;">// if true, the button is hidden.</span>_  
-&ensp;&ensp;`disabled: {Boolean},`  _<span style="color:green;font-size:0.9em;">// if true, the button is disabled (opacity to 0.5; click without effect).</span>_  
+&ensp;&ensp;`label: {String},`  _// passed to the title attribute of the button._  
+&ensp;&ensp;`hidden: {Boolean},`  _// if true, the button is hidden._  
+&ensp;&ensp;`disabled: {Boolean},`  _// if true, the button is disabled (opacity to 0.5; click without effect)._  
 }
 ___
 #### next(`opt`)
@@ -341,11 +385,11 @@ Set the _fullscreen_ button properties.
 {  
 &ensp;&ensp;`{label:`  
 &ensp;&ensp;&ensp;&ensp;`{`  
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`enter: {String},` _<span style="color:green;font-size:0.9em;">// passed to the title attribute of the button when fullscreen mode is off.</span>_  
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`exit: {String},` _<span style="color:green;font-size:0.9em;">// passed to the title attribute of the button when fullscreen mode is on.</span>_   
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`enter: {String},` _// passed to the title attribute of the button when fullscreen mode is off._  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`exit: {String},` _// passed to the title attribute of the button when fullscreen mode is on._   
 &ensp;&ensp;&ensp;&ensp;`}`  
-&ensp;&ensp;`hidden: {Boolean},` _<span style="color:green;font-size:0.9em;">// if true, the button is hidden.</span>_  
-&ensp;&ensp;`disabled: {Boolean},`  _<span style="color:green;font-size:0.9em;">// if true, the button is disabled (opacity to 0.5; click without effect).</span>_  
+&ensp;&ensp;`hidden: {Boolean},` _// if true, the button is hidden._  
+&ensp;&ensp;`disabled: {Boolean},`  _// if true, the button is disabled (opacity to 0.5; click without effect)._  
 }
 ___
 #### volumeButton(`opt`)
@@ -354,12 +398,56 @@ Set the _volume_ button properties.
 {  
 &ensp;&ensp;`{label:`  
 &ensp;&ensp;&ensp;&ensp;`{`  
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`mute: {String},` _<span style="color:green;font-size:0.9em;">// passed to the title attribute of the button when volume is > 0.</span>_  
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`exit: {String},` _<span style="color:green;font-size:0.9em;">// passed to the title attribute of the button when audio is muted.</span>_   
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`mute: {String},` _// passed to the title attribute of the button when volume is > 0._  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;`exit: {String},` _// passed to the title attribute of the button when audio is muted._   
 &ensp;&ensp;&ensp;&ensp;`}`  
-&ensp;&ensp;`hidden: {Boolean},` _<span style="color:green;font-size:0.9em;">// if true, the button is hidden.</span>_  
-&ensp;&ensp;`disabled: {Boolean},`  _<span style="color:green;font-size:0.9em;">// if true, the button is disabled (opacity to 0.5; click without effect).</span>_  
+&ensp;&ensp;`hidden: {Boolean},` _// if true, the button is hidden._  
+&ensp;&ensp;`disabled: {Boolean},`  _// if true, the button is disabled (opacity to 0.5; click without effect)._  
 }
+___
+___
+### Global properties
+#### AmstramgramVideoPlayer.currentPlayer
+Return the playing instance if there is one.
+Return `undefined` if no instance is playing,
+___
+#### AmstramgramVideoPlayer.players
+Return an array ot all the created instances.
+___
+___
+### Events
+You can access to all media events by the _media_ getter of the instance.
+```js
+const player = new AmstramgramVideoPlayer(document.querySelector('video'));
+player.media.addEventListener('play', function(){
+    console.log('Media is playing')
+  }
+);
+```
+#### on("previous", callback)
+`callback` is a function called when a click event occurs on the _Previous_ button
+```js
+new AmstramgramVideoPlayer(document.querySelector('video'),{
+  onInit: function(){
+    this.on('previous', function(){
+        console.log('Click event on Previous button')
+      }
+    );
+  }
+});
+```
+___
+#### on("next", callback)
+`callback` is a function called when a click event occurs on the _Next_ button
+```js
+const player = new AmstramgramVideoPlayer(document.querySelector('video'));
+player.on('next', function(){
+    console.log('Click detected on Next button')
+  }
+);
+```
+___
+___
 ___
 ## Compatibility
 All modern browers on desktop, Android and iOS are supported.  

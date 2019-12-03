@@ -1,8 +1,8 @@
 /*
 amstramgramVideoPlayer.js
+@version : 1.0.0
 @licence : MIT
 @author : Amstramgram
-@version : 1.0.0
 @url : https://github.com/Amstramgram75/Amstramgram-Video-Player
 */
 var AmstramgramVideoPlayer = (function () {
@@ -695,7 +695,8 @@ var AmstramgramVideoPlayer = (function () {
       el.parentNode.insertBefore(wrapper, el); //Pour éviter tout problème sous Androïd, on reset la source de l'élément original
       //avant de le supprimer
 
-      el.removeAttribute('src');
+      el.setAttribute('src', ''); // el.removeAttribute('src')
+
       el.parentNode.removeChild(el);
       /************************************************
        *                                              *
@@ -774,6 +775,7 @@ var AmstramgramVideoPlayer = (function () {
       isBuffering = false,
           //setTimeout contrôlant la disparition de la barre de contrôle
       hideControlsTimeOut,
+          controlsArehidden = false,
           //Largeur de l'élément seeking = $('.amst__seeking'), actualisée au premier mouvement de la souris sur la barre temporelle
       //Necessaire pour positionner l'élément ainsi que son background
       seekingWidth,
@@ -814,7 +816,6 @@ var AmstramgramVideoPlayer = (function () {
           }, 50);
         }); //Si une autre instance est en cours de lecture, on la reset
 
-        console.log(AmstramgramVideoPlayer.currentPlayer);
         if (AmstramgramVideoPlayer.currentPlayer && AmstramgramVideoPlayer.currentPlayer != self) AmstramgramVideoPlayer.currentPlayer.reset(); //On déclare l'instance comme lecteur courant
 
         AmstramgramVideoPlayer.currentPlayer = self;
@@ -877,7 +878,6 @@ var AmstramgramVideoPlayer = (function () {
        ************************************************/
 
       function _reset() {
-        console.log('reset');
         /*La fonction est appelée si une autre instance passe en lecture
         et que le présent lecteur avait auparavant été lancé.
         Elle assure le reset complet de la source et le passage de preload en none
@@ -887,7 +887,6 @@ var AmstramgramVideoPlayer = (function () {
         et on l'affiche dans un canvas à la place du poster.
         */
         //Dimensionnement du canvas
-
         layerPosterCanvas.width = media.videoWidth;
         layerPosterCanvas.height = media.videoHeight; //Copie de l'image dans le canvas
 
@@ -949,6 +948,7 @@ var AmstramgramVideoPlayer = (function () {
           //Sinon, on cache...
           container.focus();
           controls.style[transformPrefix] = 'translateX(-50%) scaleY(0)';
+          controlsArehidden = true;
         }
       } //On écoute le custom event 'amstEvent__hideControls' généré par la méthode hideControls()
 
@@ -967,7 +967,8 @@ var AmstramgramVideoPlayer = (function () {
       function _showControls() {
         //On annule l'éventuelle programmation en cours
         if (hideControlsTimeOut) clearTimeout(hideControlsTimeOut);
-        controls.style[transformPrefix] = ''; //Si la vidéo est en lecture, on programme la disparition de la barre
+        controls.style[transformPrefix] = '';
+        controlsArehidden = false; //Si la vidéo est en lecture, on programme la disparition de la barre
 
         if (!media.paused) _hideControls({
           detail: {
@@ -1515,7 +1516,7 @@ var AmstramgramVideoPlayer = (function () {
             startTime = new Date().getTime(),
             //Durée maximale, exprimée en ms, comprise entre touchstart et touchend pour que 
         //l'évènement résultant soit considéré comme un click si aucun touchmove n'a été détecté.
-        maxDelay = 800,
+        maxDelay = 200,
             //Position temporelle exprimée en pourcentage par rapport à la durée du média
         timeRatio = media.duration ? media.currentTime / media.duration : undefined;
         var startX = e.changedTouches[0].pageX,
@@ -1541,13 +1542,21 @@ var AmstramgramVideoPlayer = (function () {
         } : false);
 
         function touchMove(e) {
-          //Si la vidéo n'est pas chargée et n'a donc pas de durée définie
+          var moveThreshold = 5; //Si la vidéo n'est pas chargée et n'a donc pas de durée définie
           //Ou si la vidéo est en pause et qu'on a détecté un swipe vertical,
           //on ne fait rien.
           //Ainsi, s'il s'agit d'un swipe vertical, on ne bloque pas le scroll.
-          if (!media.duration || self.paused && horizontalMove < -5) return; //Dans tous les autres case, on bloque le scroll éventuel.
 
-          e.preventDefault(); //Mesure des distances
+          if (!media.duration || self.paused && horizontalMove < -moveThreshold) return; //Si le swipe vertical en cours a provoqué un changement d'état de la barre de controle,
+          //on bloque le scroll éventuel et on sort.
+
+          if (toggleControls) {
+            e.preventDefault();
+            return;
+          } //Si on n'a pas encore détecté de swipe vertical
+
+
+          if (horizontalMove > -moveThreshold) e.preventDefault(); //Mesure des distances
 
           distX = e.changedTouches[0].pageX - startX;
           distY = e.changedTouches[0].pageY - startY; //Mise à jour de horizontalMove en fonction du mouvement détecté
@@ -1560,7 +1569,7 @@ var AmstramgramVideoPlayer = (function () {
             horizontalMove--;
           }
 
-          if (horizontalMove >= 5) {
+          if (horizontalMove >= moveThreshold) {
             //Si le mouvement horizontal se confirme
             seekingRatio = Math.min(Math.max(timeRatio + distX / playerWidth, 0), 0.999);
             if (!seekingTouchWidth) seekingTouchWidth = seekingTouch.offsetWidth;
@@ -1576,7 +1585,7 @@ var AmstramgramVideoPlayer = (function () {
             $('.amst__seeking-touch-cache').style[transformPrefix] = "scaleX(".concat(seekingRatio, ")");
             $('.amst__seeking-touch > span').innerHTML = secondsToTimeCode(media.duration * seekingRatio, media.duration > 3600);
 
-            if (horizontalMove == 5) {
+            if (horizontalMove == moveThreshold) {
               //On affiche le layer seeking
               layerSeekingTouch.classList.add('amst__show'); //on cache la barre de contrôle sans délai et ce même si la vidéo est en pause
 
@@ -1589,19 +1598,25 @@ var AmstramgramVideoPlayer = (function () {
             }
           }
 
-          if (-5 == horizontalMove) {
+          if (horizontalMove == -moveThreshold) {
             //Si le mouvement vertical se confirme
-            toggleControls = true;
-
             if (distY < 0) {
-              _showControls();
+              if (controlsArehidden) {
+                _showControls();
+
+                toggleControls = true;
+              }
             } else {
-              _hideControls();
+              if (!controlsArehidden) {
+                _hideControls();
+
+                toggleControls = true;
+              }
             }
           }
         }
 
-        function touchEnd() {
+        function touchEnd(e) {
           if (seekingRatio != undefined) {
             //Si seeking et donc swipe horizontal
             //On place la tête de lecture au temps résultant
@@ -1612,8 +1627,8 @@ var AmstramgramVideoPlayer = (function () {
             _showControls();
           } else if (!toggleControls) {
             //Si aucun mouvement n'a été détecté
-            //Si le touchend intervient avant le délai maximum défini par maxDelay
             if (maxDelay > new Date().getTime() - startTime) {
+              //Si le touchend intervient avant le délai maximum défini par maxDelay
               //On bascule entre pause et lecture
               self.togglePlayPause();
             }
@@ -2168,7 +2183,7 @@ var AmstramgramVideoPlayer = (function () {
 
       if (params && typeof params.onInit === "function") {
         setTimeout(function () {
-          params.onInit(self);
+          params.onInit.call(self);
         }, 0);
       }
     }
