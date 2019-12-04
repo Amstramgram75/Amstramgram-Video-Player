@@ -32,10 +32,16 @@ export default [
     plugins: [
       sass({
         output: `dist/css/${name}.css`,
-        processor: css => postcss()
+        processor: css => postcss([postcssBanner({banner: cssBanner})])
           .process(css)
           .then(result => result.css)
       }),
+      sass({
+        output: `dist/css/${name}.min.css`,
+        processor: css => postcss([cssnano, postcssBanner({banner: cssBannerMin})])
+          .process(css)
+          .then(result => result.css)
+      }),    
       copy({
         targets: [
           {src: 'app/css/*', dest: 'dist/css'},
@@ -52,13 +58,10 @@ export default [
       banner: bannerMin
     },
     plugins: [
-      sass({
-        output: `dist/css/${name}.min.css`,
-        processor: css => postcss([cssnano, postcssBanner({banner: cssBannerMin})])
-          .process(css)
-          .then(result => result.css)
-      }),    
-      terser(),
+      ignoreImport({
+        extensions: ['.scss', '.css']
+      }),
+      terser()
     ]
   },
   {
