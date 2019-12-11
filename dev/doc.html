@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="author" content="onfaitdessites.fr">
+		<link rel="shortcut icon" href="#" />
+		<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0">
+		<script>
+			if (typeof Object.assign !== 'function' || !Array.from || !Array.prototype.includes || typeof window.CustomEvent !== "function") {
+				var d = document,
+						s = d.createElement('script');
+				s.async = "false";
+				s.src = "js/amstramgramVideoPlayerPolyfill.js";
+				d.head.appendChild(s);
+			} 
+		</script>
+		<style>body{background:#000;}header,.content{opacity:0;}</style>
+	</head>
+	<body>
+		<header class="header">
+			<input class="menu-btn" type="checkbox" id="menu-btn" autocomplete="off"/>
+			<a href="https://github.com/Amstramgram75/Amstramgram-Video-Player" class="logo">Amstramgram Video Player</a>
+			<ul class="menu">
+				<li><a href="index.html">Basic</a></li>
+				<li><a href="playlist.html">PlayList</a></li>
+				<li><a href="thumbnails.html">Thumbnails</a></li>
+				<li class="active"><a href="doc.html">Doc</a></li>
+			</ul>
+			<label class="menu-icon" for="menu-btn"></label>
+		</header>
+		<div class="content">
+			<h2>Documentation</h2>
+			<h2>As soon as possible</h2>
+		</div>
+		<link rel="stylesheet" href="css/main.css">
+		<link rel='stylesheet' href="css/amstramgramVideoPlayer.css">
+		<script src="js/highlight.pack.js"></script>
+		<script src="js/amstramgramVideoPlayer.js"></script>
+		<script>
+			//Highlight.js initialisation
+			hljs.initHighlightingOnLoad();
+			hljs.configure({tabReplace: '   '}); // 2 spaces
+			hljs.getLanguage('javascript').k.amst = ' AmstramgramVideoPlayer';
+			document.body.classList.add('ready')
+		</script>
+	</body>
+</html>

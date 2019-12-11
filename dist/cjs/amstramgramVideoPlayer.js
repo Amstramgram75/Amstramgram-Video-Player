@@ -7,77 +7,6 @@ amstramgramVideoPlayer.js
 */
 'use strict';
 
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
-}
-
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-
 /*TODO :
   Menu contextuel
   Tuto thumnails
@@ -311,23 +240,23 @@ function _nonIterableSpread() {
  *                                              *
  ************************************************/
 
-var w = window,
-    d = document,
-    //Définition du type de pointeur
+const w = window,
+      d = document,
+      //Définition du type de pointeur
 //Si PointerEvent est détecté, le type vaut 'pointer'
 //Sinon, si TouchEvent est détecté, le type vaut 'touch' et il y a fort à parier qu'on soit sur iOS
 //Enfin, si jamais PointerEvent et TouchEvent ne sont pas détectés, le type vaut 'mouse'
 myPointerType = w.PointerEvent ? 'pointer' : w.TouchEvent ? 'touch' : 'mouse',
-    //On en déduit le nom des évènements correspondants
+      //On en déduit le nom des évènements correspondants
 myPointerEnter = myPointerType == 'touch' ? 'none' : myPointerType + 'enter',
-    myPointerLeave = myPointerType == 'touch' ? 'none' : myPointerType + 'leave',
-    myPointerDown = myPointerType == 'touch' ? 'touchstart' : myPointerType + 'down',
-    myPointerUp = myPointerType == 'touch' ? 'touchend' : myPointerType + 'up',
-    myPointerMove = myPointerType + 'move',
-    //Détection de l'user agent pour savoir si on est sur mobile
+      myPointerLeave = myPointerType == 'touch' ? 'none' : myPointerType + 'leave',
+      myPointerDown = myPointerType == 'touch' ? 'touchstart' : myPointerType + 'down',
+      myPointerUp = myPointerType == 'touch' ? 'touchend' : myPointerType + 'up',
+      myPointerMove = myPointerType + 'move',
+      //Détection de l'user agent pour savoir si on est sur mobile
 //Dans ce cas, on ne crée pas de potentiomètre de volume
 UA = w.navigator.userAgent.toLowerCase(),
-    IS_MOBILE = /ipad|iphone|ipod/i.test(UA) && !w.MSStream || /android/i.test(UA); //Edge ne comprend toujours pas getAttributeNames (IE11 non plus, bien évidemment)
+      IS_MOBILE = /ipad|iphone|ipod/i.test(UA) && !w.MSStream || /android/i.test(UA); //Edge ne comprend toujours pas getAttributeNames (IE11 non plus, bien évidemment)
 
 if (Element.prototype.getAttributeNames == undefined) {
   Element.prototype.getAttributeNames = function () {
@@ -344,9 +273,9 @@ if (Element.prototype.getAttributeNames == undefined) {
 } //Détection du support de la fonctionnalité sessionStorage
 
 
-var storage = function () {
+const storage = function () {
   try {
-    var x = '__storage_test__';
+    let x = '__storage_test__';
     w.sessionStorage.setItem(x, x);
     w.sessionStorage.removeItem(x);
     return w.sessionStorage;
@@ -368,14 +297,14 @@ On mesure les largeurs pour des temps :
 */
 
 
-var timeWidth, longTimeWidth;
+let timeWidth, longTimeWidth;
 
 if (storage && storage.getItem('amst_timeWidth')) {
   timeWidth = storage.getItem('amst_timeWidth');
   longTimeWidth = storage.getItem('amst_longTimeWidth');
 } else {
-  var measureTime = d.createElement('div'),
-      measureLongTime = d.createElement('div'); //La class amst__measureTime reprend les mêmes propriétés graphiques que la class amst__time
+  const measureTime = d.createElement('div'),
+        measureLongTime = d.createElement('div'); //La class amst__measureTime reprend les mêmes propriétés graphiques que la class amst__time
   //mais assure un positionnement absolu.
 
   measureTime.classList.add('amst__measureTime');
@@ -396,14 +325,14 @@ if (storage && storage.getItem('amst_timeWidth')) {
 } //Insertion des règles déterminées dans le DOM
 
 
-var style = d.createElement("style"); // WebKit hack
+const style = d.createElement("style"); // WebKit hack
 
 style.appendChild(d.createTextNode(""));
 d.head.appendChild(style);
-style.sheet.insertRule(".amst__time>span{width:".concat(timeWidth, "px;"), 0);
-style.sheet.insertRule(".amst__long .amst__time>span{width:".concat(longTimeWidth, "px;"), 0); //Détection de la fonctionnalité fullscreen et de ses éventuels préfixes
+style.sheet.insertRule(`.amst__time>span{width:${timeWidth}px;`, 0);
+style.sheet.insertRule(`.amst__long .amst__time>span{width:${longTimeWidth}px;`, 0); //Détection de la fonctionnalité fullscreen et de ses éventuels préfixes
 
-var fullscreenAPI = false;
+let fullscreenAPI = false;
 
 if (storage && storage.getItem('amst_fullscreenAPI') != undefined) {
   fullscreenAPI = JSON.parse(storage.getItem('amst_fullscreenAPI'));
@@ -411,7 +340,7 @@ if (storage && storage.getItem('amst_fullscreenAPI') != undefined) {
   //https://github.com/sindresorhus/screenfull.js/
   //Détection des préfixes pour la gestion du plein écran
   fullscreenAPI = function () {
-    var val,
+    let val,
         fnMap = [['requestFullscreen', 'exitFullscreen', 'fullscreenElement', 'fullscreenchange'], // New WebKit
     ['webkitRequestFullscreen', 'webkitExitFullscreen', 'webkitFullscreenElement', 'webkitfullscreenchange'], // Old WebKit (Safari 5.1)
     ['webkitRequestFullScreen', 'webkitCancelFullScreen', 'webkitCurrentFullScreenElement', 'webkitfullscreenchange'], ['mozRequestFullScreen', 'mozCancelFullScreen', 'mozFullScreenElement', 'mozfullscreenchange'], ['msRequestFullscreen', 'msExitFullscreen', 'msFullscreenElement', 'MSFullscreenChange']],
@@ -445,17 +374,17 @@ https://gist.github.com/streunerlein/2935794
 */
 
 
-var transitionPrefix, transformPrefix;
+let transitionPrefix, transformPrefix;
 
 if (storage && storage.getItem('amst_transitionPrefix') != undefined && storage.getItem('amst_transformPrefix') != undefined) {
   transitionPrefix = storage.getItem('amst_transitionPrefix');
   transformPrefix = storage.getItem('amst_transformPrefix');
 } else {
-  var GetVendorPrefix = function GetVendorPrefix(arrayOfPrefixes) {
-    var tmp = d.createElement("div"),
+  let GetVendorPrefix = function (arrayOfPrefixes) {
+    let tmp = d.createElement("div"),
         result = '';
 
-    for (var i = 0; i < arrayOfPrefixes.length; ++i) {
+    for (let i = 0; i < arrayOfPrefixes.length; ++i) {
       if (typeof tmp.style[arrayOfPrefixes[i]] != 'undefined') {
         result = arrayOfPrefixes[i];
         break;
@@ -507,28 +436,26 @@ et on transmet l'information aux éventuelles instances créées entretemps
 */
 
 
-var _pointerType = 'unknown';
+let _pointerType = 'unknown';
 
 if (storage && storage.getItem('amst_pointerType')) {
   _pointerType = storage.getItem('amst_pointerType');
 } else {
-  var testPointerMove = function testPointerMove(e) {
+  const testPointerMove = function (e) {
     _pointerType = e.pointerType ? e.pointerType : 'mouse';
     cleanTestPointer();
   },
-      testTouchStart = function testTouchStart() {
+        testTouchStart = function () {
     _pointerType = 'touch';
     cleanTestPointer();
   },
-      cleanTestPointer = function cleanTestPointer() {
+        cleanTestPointer = function () {
     storage.setItem('amst_pointerType', _pointerType);
     w.removeEventListener(myPointerMove, testPointerMove);
     w.removeEventListener('touchstart', testTouchStart);
 
     if (AmstramgramVideoPlayer.players.length > 0) {
-      AmstramgramVideoPlayer.players.forEach(function (p) {
-        return p.container.dispatchEvent(new CustomEvent('pointerDetected'));
-      });
+      AmstramgramVideoPlayer.players.forEach(p => p.container.dispatchEvent(new CustomEvent('pointerDetected')));
     }
   };
 
@@ -537,12 +464,12 @@ if (storage && storage.getItem('amst_pointerType')) {
 //https://github.com/WICG/EventListenerOptions/blob/gh-pages/EventListenerOptions.polyfill.js
 
 
-var _supportPassiveEvents = false;
+let _supportPassiveEvents = false;
 
 if (storage && storage.getItem('amst_supportPassiveEvents')) {
   _supportPassiveEvents = storage.getItem('amst_supportPassiveEvents');
 } else {
-  d.createElement("div").addEventListener("test", function () {}, {
+  d.createElement("div").addEventListener("test", () => {}, {
     get passive() {
       _supportPassiveEvents = true;
       storage.setItem('amst_supportPassiveEvents', _supportPassiveEvents);
@@ -558,27 +485,17 @@ if (storage && storage.getItem('amst_supportPassiveEvents')) {
  ************************************************/
 
 
-var AmstramgramVideoPlayer =
-/*#__PURE__*/
-function () {
-  _createClass(AmstramgramVideoPlayer, null, [{
-    key: "options",
+class AmstramgramVideoPlayer {
+  /*Fonction statique permettant de redéfinir les options par défaut 
+    Usage : 
+      AmstramgramVideoPlayer.options({volume:0})
+      let player = new AmstramgramVideoPlayer(document.querySelector('video'))
+  */
+  static options(obj) {
+    if (AmstramgramVideoPlayer.players.length == 0) AmstramgramVideoPlayer.defaultOptions = mergeDeep(AmstramgramVideoPlayer.defaultOptions, obj);
+  }
 
-    /*Fonction statique permettant de redéfinir les options par défaut 
-      Usage : 
-        AmstramgramVideoPlayer.options({volume:0})
-        let player = new AmstramgramVideoPlayer(document.querySelector('video'))
-    */
-    value: function options(obj) {
-      if (AmstramgramVideoPlayer.players.length == 0) AmstramgramVideoPlayer.defaultOptions = mergeDeep(AmstramgramVideoPlayer.defaultOptions, obj);
-    }
-  }]);
-
-  function AmstramgramVideoPlayer(el, params) {
-    var _this5 = this;
-
-    _classCallCheck(this, AmstramgramVideoPlayer);
-
+  constructor(el, params) {
     /************************************************
      *                                              *
      *               RÉCUPÉRATION ET                *
@@ -630,11 +547,11 @@ function () {
     //booleanAttributes = attributs de valeur vide. S'ils sont présents, le paramètre correspondant est passé à true.
     //La propriété muted si elle est présente sera convertie en volume = 0
     //Les 3 autres seront appliquées à l'élément construit
-    var booleanAttributes = ['autoplay', 'loop', 'muted', 'playsinline']; //Les autres attributs à récupérer :
+    const booleanAttributes = ['autoplay', 'loop', 'muted', 'playsinline']; //Les autres attributs à récupérer :
 
-    var attributes = booleanAttributes.concat(['crossorigin', 'poster', 'preload', 'src']); //https://davidwalsh.name/javascript-attributes#comment-511786
+    let attributes = booleanAttributes.concat(['crossorigin', 'poster', 'preload', 'src']); //https://davidwalsh.name/javascript-attributes#comment-511786
 
-    this.params = el.getAttributeNames().reduce(function (obj, name) {
+    this.params = el.getAttributeNames().reduce((obj, name) => {
       if (attributes.includes(name)) {
         //si l'attribut traité nous intéresse, on passe sa valeur au paramètre qui lui correspond.
         obj[name] = booleanAttributes.includes(name) ? true : el.getAttribute(name);
@@ -656,16 +573,12 @@ function () {
     //On rajoute les propriétés susceptibles d'être passées lors de la création de l'instance
 
 
-    attributes = attributes.filter(function (param) {
+    attributes = attributes.filter(param => {
       return param != 'muted';
     }).concat(['download', 'duration', 'format', 'fullscreen', 'hideControlsDelay', 'next', 'onInit', 'previous', 'skipTime', 'thumbnails', 'videoVolumeOrientation', 'volume', 'volumeButton', 'volumeForced', 'volumeGroup', 'railMinWidthForNormalUI']); //Si des paramètres ont été passés à l'instance, ils priment sur ceux qui sont définis par les attributs.
     //On élimine toute propriété qui n'aurait rien à faire là en ne retenant que celles qui sont listées dans le tableau attributes
 
-    if (params) params = Object.keys(params).filter(function (key) {
-      return attributes.includes(key);
-    }).reduce(function (res, key) {
-      return res[key] = params[key], res;
-    }, {}); //On merge les paramètres de l'instance avec ceux de la page HTML
+    if (params) params = Object.keys(params).filter(key => attributes.includes(key)).reduce((res, key) => (res[key] = params[key], res), {}); //On merge les paramètres de l'instance avec ceux de la page HTML
 
     if (params) this.params = mergeDeep(this.params, params);
     this.params = mergeDeep(AmstramgramVideoPlayer.defaultOptions, this.params);
@@ -680,12 +593,12 @@ function () {
      *                                              *
      ************************************************/
 
-    var wrapper = d.createElement('div'),
-        //Élément wrapper renfermant tous les éléments HTML du lecteur
+    const wrapper = d.createElement('div'),
+          //Élément wrapper renfermant tous les éléments HTML du lecteur
     //Si le paramètre d'orientation du potentiometre de volume est défini autrement que par la chaine 'horizontal', 
     //on fixe sa valeur à 'vertical'
     videoVolumeOrientation = this.params.videoVolumeOrientation == 'horizontal' ? 'horizontal' : 'vertical',
-        passive = _supportPassiveEvents; //Construction des éléments HTML de l'UI en fonction des paramètres
+          passive = _supportPassiveEvents; //Construction des éléments HTML de l'UI en fonction des paramètres
 
     wrapper.classList.add('amst__wrapper');
     wrapper.classList.add('amst__video');
@@ -708,32 +621,32 @@ function () {
      ************************************************/
     //Constantes
 
-    var self = this,
-        $ = _$(wrapper),
-        //Définition de la fonction $ : $('video') renvoie le premier élément HTML video contenu dans le wrapper
+    const self = this,
+          $ = _$(wrapper),
+          //Définition de la fonction $ : $('video') renvoie le premier élément HTML video contenu dans le wrapper
     $$ = _$$(wrapper),
-        //Définition de la fonction $$ : $$('.amst__layer') renvoie un tableau des éléments portant la classe amst__layer
+          //Définition de la fonction $$ : $$('.amst__layer') renvoie un tableau des éléments portant la classe amst__layer
     media = this.media = $('video'),
-        container = this.container = $('.amst__container'),
-        layerPoster = $('.amst__layer-poster'),
-        layerPosterCanvas = $('.amst__layer-poster canvas'),
-        layerSeekingTouch = $('.amst__layer-seeking-touch'),
-        seekingTouch = $('.amst__seeking-touch'),
-        layerPlay = $('.amst__layer-play'),
-        layerLoading = $('.amst__layer-loading'),
-        controls = $('.amst__controls'),
-        controlsPadding = 2 * controls.css('padding-left'),
-        playPauseButton = $('.amst__playpause>button'),
-        rail = $('.amst__rail'),
-        slider = $('.amst__slider'),
-        handle = $('.amst__handle'),
-        timeCurrent = $('.amst__currenttime-bar'),
-        seeking = $('.amst__seeking'),
-        volumeButton = $('.amst__volumebutton button'),
-        volumeSlider = $('.amst__volume-slider'); //Variables
+          container = this.container = $('.amst__container'),
+          layerPoster = $('.amst__layer-poster'),
+          layerPosterCanvas = $('.amst__layer-poster canvas'),
+          layerSeekingTouch = $('.amst__layer-seeking-touch'),
+          seekingTouch = $('.amst__seeking-touch'),
+          layerPlay = $('.amst__layer-play'),
+          layerLoading = $('.amst__layer-loading'),
+          controls = $('.amst__controls'),
+          controlsPadding = 2 * controls.css('padding-left'),
+          playPauseButton = $('.amst__playpause>button'),
+          rail = $('.amst__rail'),
+          slider = $('.amst__slider'),
+          handle = $('.amst__handle'),
+          timeCurrent = $('.amst__currenttime-bar'),
+          seeking = $('.amst__seeking'),
+          volumeButton = $('.amst__volumebutton button'),
+          volumeSlider = $('.amst__volume-slider'); //Variables
 
 
-    var //Largeur du lecteur actualisée sur l'évènement resize 
+    let //Largeur du lecteur actualisée sur l'évènement resize 
     //et nécessaire pour positionner la vignette de preview sur tactile
     playerWidth,
         //Position et dimensions de l'élément volume recalculées lors d'un évènement resize ou scroll
@@ -804,14 +717,12 @@ function () {
 
     function _play() {
       //https://developers.google.com/web/updates/2016/03/play-returns-promise
-      var playPromise = media.play();
-      if (playPromise) playPromise["catch"](function () {
+      let playPromise = media.play();
+      if (playPromise) playPromise.catch(() => {
         //We try again
-        setTimeout(function () {
+        setTimeout(() => {
           playPromise = media.play();
-          playPromise["catch"](function () {
-            return _pause();
-          });
+          playPromise.catch(() => _pause());
         }, 50);
       }); //Si une autre instance est en cours de lecture, on la reset
 
@@ -821,7 +732,7 @@ function () {
       container.focus(); //Mise à jour du bouton
 
       playPauseButton.setAttributes({
-        "class": 'amst__pause',
+        class: 'amst__pause',
         title: self.params.pauseLabel,
         'aria-label': self.params.pauseLabel
       }); //On cache le layer comprenant le gros bouton play
@@ -852,7 +763,7 @@ function () {
       media.pause(); //Mise à jour du bouton
 
       playPauseButton.setAttributes({
-        "class": '',
+        class: '',
         title: self.params.playLabel,
         'aria-label': self.params.playLabel
       }); //On affiche le layer comprenant le gros bouton play
@@ -927,7 +838,7 @@ function () {
     */
 
     function _hideControls(e) {
-      var delayed = e ? e.detail.delayed : false,
+      let delayed = e ? e.detail.delayed : false,
           forced = e ? e.detail.forced : false;
 
       if (media.paused && !forced) {
@@ -940,9 +851,7 @@ function () {
         //ou que le pointeur est positionné sur la barre de contrôle :
         //on annule l'éventuel timeout en cours et on en lance un nouveau
         if (hideControlsTimeOut) clearTimeout(hideControlsTimeOut);
-        hideControlsTimeOut = setTimeout(function () {
-          return _hideControls();
-        }, self.params.hideControlsDelay);
+        hideControlsTimeOut = setTimeout(() => _hideControls(), self.params.hideControlsDelay);
       } else {
         //Sinon, on cache...
         container.focus();
@@ -995,18 +904,10 @@ function () {
     */
 
     $('.amst__next').on('click', function () {
-      var _this = this;
-
-      _toConsumableArray(self.events['next']).forEach(function (listener) {
-        return listener.bind(_this);
-      });
+      [...self.events['next']].forEach(listener => listener.bind(this));
     });
     $('.amst__previous').on('click', function () {
-      var _this2 = this;
-
-      _toConsumableArray(self.events['previous']).forEach(function (listener) {
-        return listener.bind(_this2);
-      });
+      [...self.events['previous']].forEach(listener => listener.bind(this));
     });
     /*
     Chacun des boutons next, previous, download, volume et fullscreen peut être désactivé ou caché.
@@ -1021,7 +922,7 @@ function () {
     afin de pouvoir le mettre à jour lors des entrées/sorties du mode plein écran
     */
 
-    var enterFullScreenLabel, exitFullScreenLabel; //On déclare une fonction getMovie pour réagir au click éventuel sur le bouton download.
+    let enterFullScreenLabel, exitFullScreenLabel; //On déclare une fonction getMovie pour réagir au click éventuel sur le bouton download.
     //L'écouteur n'est placé que si le bouton porte en option les paramètres disabled:false et hidden:false.
     //Dans les autres cas, il est retiré.
 
@@ -1030,18 +931,10 @@ function () {
     }
 
     $('.amst__next').on('click', function () {
-      var _this3 = this;
-
-      _toConsumableArray(self.events['next']).forEach(function (listener) {
-        return listener.apply(_this3);
-      });
+      [...self.events['next']].forEach(listener => listener.apply(this));
     });
     $('.amst__previous').on('click', function () {
-      var _this4 = this;
-
-      _toConsumableArray(self.events['previous']).forEach(function (listener) {
-        return listener.apply(_this4);
-      });
+      [...self.events['previous']].forEach(listener => listener.apply(this));
     });
     /*
     Mise à jour des class et attributs du bouton
@@ -1050,10 +943,10 @@ function () {
     */
 
     function updateButtonsAttributes(name, label) {
-      var lowerCaseName = name.toLowerCase(),
-          //pour volumeButton
-      buttonContainer = $(".amst__".concat(lowerCaseName)),
-          button = $(".amst__".concat(lowerCaseName, " > button")); //Mise à jour de l'attribut HTML disabled en fonction de l'option disabled.
+      const lowerCaseName = name.toLowerCase(),
+            //pour volumeButton
+      buttonContainer = $(`.amst__${lowerCaseName}`),
+            button = $(`.amst__${lowerCaseName} > button`); //Mise à jour de l'attribut HTML disabled en fonction de l'option disabled.
 
       if (self.params[name].disabled === true) {
         button.setAttribute('disabled', '');
@@ -1146,24 +1039,24 @@ function () {
      ************************************************/
 
     function _src(e) {
-      var mySrc = e.detail; //Le cas échéant, on transforme  le paramètre passé au setter en objet
+      let mySrc = e.detail; //Le cas échéant, on transforme  le paramètre passé au setter en objet
 
-      mySrc = _typeof(mySrc) === 'object' ? mySrc : {
+      mySrc = typeof mySrc === 'object' ? mySrc : {
         src: mySrc
       }; // if (isNaN(mySrc.volumeGroup)) mySrc.volumeGroup = self.params.volumeGroup
 
-      if (!isNaN(mySrc.volume) && (mySrc.volumeForced === true || !storage.getItem("amst_volumegroup".concat(mySrc.volumeGroup)))) {
+      if (!isNaN(mySrc.volume) && (mySrc.volumeForced === true || !storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`))) {
         //Si un volume a été spécifié et que 
         //l'option volumeForced est présente ou que le volumeGroup ne figure pas dans sessionStorage
         self.params.volume = mySrc.volume;
-        storage.setItem("amst_volumegroup".concat(mySrc.volumeGroup), mySrc.volume);
-      } else if (storage.getItem("amst_volumegroup".concat(mySrc.volumeGroup))) {
-        self.params.volume = storage.getItem("amst_volumegroup".concat(mySrc.volumeGroup));
+        storage.setItem(`amst_volumegroup${mySrc.volumeGroup}`, mySrc.volume);
+      } else if (storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`)) {
+        self.params.volume = storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`);
       } //On ne conserve dans mySrc que les propriétés relevantes. 
 
 
-      var srcValidParameters = ['autoplay', 'crossorigin', 'download', 'duration', 'format', 'fullscreen', 'loop', 'next', 'playsinline', 'poster', 'preload', 'previous', 'src', 'skipTime', 'thumbnails', 'volumeButton', 'volumeGroup'];
-      mySrc = srcValidParameters.reduce(function (obj, name) {
+      const srcValidParameters = ['autoplay', 'crossorigin', 'download', 'duration', 'format', 'fullscreen', 'loop', 'next', 'playsinline', 'poster', 'preload', 'previous', 'src', 'skipTime', 'thumbnails', 'volumeButton', 'volumeGroup'];
+      mySrc = srcValidParameters.reduce((obj, name) => {
         if (srcValidParameters.includes(name) && mySrc[name] != undefined) {
           obj[name] = mySrc[name];
         }
@@ -1179,15 +1072,11 @@ function () {
         floorCurrentTime = 0;
         buffered = undefined; //On supprime l'ensemble des attributs HTML présents dans le tag <video>
 
-        while (media.attributes.length > 0) {
-          media.removeAttribute(media.attributes[0].name);
-        } //Reset des paramètres autoplay, crossorigin, loop, playsinline, thumnails
+        while (media.attributes.length > 0) media.removeAttribute(media.attributes[0].name); //Reset des paramètres autoplay, crossorigin, loop, playsinline, thumnails
 
 
-        var arr = ['autoplay', 'crossorigin', 'loop', 'playsinline', 'thumbnails'];
-        arr.forEach(function (p) {
-          return self.params[p] = AmstramgramVideoPlayer.defaultOptions[p];
-        }); //Reset des class sur le container
+        const arr = ['autoplay', 'crossorigin', 'loop', 'playsinline', 'thumbnails'];
+        arr.forEach(p => self.params[p] = AmstramgramVideoPlayer.defaultOptions[p]); //Reset des class sur le container
 
         container.classList.remove('amst__thumbnails', 'amst__loadedmetadata'); //Reset des vignettes
 
@@ -1202,9 +1091,9 @@ function () {
 
 
       if (self.params.thumbnails.src) {
-        var thumb = new Image();
+        let thumb = new Image();
 
-        var thumbEvent = function thumbEvent(e) {
+        const thumbEvent = function (e) {
           thumb.removeEventListener('load', thumbEvent);
           thumb.removeEventListener('error', thumbEvent);
 
@@ -1214,10 +1103,10 @@ function () {
 
             thumbWidth = thumb.naturalWidth / self.params.thumbnails.number; //On applique le style résultant aux éléments seeking et et seekingTouch
 
-            var css = {
-              width: "".concat(thumb.naturalWidth / self.params.thumbnails.number, "px"),
-              height: "".concat(thumb.naturalHeight, "px"),
-              'background-image': "url(\"".concat(self.params.thumbnails.src, "\")")
+            let css = {
+              width: `${thumb.naturalWidth / self.params.thumbnails.number}px`,
+              height: `${thumb.naturalHeight}px`,
+              'background-image': `url("${self.params.thumbnails.src}")`
             };
             seeking.css(css);
             seekingTouch.css(css);
@@ -1232,7 +1121,7 @@ function () {
       } //Initialisation/Mise à jour des attributs du tag video
 
 
-      var attributes = {
+      let attributes = {
         src: self.params.src,
         preload: IS_MOBILE ? 'none' : self.params.preload
       };
@@ -1262,7 +1151,7 @@ function () {
       container.style.paddingBottom = 1 / self.params.format * 100 + '%'; //Initialisation/Mise à jour du poster
 
       if (self.params.poster) {
-        layerPoster.style.backgroundImage = "url(\"".concat(self.params.poster, "\")");
+        layerPoster.style.backgroundImage = `url("${self.params.poster}")`;
         layerPoster.classList.remove('amst__hidden');
       } //Initialisation/Mise à jour des informations temporelles
 
@@ -1294,12 +1183,10 @@ function () {
      ************************************************/
 
 
-    media.on('mousemove', function () {
-      return _showControls();
-    }, passive ? {
+    media.on('mousemove', () => _showControls(), passive ? {
       passive: true
-    } : false).on('loadedmetadata', function () {
-      var myFormat = _this5.params.format = media.videoWidth / media.videoHeight; //Actualisation de la taille du container en fonction du format réel de la vidéo
+    } : false).on('loadedmetadata', () => {
+      let myFormat = this.params.format = media.videoWidth / media.videoHeight; //Actualisation de la taille du container en fonction du format réel de la vidéo
 
       if (AmstramgramVideoPlayer.currentFullScreenPlayer == self) {
         w.dispatchEvent(new CustomEvent('optimizedResize'));
@@ -1311,13 +1198,13 @@ function () {
       //on replace la tête de lecture au temps où elle s'était arrétée
 
       media.currentTime = floorCurrentTime;
-    }).on('loadeddata', function () {
+    }).on('loadeddata', () => {
       //Pour iOS sur reset du player
       media.currentTime = floorCurrentTime;
-    }).on('durationchange', function () {
-      _this5.params.duration = media.duration; //Mise à jour de skipTime
+    }).on('durationchange', () => {
+      this.params.duration = media.duration; //Mise à jour de skipTime
 
-      skipTime = typeof _this5.params.skipTime == 'string' && _this5.params.skipTime.slice(-1) == '%' ? parseFloat(_this5.params.skipTime) * media.duration / 100 : parseFloat(_this5.params.skipTime); //Mise à jour des champs indicateurs de temps
+      skipTime = typeof this.params.skipTime == 'string' && this.params.skipTime.slice(-1) == '%' ? parseFloat(this.params.skipTime) * media.duration / 100 : parseFloat(this.params.skipTime); //Mise à jour des champs indicateurs de temps
 
       if (media.duration >= 3600) {
         //Si la durée du media est supérieure à 1 heure
@@ -1333,7 +1220,7 @@ function () {
 
       getControlsElementsWidth();
     }).on('progress', updateBuffer) //Mise à jour du canvas indicateur de buffering
-    .on('timeupdate', function () {
+    .on('timeupdate', () => {
       //L'évènement est aussi déclenché lorsqu'on reset la source du media,
       //ce qui se produit au reset du player effectué suite au lancement de la lecture d'un autre player.
       //Dans ce cas, la propriété duration du media n'est pas définie.
@@ -1341,13 +1228,13 @@ function () {
       updateBuffer(); //Mise à jour du canvas indicateur de buffering
 
       slider.setAttribute('aria-valuenow', media.currentTime);
-      var mediaFloorCurrentTime = Math.floor(media.currentTime);
+      let mediaFloorCurrentTime = Math.floor(media.currentTime);
 
       if (floorCurrentTime != mediaFloorCurrentTime) {
         //On n'actualise le champs indicateur du temps courant que si nécessaire
         //c'est à dire si l'arrondi à la seconde du temps courant diffère de celui qu'on a précédemment pris soin d'enregistrer
         floorCurrentTime = mediaFloorCurrentTime;
-        var time = secondsToTimeCode(floorCurrentTime, media.duration > 3600);
+        let time = secondsToTimeCode(floorCurrentTime, media.duration > 3600);
         $('.amst__currenttime').innerHTML = time;
         slider.setAttribute('aria-valuetext', time);
       }
@@ -1358,28 +1245,25 @@ function () {
       }
 
       prevCurrentTime = media.currentTime;
-    }).on('ended', function () {
+    }).on('ended', () => {
       media.currentTime = 0;
-
-      _this5.pause();
-    }).on('pause', function () {
-      return cancelAnimationFrame(updateTimeRailAnimation);
-    }).on('playing', function () {
+      this.pause();
+    }).on('pause', () => cancelAnimationFrame(updateTimeRailAnimation)).on('playing', () => {
       //On force la fonction updateTimeRail en passant prevCurrentTime à 0.
       prevCurrentTime = 0;
       layerPoster.classList.add('amst__hidden');
-    }).on('seeked', function () {
+    }).on('seeked', () => {
       //L'évènement est ausssi déclenché à la suite de l'évènement ended.
       //Dans ce cas, currentTime vaut 0, la vidéo est en pause et on affiche le poster
-      if (floorCurrentTime == 0 && _this5.paused) {
+      if (floorCurrentTime == 0 && this.paused) {
         layerPosterCanvas.width = 0;
         layerPosterCanvas.height = 0;
         layerPoster.classList.remove('amst__hidden');
       }
-    }).on('play playing seeked canplay', function () {
+    }).on('play playing seeked canplay', () => {
       isBuffering = false;
       container.classList.remove('amst__buffering');
-    }).on('seeking waiting loadeddata', function () {
+    }).on('seeking waiting loadeddata', () => {
       isBuffering = true;
       container.classList.add('amst__buffering');
     });
@@ -1394,9 +1278,9 @@ function () {
      ************************************************/
     //Initialisation du canvas indicateur de buffering
 
-    var loadedBar = $('.amst__loaded-bar'),
-        loadedBarHeight = loadedBar.offsetHeight;
-    var ctxLoadedBar = loadedBar.getContext('2d');
+    const loadedBar = $('.amst__loaded-bar'),
+          loadedBarHeight = loadedBar.offsetHeight;
+    let ctxLoadedBar = loadedBar.getContext('2d');
     loadedBar.height = loadedBarHeight;
     ctxLoadedBar.fillStyle = loadedBar.css('color'); //Mise à jour du canvas indicateur de buffering appelée sur les évènements progress et timeupdate
 
@@ -1407,7 +1291,7 @@ function () {
           //Si l'un des objets n'existe pas ou si leurs longueurs diffèrent, on renvoie false
           return false;
         } else {
-          for (var i = 0; i < t1.length; i++) {
+          for (let i = 0; i < t1.length; i++) {
             //Comparaison de chacun des éléments contenus dans les TimeRanges
             //Si on trouve une différence, on arrete et on renvoie false
             if (t1.start(i) != t2.start(i) || t1.end(i) != t2.end(i)) {
@@ -1424,10 +1308,10 @@ function () {
 
       if (!compareTimeRanges(media.buffered, buffered)) {
         ctxLoadedBar.clearRect(0, 0, loadedBar.width, loadedBar.height);
-        var inc = loadedBar.width / media.duration;
+        let inc = loadedBar.width / media.duration;
 
-        for (var i = 0; i < media.buffered.length; i++) {
-          var start = media.buffered.start(i) * inc,
+        for (let i = 0; i < media.buffered.length; i++) {
+          let start = media.buffered.start(i) * inc,
               width = media.buffered.end(i) * inc - start;
           new AmstRoundedRect(ctxLoadedBar, loadedBarHeight, start, width);
         }
@@ -1450,10 +1334,10 @@ function () {
     //On enregistre le rayon de handle
 
 
-    var handleRadius = 0.5 * handle.offsetWidth;
+    let handleRadius = 0.5 * handle.offsetWidth;
 
     function updateTimeRail() {
-      var trans = media.paused && !media.seeking ? 'all .15s ease-in' : 'none',
+      let trans = media.paused && !media.seeking ? 'all .15s ease-in' : 'none',
           t = media.currentTime,
           T = media.duration,
           //Si la source change, media.duration risque de ne pas être définie.
@@ -1464,19 +1348,27 @@ function () {
       translate = Math.min(translate, sliderWidth - 2 * handleRadius) + 'px';
 
       if (media.paused) {
-        var _timeCurrent$css, _handle$css;
-
         //Mise à jour de timeCurrent
-        timeCurrent.css((_timeCurrent$css = {}, _defineProperty(_timeCurrent$css, transitionPrefix, trans), _defineProperty(_timeCurrent$css, transformPrefix, "scaleX(".concat(ratio, ")")), _timeCurrent$css)); //Mise à jour de handle
+        timeCurrent.css({
+          [transitionPrefix]: trans,
+          [transformPrefix]: `scaleX(${ratio})`
+        }); //Mise à jour de handle
 
-        handle.css((_handle$css = {}, _defineProperty(_handle$css, transitionPrefix, trans), _defineProperty(_handle$css, transformPrefix, "translateX(".concat(translate, ")")), _handle$css));
+        handle.css({
+          [transitionPrefix]: trans,
+          [transformPrefix]: `translateX(${translate})`
+        });
       } else {
-        var _timeCurrent$css2, _handle$css2;
-
         //Mise à jour de timeCurrent
-        timeCurrent.css((_timeCurrent$css2 = {}, _defineProperty(_timeCurrent$css2, transitionPrefix, trans), _defineProperty(_timeCurrent$css2, transformPrefix, "scaleX(".concat(ratio, ")")), _timeCurrent$css2)); //Mise à jour de handle
+        timeCurrent.css({
+          [transitionPrefix]: trans,
+          [transformPrefix]: `scaleX(${ratio})`
+        }); //Mise à jour de handle
 
-        handle.css((_handle$css2 = {}, _defineProperty(_handle$css2, transitionPrefix, trans), _defineProperty(_handle$css2, transformPrefix, "translateX(".concat(translate, ")")), _handle$css2));
+        handle.css({
+          [transitionPrefix]: trans,
+          [transformPrefix]: `translateX(${translate})`
+        });
         updateTimeRailAnimation = requestAnimationFrame(updateTimeRail);
       }
     }
@@ -1511,14 +1403,14 @@ function () {
 
 
     $$([media, layerLoading, layerSeekingTouch, layerPlay]).on('touchstart', function (e) {
-      var target = $(e.target),
-          startTime = new Date().getTime(),
-          //Durée maximale, exprimée en ms, comprise entre touchstart et touchend pour que 
+      const target = $(e.target),
+            startTime = new Date().getTime(),
+            //Durée maximale, exprimée en ms, comprise entre touchstart et touchend pour que 
       //l'évènement résultant soit considéré comme un click si aucun touchmove n'a été détecté.
       maxDelay = 200,
-          //Position temporelle exprimée en pourcentage par rapport à la durée du média
+            //Position temporelle exprimée en pourcentage par rapport à la durée du média
       timeRatio = media.duration ? media.currentTime / media.duration : undefined;
-      var startX = e.changedTouches[0].pageX,
+      let startX = e.changedTouches[0].pageX,
           //Abscisse de l'évènement
       startY = e.changedTouches[0].pageY,
           //Ordonnée de l'évènement
@@ -1541,7 +1433,7 @@ function () {
       } : false);
 
       function touchMove(e) {
-        var moveThreshold = 5; //Si la vidéo n'est pas chargée et n'a donc pas de durée définie
+        const moveThreshold = 5; //Si la vidéo n'est pas chargée et n'a donc pas de durée définie
         //Ou si la vidéo est en pause et qu'on a détecté un swipe vertical,
         //on ne fait rien.
         //Ainsi, s'il s'agit d'un swipe vertical, on ne bloque pas le scroll.
@@ -1572,16 +1464,17 @@ function () {
           //Si le mouvement horizontal se confirme
           seekingRatio = Math.min(Math.max(timeRatio + distX / playerWidth, 0), 0.999);
           if (!seekingTouchWidth) seekingTouchWidth = seekingTouch.offsetWidth;
-          var translate = Math.min(Math.max(seekingRatio * playerWidth - 0.5 * seekingTouchWidth, 0), playerWidth - seekingTouchWidth) + 'px';
-
-          var css = _defineProperty({}, transformPrefix, "translateX(".concat(translate, ")"));
+          const translate = Math.min(Math.max(seekingRatio * playerWidth - 0.5 * seekingTouchWidth, 0), playerWidth - seekingTouchWidth) + 'px';
+          let css = {
+            [transformPrefix]: `translateX(${translate})`
+          };
 
           if (self.params.thumbnails.src) {
             css['backgroundPosition'] = -Math.floor(seekingRatio * 100) * thumbWidth + 'px 0';
           }
 
           seekingTouch.css(css);
-          $('.amst__seeking-touch-cache').style[transformPrefix] = "scaleX(".concat(seekingRatio, ")");
+          $('.amst__seeking-touch-cache').style[transformPrefix] = `scaleX(${seekingRatio})`;
           $('.amst__seeking-touch > span').innerHTML = secondsToTimeCode(media.duration * seekingRatio, media.duration > 3600);
 
           if (horizontalMove == moveThreshold) {
@@ -1655,24 +1548,18 @@ function () {
     //Si l'on est pas sur un écran tactile, un click sur la vidéo passe celle-ci en pause
     //même si un buffering est en cours.
 
-    $$([media, layerLoading]).on('click', function () {
-      return _this5.pause();
-    }, false); //Tout évènement souris provoque l'ajout de la classe 'keyboard-inactive' au container
+    $$([media, layerLoading]).on('click', () => this.pause(), false); //Tout évènement souris provoque l'ajout de la classe 'keyboard-inactive' au container
     //Cette classe empêche l'affichage d'une bordure sur les éléments qui ont le focus
 
-    container.on('touchstart mousedown', function () {
+    container.on('touchstart mousedown', () => {
       container.classList.remove('amst__keyboard-active');
     }, passive ? {
       passive: true
     } : false); // Un click sur le bouton Play/Pause déclenche une bascule Play/Pause   
 
-    $('.amst__playpause').on('click', function () {
-      return _this5.togglePlayPause();
-    }); //Un click sur le gros bouton Play au centre de la vidéo déclenche une lecture 
+    $('.amst__playpause').on('click', () => this.togglePlayPause()); //Un click sur le gros bouton Play au centre de la vidéo déclenche une lecture 
 
-    layerPlay.on('click', function () {
-      return _this5.play();
-    });
+    layerPlay.on('click', () => this.play());
     /************************************************
      *                                              *
      *               FIN ÉVTS GÉNÉRAUX              *
@@ -1686,13 +1573,13 @@ function () {
     //S'il sort de la zone, on rétablit la disparition
     //Rien ne se passe si l'on est sur tactile
 
-    controls.on(myPointerEnter, function (e) {
+    controls.on(myPointerEnter, e => {
       if (myPointerType == 'touch' || e.pointerType && e.pointerType == 'touch') return false;
 
       _showControls();
 
       pointerOverControls = true;
-    }).on(myPointerLeave, function (e) {
+    }).on(myPointerLeave, e => {
       if (myPointerType == 'touch' || e.pointerType && e.pointerType == 'touch') return false;
       pointerOverControls = false;
 
@@ -1720,7 +1607,7 @@ function () {
     et à touchstart sur tactile.
     */
 
-    rail.on(myPointerDown, function () {
+    rail.on(myPointerDown, () => {
       //Si la vidéo n'est pas chargée, on abandonne...
       if (isNaN(media.duration)) return false; //Sinon, on pose un écouteur sur l'évènement myPointerMove (mousemove/touchmove)
       //et un autre sur myPointerUp (mouseup/touchend) et mypointerLeave (mouseleave)
@@ -1736,7 +1623,7 @@ function () {
     function moveHandle(e) {
       //On détermine l'abscisse de la position où l'évènement se produit
       //et on en déduit la position temporelle résultante de la tête de lecture
-      var eventX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX,
+      let eventX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX,
           x = eventX - sliderLeft,
           translate = x / sliderWidth;
       media.currentTime = translate * media.duration;
@@ -1771,22 +1658,22 @@ function () {
 
     throttle(myPointerMove, 'optimizedPointerMove', slider); //L'élément seeking se déplace avec le pointeur et on actualise son contenu affiché en conséquence
 
-    slider.on('optimizedPointerMove', function (e) {
+    slider.on('optimizedPointerMove', e => {
       //Si l'évènement est de source tactile ou que la vidéo n'est pas chargée, on l'ignore
       if (myPointerType == 'touch' || e.pointerType && e.pointerType == 'touch' || isNaN(media.duration)) return false; //Si la largeur de l'élément seeking n'a pas encore été déterminée,
       //on initialise la variable seekingWidth
 
       if (!seekingWidth) seekingWidth = seeking.offsetWidth;
-      var seekingWrapperPosition = e.detail.clientX - sliderLeft;
-      var seekingRatio = seekingWrapperPosition / sliderWidth,
-          thumbBackgroundPosition = -Math.floor(seekingRatio * 100) * thumbWidth + 'px',
-          seekingWrapperHalfWidth = 0.5 * seekingWidth - 6;
+      let seekingWrapperPosition = e.detail.clientX - sliderLeft;
+      const seekingRatio = seekingWrapperPosition / sliderWidth,
+            thumbBackgroundPosition = -Math.floor(seekingRatio * 100) * thumbWidth + 'px',
+            seekingWrapperHalfWidth = 0.5 * seekingWidth - 6;
       if (self.params.thumbnails.src) seeking.style.backgroundPosition = thumbBackgroundPosition + ' 0';
-      $('.amst__cursor').style[transformPrefix] = "translateX(".concat(seekingWrapperPosition, "px)"); //On fait en sorte que le wrapper ne déborde pas aux extrémités de la barre temporelle
+      $('.amst__cursor').style[transformPrefix] = `translateX(${seekingWrapperPosition}px)`; //On fait en sorte que le wrapper ne déborde pas aux extrémités de la barre temporelle
 
       seekingWrapperPosition = Math.max(seekingWrapperPosition, seekingWrapperHalfWidth);
       seekingWrapperPosition = Math.min(seekingWrapperPosition, sliderWidth - seekingWrapperHalfWidth);
-      $('.amst__seeking-wrapper').style[transformPrefix] = "translateX(".concat(seekingWrapperPosition, "px)");
+      $('.amst__seeking-wrapper').style[transformPrefix] = `translateX(${seekingWrapperPosition}px)`;
       $('.amst__seeking > span').innerHTML = secondsToTimeCode(seekingRatio * media.duration, media.duration > 3600);
     });
     /************************************************
@@ -1799,9 +1686,9 @@ function () {
      *                                              *
      ************************************************/
 
-    media.on('volumechange', function () {
+    media.on('volumechange', () => {
       if (!IS_MOBILE) {
-        var vol = parseInt(media.volume * 100);
+        const vol = parseInt(media.volume * 100);
         volumeSlider.setAttributes({
           'aria-valuenow': vol,
           'aria-valuetext': vol + '%'
@@ -1820,7 +1707,7 @@ function () {
         volumeButton.setAttributes({
           title: self.params.volumeButton.label.unmute,
           'aria-label': self.params.volumeButton.label.unmute,
-          "class": 'amst__unmute'
+          class: 'amst__unmute'
         });
       } else {
         media.muted = false;
@@ -1837,13 +1724,13 @@ function () {
 
 
       if (storage && self.params.volumeGroup > -1) {
-        storage.setItem("amst_volumegroup".concat(self.params.volumeGroup), self.volume);
+        storage.setItem(`amst_volumegroup${self.params.volumeGroup}`, self.volume);
       }
 
       self.params.volume = self.volume; //Propagation du changement de volume au éventuels autres players du même volumeGroup
 
       if (self.params.volumeGroup > -1 && AmstramgramVideoPlayer.players.length > 1) {
-        AmstramgramVideoPlayer.players.forEach(function (player) {
+        AmstramgramVideoPlayer.players.forEach(player => {
           if (player != self && player.params.volumeGroup == self.params.volumeGroup && player.volume != self.volume) {
             player.volume = self.volume;
           }
@@ -1860,7 +1747,7 @@ function () {
      *                                              *
      ************************************************/
 
-    volumeButton.on('click', function () {
+    volumeButton.on('click', () => {
       if (media.muted) {
         media.volume = volumeBeforeMute;
         media.muted = false;
@@ -1880,12 +1767,12 @@ function () {
      ************************************************/
 
     if (!IS_MOBILE) {
-      volumeSlider.on(myPointerDown, function () {
+      volumeSlider.on(myPointerDown, () => {
         volumeSlider.on(myPointerMove, updateVolume).on(myPointerLeave, cleanVolumeEvents).on(myPointerUp, updateVolume).on(myPointerUp, cleanVolumeEvents);
       });
 
-      var updateVolume = function updateVolume(e) {
-        var ratio;
+      const updateVolume = function (e) {
+        let ratio;
 
         if (videoVolumeOrientation == 'horizontal') {
           ratio = Math.max(0, e.clientX - volumeRect.left);
@@ -1900,7 +1787,7 @@ function () {
         self.volume = ratio;
       };
 
-      var cleanVolumeEvents = function cleanVolumeEvents() {
+      const cleanVolumeEvents = function () {
         volumeSlider.off(myPointerMove, updateVolume).off(myPointerLeave, cleanVolumeEvents).off(myPointerUp, updateVolume).off(myPointerUp, cleanVolumeEvents);
 
         if (videoVolumeOrientation == 'vertical') {
@@ -2007,10 +1894,10 @@ function () {
 
 
     if (fullscreenAPI) {
-      var scrollX = 0,
+      let scrollX = 0,
           scrollY = 0;
-      var fullScreenButton = $('.amst__fullscreen>button');
-      fullScreenButton.on('click', function () {
+      const fullScreenButton = $('.amst__fullscreen>button');
+      fullScreenButton.on('click', () => {
         if (d[fullscreenAPI.fullscreenElement] !== null) {
           //On est en mode plein écran
           //On en sort
@@ -2040,7 +1927,7 @@ function () {
           fullScreenButton.setAttributes({
             title: exitFullScreenLabel,
             'aria-label': exitFullScreenLabel,
-            "class": ' amst__unfullscreen'
+            class: ' amst__unfullscreen'
           });
           resizeFullScreen();
         } else if (AmstramgramVideoPlayer.currentFullScreenPlayer == self) {
@@ -2048,19 +1935,19 @@ function () {
           //On retire l'écouteur sur le resize
           w.removeEventListener('optimizedResize', resizeFullScreen); //On reset les dimensions éventuellement spécifiées par la fonction resizeFullScreen
 
-          container.setAttribute('style', "padding-bottom:".concat(1 / self.params.format * 100, "%"));
+          container.setAttribute('style', `padding-bottom:${1 / self.params.format * 100}%`);
           wrapper.classList.remove('amst__isfullscreen'); //Mise à jour du bouton et de ses labels
 
           fullScreenButton.setAttributes({
             title: enterFullScreenLabel,
             'aria-label': enterFullScreenLabel,
-            "class": ''
+            class: ''
           }); //On se repositionne sur la page
 
-          setTimeout(function () {
+          setTimeout(() => {
             w.scroll(scrollX, scrollY); //On remet la transition sur le padding du container
 
-            setTimeout(function () {
+            setTimeout(() => {
               container.classList.remove('amst__notransition');
             }, 50);
           }, 50); //On reset la propriété currentFullScreenPlayer de la class
@@ -2069,7 +1956,7 @@ function () {
         }
       }, false);
 
-      var resizeFullScreen = function resizeFullScreen() {
+      const resizeFullScreen = function () {
         if (w.innerWidth / w.innerHeight > self.params.format) {
           //Si l'écran est plus large que la vidéo
           container.css({
@@ -2110,7 +1997,7 @@ function () {
       if (timeoutGetControlsElementsWidth) clearTimeout(timeoutGetControlsElementsWidth);
       timeoutGetControlsElementsWidth = setTimeout(function () {
         controlsElementsWidth = 0;
-        $$('.amst__controls>div:not(.amst__rail):not(.amst__hidden):not(.amst__time-duration)').forEach(function (el) {
+        $$('.amst__controls>div:not(.amst__rail):not(.amst__hidden):not(.amst__time-duration)').forEach(el => {
           if (el.classList.contains('amst__time')) {
             controlsElementsWidth += 2 * el.offsetWidth;
           } else {
@@ -2133,14 +2020,14 @@ function () {
         container.classList.remove('amst__compact');
       }
 
-      var sliderRect = slider.getBoundingClientRect();
+      let sliderRect = slider.getBoundingClientRect();
       sliderLeft = sliderRect.left;
       sliderWidth = sliderRect.width;
       updateTimeRail(); //Si le format de la source est modifiée, l'abscisse du potentiomètre de volume en mode vertical 
       //ne sera fixée qu'à la fin de l'animation posée sur le padding-bottom du container.
 
       if (!IS_MOBILE) {
-        var updateVolumeRect = function updateVolumeRect(e) {
+        const updateVolumeRect = function (e) {
           volumeRect = $('.amst__volume-total').getBoundingClientRect();
 
           if (e && e.target == container) {
@@ -2198,188 +2085,168 @@ function () {
    ************************************************/
 
 
-  _createClass(AmstramgramVideoPlayer, [{
-    key: "pause",
+  set src(src) {
+    /*
+    src est :
+      - soit une chaine renvoyant vers la source vidéo
+      - soit un objet de la forme 
+        {
+          src: 'chemin du fichier vidéo',
+          format: 'rapport largeur/hauteur de la vidéo',
+          poster: 'chemin du fichier poster',
+          volume: 'volume',
+          duration: 'durée de la vidéo en seconde',
+          skipTime: 'valeur de l'incrément temporel lorsque l'utilisateur appuie sur les flèches gauche ou droite de son clavier'
+          thumbnails: 'chemin du fichier des vignettes',
+          previous: objet,
+          next: objet,
+          fullscreen: objet,
+          download: objet,
+        }
+    */
+    this.container.dispatchEvent(new CustomEvent('amstEvent__src', {
+      'detail': src
+    }));
+  }
 
-    /************************************************
-     *                                              *
-     *             FIN GETTERS/SETTERS              *
-     *                                              *
-     *          /////////////////////////           *
-     *                                              *
-     *                  MÉTHODES                    *
-     *                                              *
-     ************************************************/
-    value: function pause() {
-      this.container.dispatchEvent(new CustomEvent('amstEvent__pause'));
+  get src() {
+    return this.media.getAttribute('src');
+  }
+
+  get paused() {
+    return this.media.paused; // return this.media.isPlaying
+  }
+
+  get duration() {
+    return this.media.duration;
+  }
+
+  set currentTime(t) {
+    if (this.media.duration && t >= 0 && t <= this.media.duration) {
+      this.media.currentTime = t;
     }
-  }, {
-    key: "play",
-    value: function play() {
-      this.container.dispatchEvent(new CustomEvent('amstEvent__play'));
-    }
-  }, {
-    key: "reset",
-    value: function reset() {
+  }
+
+  get currentTime() {
+    return this.media.currentTime;
+  }
+
+  set volume(vol) {
+    this.media.volume = vol;
+  }
+
+  get volume() {
+    return this.media.volume;
+  }
+  /************************************************
+   *                                              *
+   *             FIN GETTERS/SETTERS              *
+   *                                              *
+   *          /////////////////////////           *
+   *                                              *
+   *                  MÉTHODES                    *
+   *                                              *
+   ************************************************/
+
+
+  pause() {
+    this.container.dispatchEvent(new CustomEvent('amstEvent__pause'));
+  }
+
+  play() {
+    this.container.dispatchEvent(new CustomEvent('amstEvent__play'));
+  }
+
+  reset() {
+    this.pause();
+    this.container.dispatchEvent(new CustomEvent('amstEvent__reset'));
+  }
+
+  togglePlayPause() {
+    if (this.paused) {
+      this.play();
+    } else {
       this.pause();
-      this.container.dispatchEvent(new CustomEvent('amstEvent__reset'));
     }
-  }, {
-    key: "togglePlayPause",
-    value: function togglePlayPause() {
-      if (this.paused) {
-        this.play();
-      } else {
-        this.pause();
-      }
-    }
-  }, {
-    key: "hideControls",
-    value: function hideControls() {
-      var delayed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      var forced = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      this.container.dispatchEvent(new CustomEvent('amstEvent__hideControls', {
-        'detail': {
-          delayed: delayed,
-          forced: forced
-        }
-      }));
-    }
-  }, {
-    key: "showControls",
-    value: function showControls() {
-      this.container.dispatchEvent(new CustomEvent('amstEvent__showControls'));
-    }
-  }, {
-    key: "previous",
-    value: function previous(opt) {
-      if (isObject(opt)) {
-        //Mise à jour des paramètres
-        this.params = mergeDeep(this.params, {
-          previous: opt
-        }); //Génération de l'événement qui va provoquer la mise à jour
+  }
 
-        this.container.dispatchEvent(new CustomEvent('amstEvent__previousButton'));
+  hideControls(delayed = false, forced = false) {
+    this.container.dispatchEvent(new CustomEvent('amstEvent__hideControls', {
+      'detail': {
+        delayed: delayed,
+        forced: forced
       }
-    }
-  }, {
-    key: "next",
-    value: function next(opt) {
-      if (isObject(opt)) {
-        this.params = mergeDeep(this.params.next, {
-          next: opt
-        });
-        this.container.dispatchEvent(new CustomEvent('amstEvent__nextButton'));
-      }
-    }
-  }, {
-    key: "fullscreen",
-    value: function fullscreen(opt) {
-      if (isObject(opt)) {
-        this.params = mergeDeep(this.params, {
-          fullscreen: opt
-        });
-        this.container.dispatchEvent(new CustomEvent('amstEvent__fullscreenButton'));
-      }
-    }
-  }, {
-    key: "download",
-    value: function download(opt) {
-      if (isObject(opt)) {
-        this.params = mergeDeep(this.params, {
-          download: opt
-        });
-        this.container.dispatchEvent(new CustomEvent('amstEvent__downloadButton'));
-      }
-    }
-  }, {
-    key: "volumeButton",
-    value: function volumeButton(opt) {
-      if (isObject(opt)) {
-        this.params = mergeDeep(this.params, {
-          volumeButton: opt
-        });
-        this.container.dispatchEvent(new CustomEvent('amstEvent__volumeButton'));
-      }
-    }
-  }, {
-    key: "on",
-    value: function on(event, listener) {
-      if (event == 'next' || event == 'previous') {
-        this.events[event].push(listener);
-      }
-    }
-  }, {
-    key: "off",
-    value: function off(event, listener) {
-      if (event == 'next' || event == 'previous') {
-        var idx = this.events[event].indexOf(listener);
+    }));
+  }
 
-        if (idx > -1) {
-          this.events[event].splice(idx, 1);
-        }
-      }
-    }
-  }, {
-    key: "src",
-    set: function set(src) {
-      /*
-      src est :
-        - soit une chaine renvoyant vers la source vidéo
-        - soit un objet de la forme 
-          {
-            src: 'chemin du fichier vidéo',
-            format: 'rapport largeur/hauteur de la vidéo',
-            poster: 'chemin du fichier poster',
-            volume: 'volume',
-            duration: 'durée de la vidéo en seconde',
-            skipTime: 'valeur de l'incrément temporel lorsque l'utilisateur appuie sur les flèches gauche ou droite de son clavier'
-            thumbnails: 'chemin du fichier des vignettes',
-            previous: objet,
-            next: objet,
-            fullscreen: objet,
-            download: objet,
-          }
-      */
-      this.container.dispatchEvent(new CustomEvent('amstEvent__src', {
-        'detail': src
-      }));
-    },
-    get: function get() {
-      return this.media.getAttribute('src');
-    }
-  }, {
-    key: "paused",
-    get: function get() {
-      return this.media.paused; // return this.media.isPlaying
-    }
-  }, {
-    key: "duration",
-    get: function get() {
-      return this.media.duration;
-    }
-  }, {
-    key: "currentTime",
-    set: function set(t) {
-      if (this.media.duration && t >= 0 && t <= this.media.duration) {
-        this.media.currentTime = t;
-      }
-    },
-    get: function get() {
-      return this.media.currentTime;
-    }
-  }, {
-    key: "volume",
-    set: function set(vol) {
-      this.media.volume = vol;
-    },
-    get: function get() {
-      return this.media.volume;
-    }
-  }]);
+  showControls() {
+    this.container.dispatchEvent(new CustomEvent('amstEvent__showControls'));
+  }
 
-  return AmstramgramVideoPlayer;
-}();
+  previous(opt) {
+    if (isObject(opt)) {
+      //Mise à jour des paramètres
+      this.params = mergeDeep(this.params, {
+        previous: opt
+      }); //Génération de l'événement qui va provoquer la mise à jour
+
+      this.container.dispatchEvent(new CustomEvent('amstEvent__previousButton'));
+    }
+  }
+
+  next(opt) {
+    if (isObject(opt)) {
+      this.params = mergeDeep(this.params.next, {
+        next: opt
+      });
+      this.container.dispatchEvent(new CustomEvent('amstEvent__nextButton'));
+    }
+  }
+
+  fullscreen(opt) {
+    if (isObject(opt)) {
+      this.params = mergeDeep(this.params, {
+        fullscreen: opt
+      });
+      this.container.dispatchEvent(new CustomEvent('amstEvent__fullscreenButton'));
+    }
+  }
+
+  download(opt) {
+    if (isObject(opt)) {
+      this.params = mergeDeep(this.params, {
+        download: opt
+      });
+      this.container.dispatchEvent(new CustomEvent('amstEvent__downloadButton'));
+    }
+  }
+
+  volumeButton(opt) {
+    if (isObject(opt)) {
+      this.params = mergeDeep(this.params, {
+        volumeButton: opt
+      });
+      this.container.dispatchEvent(new CustomEvent('amstEvent__volumeButton'));
+    }
+  }
+
+  on(event, listener) {
+    if (event == 'next' || event == 'previous') {
+      this.events[event].push(listener);
+    }
+  }
+
+  off(event, listener) {
+    if (event == 'next' || event == 'previous') {
+      const idx = this.events[event].indexOf(listener);
+
+      if (idx > -1) {
+        this.events[event].splice(idx, 1);
+      }
+    }
+  }
+
+}
 /************************************************
  *                                              *
  *             FIN GETTERS/SETTERS              *
@@ -2463,20 +2330,26 @@ AmstramgramVideoPlayer.defaultOptions = {
  ************************************************/
 
 function buildUI(params) {
-  var videoVolumeHTMLString = '',
+  let videoVolumeHTMLString = '',
       volumeSliderHTMLString = '';
 
   if (!IS_MOBILE) {
-    volumeSliderHTMLString = "\n      <div class=\"amst__volume-slider\" aria-label=\"".concat(params.volumeSliderLabel, "\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"100\" aria-valuetext=\"100%\" role=\"slider\" aria-orientation=\"").concat(params.videoVolumeOrientation, "\" tabindex=\"0\" title=\"").concat(params.volumeHelpLabel, "\">\n        <span class=\"amst__offscreen\">").concat(params.volumeHelpLabel, "</span>\n        <div class=\"amst__volume-total\">\n          <div class=\"amst__volume-current\" style=\"height: 100%;\"></div>");
+    volumeSliderHTMLString = `
+      <div class="amst__volume-slider" aria-label="${params.volumeSliderLabel}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" aria-valuetext="100%" role="slider" aria-orientation="${params.videoVolumeOrientation}" tabindex="0" title="${params.volumeHelpLabel}">
+        <span class="amst__offscreen">${params.volumeHelpLabel}</span>
+        <div class="amst__volume-total">
+          <div class="amst__volume-current" style="height: 100%;"></div>`;
 
     if (params.videoVolumeOrientation != 'horizontal') {
-      volumeSliderHTMLString += "<div class=\"amst__volume-handle\" style=\"bottom: 100%; margin-bottom: -3px;\"></div>";
+      volumeSliderHTMLString += `<div class="amst__volume-handle" style="bottom: 100%; margin-bottom: -3px;"></div>`;
     }
 
-    volumeSliderHTMLString += "</div></div>";
+    volumeSliderHTMLString += `</div></div>`;
   }
 
-  videoVolumeHTMLString = "\n    <div class=\"amst__button amst__volumebutton\">\n      <button type=\"button\" tabindex=\"0\"></button>";
+  videoVolumeHTMLString = `
+    <div class="amst__button amst__volumebutton">
+      <button type="button" tabindex="0"></button>`;
 
   if (params.videoVolumeOrientation != 'horizontal') {
     videoVolumeHTMLString += volumeSliderHTMLString + '</div>';
@@ -2484,10 +2357,72 @@ function buildUI(params) {
     videoVolumeHTMLString += '</div>' + volumeSliderHTMLString;
   }
 
-  var buildUIStr = "\n    <span class=\"amst__offscreen\">".concat(params.appLabel, "</span>\n    <div class=\"amst__container\" tabindex=\"0\" role=\"application\" aria-label=\"").concat(params.appLabel, "\">\n      <div class=\"amst__mediaelement\">\n        <video></video>\n      </div>\n    <div class=\"amst__layers\">\n      <div class=\"amst__layer-poster\">\n        <canvas></canvas>\n      </div>\n      <div class=\"amst__layer-loading\">\n        <div class=\"amst__loading\">\n          <span class=\"amst__svg\"></span>\n        </div>\n      </div>\n      <div class=\"amst__layer-play\">\n        <div class=\"amst__svg\" role=\"button\" tabindex=\"0\" aria-label=\"").concat(params.playLabel, "\" aria-pressed=\"false\"></div>\n      </div>\n      <div class=\"amst__layer-seeking-touch\">\n        <div class=\"amst__seeking-touch-cache\"></div>\n        <span class=\"amst__time amst__seeking-touch\">\n          <span></span>\n        </span>\n      </div>\n    </div>\n    <div class=\"amst__controls\">\n      <div class=\"amst__button amst__previous\">\n        <button type=\"button\" title=\"").concat(params.previous.label, "\" aria-label=\"").concat(params.previous.label, "\" tabindex=\"0\"></button>\n      </div>\n      <div class=\"amst__button amst__playpause\">\n        <button type=\"button\" title=\"").concat(params.playLabel, "\" aria-label=\"").concat(params.playLabel, "\" tabindex=\"0\"></button>\n      </div>\n      <div class=\"amst__button amst__next\">\n        <button type=\"button\" title=\"").concat(params.next.label, "\" aria-label=\"").concat(params.next.label, "\" tabindex=\"0\"></button>\n      </div>\n      <div class=\"amst__time\" role=\"timer\" aria-live=\"off\">\n        <span class=\"amst__currenttime\">00:00</span>\n      </div>\n      <div class=\"amst__rail\">\n        <span class=\"amst__slider\" role=\"slider\" tabindex=\"0\">\n          <span class=\"amst__buffering-bar\"></span>\n          <canvas class=\"amst__loaded-bar\"></canvas>\n          <span class=\"amst__currenttime-bar\"></span>\n          <span class=\"amst__handle\"><span></span></span>\n          <span class=\"amst__cursor\"><span></span></span>\n          <span class=\"amst__seeking-wrapper\">\n            <span class=\"amst__time amst__seeking\">\n              <span>00:00</span>\n            </span>\n          </span>\n        </span>\n      </div>\n      <div class=\"amst__time amst__time-duration\">\n        <span class=\"amst__duration\">00:00</span>\n      </div>");
+  let buildUIStr = `
+    <span class="amst__offscreen">${params.appLabel}</span>
+    <div class="amst__container" tabindex="0" role="application" aria-label="${params.appLabel}">
+      <div class="amst__mediaelement">
+        <video></video>
+      </div>
+    <div class="amst__layers">
+      <div class="amst__layer-poster">
+        <canvas></canvas>
+      </div>
+      <div class="amst__layer-loading">
+        <div class="amst__loading">
+          <span class="amst__svg"></span>
+        </div>
+      </div>
+      <div class="amst__layer-play">
+        <div class="amst__svg" role="button" tabindex="0" aria-label="${params.playLabel}" aria-pressed="false"></div>
+      </div>
+      <div class="amst__layer-seeking-touch">
+        <div class="amst__seeking-touch-cache"></div>
+        <span class="amst__time amst__seeking-touch">
+          <span></span>
+        </span>
+      </div>
+    </div>
+    <div class="amst__controls">
+      <div class="amst__button amst__previous">
+        <button type="button" title="${params.previous.label}" aria-label="${params.previous.label}" tabindex="0"></button>
+      </div>
+      <div class="amst__button amst__playpause">
+        <button type="button" title="${params.playLabel}" aria-label="${params.playLabel}" tabindex="0"></button>
+      </div>
+      <div class="amst__button amst__next">
+        <button type="button" title="${params.next.label}" aria-label="${params.next.label}" tabindex="0"></button>
+      </div>
+      <div class="amst__time" role="timer" aria-live="off">
+        <span class="amst__currenttime">00:00</span>
+      </div>
+      <div class="amst__rail">
+        <span class="amst__slider" role="slider" tabindex="0">
+          <span class="amst__buffering-bar"></span>
+          <canvas class="amst__loaded-bar"></canvas>
+          <span class="amst__currenttime-bar"></span>
+          <span class="amst__handle"><span></span></span>
+          <span class="amst__cursor"><span></span></span>
+          <span class="amst__seeking-wrapper">
+            <span class="amst__time amst__seeking">
+              <span>00:00</span>
+            </span>
+          </span>
+        </span>
+      </div>
+      <div class="amst__time amst__time-duration">
+        <span class="amst__duration">00:00</span>
+      </div>`;
   buildUIStr += videoVolumeHTMLString;
-  if (fullscreenAPI) buildUIStr += "        \n      <div class=\"amst__button amst__fullscreen\">\n        <button type=\"button\" title=\"".concat(params.fullscreen.label, "\" aria-label=\"").concat(params.fullscreen.label, "\" tabindex=\"0\"></button>\n      </div>");
-  buildUIStr += "\n      <div class=\"amst__button amst__download\">\n        <button type=\"button\" title=\"".concat(params.download.label, "\" aria-label=\"").concat(params.download.label, "\" tabindex=\"0\"></button>\n      </div>\n    </div>\n  ");
+  if (fullscreenAPI) buildUIStr += `        
+      <div class="amst__button amst__fullscreen">
+        <button type="button" title="${params.fullscreen.label}" aria-label="${params.fullscreen.label}" tabindex="0"></button>
+      </div>`;
+  buildUIStr += `
+      <div class="amst__button amst__download">
+        <button type="button" title="${params.download.label}" aria-label="${params.download.label}" tabindex="0"></button>
+      </div>
+    </div>
+  `;
   return buildUIStr;
 }
 /************************************************
@@ -2501,45 +2436,44 @@ function buildUI(params) {
  ************************************************/
 
 
-function secondsToTimeCode(t, _long) {
+function secondsToTimeCode(t, long) {
   t = Math.round(t);
-  var h = Math.floor(t / 3600),
+  let h = Math.floor(t / 3600),
       m = Math.floor((t - h * 3600) / 60),
       s = Math.round(t % 60);
-  h = h > 9 ? h + ':' : h > 0 ? '0' + h + ':' : _long ? '00:' : '';
+  h = h > 9 ? h + ':' : h > 0 ? '0' + h + ':' : long ? '00:' : '';
   m = m > 9 ? m : '0' + m;
   s = s > 9 ? s : '0' + s;
   return h + m + ':' + s;
 } //http://js-bits.blogspot.com/2010/07/canvas-rounded-corner-rectangles.html
 
 
-var AmstRoundedRect = function AmstRoundedRect(ctx, h, x, w) {
-  _classCallCheck(this, AmstRoundedRect);
+class AmstRoundedRect {
+  constructor(ctx, h, x, w) {
+    let y = 0,
+        r = 2;
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.fill();
+  }
 
-  var y = 0,
-      r = 2;
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
-  ctx.fill();
-};
+}
 
-var throttle = function throttle(type, name) {
-  var obj = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : w;
-
-  var running = false,
-      func = function func(e) {
+let throttle = (type, name, obj = w) => {
+  let running = false,
+      func = e => {
     if (running) return;
     running = true;
-    requestAnimationFrame(function () {
+    requestAnimationFrame(() => {
       obj.dispatchEvent(new CustomEvent(name, {
         detail: e
       }));
@@ -2554,18 +2488,22 @@ throttle('resize', 'optimizedResize');
 throttle('scroll', 'optimizedScroll'); //https://stackoverflow.com/a/37164538
 
 function isObject(item) {
-  return item && _typeof(item) === 'object' && !Array.isArray(item);
+  return item && typeof item === 'object' && !Array.isArray(item);
 }
 
 function mergeDeep(target, source) {
-  var output = Object.assign({}, target);
+  let output = Object.assign({}, target);
 
   if (isObject(target) && isObject(source)) {
-    Object.keys(source).forEach(function (key) {
+    Object.keys(source).forEach(key => {
       if (isObject(source[key])) {
-        if (!(key in target)) Object.assign(output, _defineProperty({}, key, source[key]));else output[key] = mergeDeep(target[key], source[key]);
+        if (!(key in target)) Object.assign(output, {
+          [key]: source[key]
+        });else output[key] = mergeDeep(target[key], source[key]);
       } else {
-        Object.assign(output, _defineProperty({}, key, source[key]));
+        Object.assign(output, {
+          [key]: source[key]
+        });
       }
     });
   }
@@ -2583,14 +2521,14 @@ function mergeDeep(target, source) {
  ************************************************/
 
 
-var _$ = function _$(context) {
-  var $ = function $(selector) {
-    var el = typeof selector === 'string' ? context.querySelector(selector) : selector;
+let _$ = context => {
+  let $ = function (selector) {
+    let el = typeof selector === 'string' ? context.querySelector(selector) : selector;
 
     if (el) {
-      el.css = function (newCSS) {
+      el.css = newCSS => {
         if (typeof newCSS === 'string') {
-          var v = w.getComputedStyle(el, null).getPropertyValue(newCSS);
+          let v = w.getComputedStyle(el, null).getPropertyValue(newCSS);
           return isNaN(parseFloat(v)) ? v : parseFloat(v);
         } else {
           Object.assign(el.style, newCSS);
@@ -2598,24 +2536,17 @@ var _$ = function _$(context) {
         }
       };
 
-      el.setAttributes = function (attrs) {
-        Object.keys(attrs).forEach(function (key) {
-          return el.setAttribute(key, attrs[key]);
-        });
+      el.setAttributes = attrs => {
+        Object.keys(attrs).forEach(key => el.setAttribute(key, attrs[key]));
       };
 
-      el.on = function (events, handler) {
-        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        events.split(' ').forEach(function (e) {
-          return el.addEventListener(e, handler, options);
-        });
+      el.on = function (events, handler, options = false) {
+        events.split(' ').forEach(e => el.addEventListener(e, handler, options));
         return el;
       };
 
       el.off = function (events, handler) {
-        events.split(' ').forEach(function (e) {
-          return el.removeEventListener(e, handler);
-        });
+        events.split(' ').forEach(e => el.removeEventListener(e, handler));
         return el;
       };
     }
@@ -2626,42 +2557,37 @@ var _$ = function _$(context) {
   return $;
 };
 
-var _$$ = function _$$(context) {
-  var $$ = function $$(selector) {
-    var els = Array.isArray(selector) ? selector : Array.from(context.querySelectorAll(selector));
+let _$$ = context => {
+  let $$ = selector => {
+    let els = Array.isArray(selector) ? selector : Array.from(context.querySelectorAll(selector));
 
-    els.css = function (newCSS) {
+    els.css = newCSS => {
       if (typeof newCSS === 'string') {
-        var v = window.getComputedStyle(els[0], null).getPropertyValue(newCSS);
+        let v = window.getComputedStyle(els[0], null).getPropertyValue(newCSS);
         return isNaN(parseFloat(v)) ? v : parseFloat(v);
       } else {
-        els.forEach(function (el) {
+        els.forEach(el => {
           Object.assign(el.style, newCSS);
         });
         return els;
       }
     };
 
-    els.on = function (events, handler) {
-      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      els.forEach(function (el) {
-        events.split(' ').forEach(function (e) {
-          return el.addEventListener(e, handler, options);
-        });
+    els.on = function (events, handler, options = false) {
+      els.forEach(el => {
+        events.split(' ').forEach(e => el.addEventListener(e, handler, options));
       });
       return els;
     };
 
     els.off = function (events, handler) {
-      els.forEach(function (el) {
-        events.split(' ').forEach(function (e) {
-          return el.removeEventListener(e, handler);
-        });
+      els.forEach(el => {
+        events.split(' ').forEach(e => el.removeEventListener(e, handler));
       });
       return els;
     };
 
-    var r = els.length ? els : null;
+    let r = els.length ? els : null;
     return r;
   };
 

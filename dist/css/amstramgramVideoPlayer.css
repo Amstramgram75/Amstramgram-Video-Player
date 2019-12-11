@@ -396,7 +396,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
 .amst__container .amst__slider {
   position: relative;
   background: rgba(255, 255, 255, 0.3);
-  height: 8px;
+  height: 6px;
   width: 100%;
   margin: auto;
   transition: transform 0.15s ease-in;
@@ -472,7 +472,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
   width: 12px;
   transform-style: preserve-3d;
   left: 0;
-  top: -2px;
+  top: -3px;
 }
 
 .amst__handle > span {
@@ -529,7 +529,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
   top: 0;
   background: #000;
   width: 2px;
-  height: 13px;
+  height: 11px;
 }
 
 .amst__container.amst__no-touch.amst__loadedmetadata .amst__slider:hover .amst__cursor > span {
@@ -682,7 +682,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
   background: rgba(255, 255, 255, 0.3);
   border-radius: 2px;
   width: 100%;
-  height: 8px;
+  height: 6px;
   margin: auto;
 }
 
