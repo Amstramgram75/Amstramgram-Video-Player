@@ -28,8 +28,7 @@
     "pack:rollup": "rollup --config rollup.pack.js",
     "pack:banner": "banner-cli dist/src/js/*.js --name AmstramgramVideoPlayer & banner-cli dist/src/css/*.scss --name AmstramgramVideoPlayer",
     "pack:replace": "replace-in-file --configFile=replace.config.js",
-    "pack": "npm run pack:rollup && npm run pack:banner && npm run pack:replace",
-    "test": "rollup --config rollup.test.js"
+    "pack": "npm run pack:rollup && npm run pack:banner && npm run pack:replace"
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
