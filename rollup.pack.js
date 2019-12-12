@@ -1,6 +1,7 @@
 import babel from 'rollup-plugin-babel';
 import sass from 'rollup-plugin-sass';
 import copy from 'rollup-plugin-copy';
+import del from 'rollup-plugin-delete';
 import ignoreImport from 'rollup-plugin-ignore-import';
 import {terser} from 'rollup-plugin-terser';
 import postcss from 'postcss';
@@ -23,6 +24,7 @@ ${cssBanner}
       cssBannerMin = `amstramgramVideoPlayer.js--@version:${pjson.version}--@licence:${pjson.license}--@url:${pjson.homepage}`,
       bannerMin = `/*${cssBannerMin}*/`
 
+//Update ./dist/package.json
 let file = editJsonFile(`./dist/package.json`);
 pjsonArray.forEach(el=>{
   file.set(el, pjson[el])
@@ -146,14 +148,13 @@ export default [
       copy({
         targets: [
           {src: 'app/*', dest: 'dist/src/'},//Fichiers source
-          {src: ['dev/*', '!dev/js', '!dev/css'], dest: 'docs'},//Fichiers dev dans docs sauf js et css
-          {src: ['dev/js/*', '!dev/js/amstramgramVideoPlayer*'], dest: 'docs/js'},//Fichiers js externes dans docs
-          {src: ['dev/css/*', '!dev/css/amstramgramVideoPlayer*'], dest: 'docs/css'},//Fichiers css externes dans docs
-          {src: [`dist/iife/${name}.min.js`, `dist/polyfill/${name}Polyfill.min.js`], dest: 'docs/js'},//js dans docs
-          {src: `dist/css/${name}.min.css`, dest: 'docs/css/'},//css dans docs
-          {src: `README.md`, dest: 'dist/'}//README.md dans dist
+          {src: 'dev/*', dest: 'docs'},//Fichiers dev dans docs
+          {src: `README.md`, dest: 'dist/'},//README.md dans dist
+          {src: [`dist/iife/${name}.min.js`, `dist/polyfill/${name}Polyfill.min.js`], dest: 'docs/js'},//min.js dans docs
+          {src: `dist/css/${name}.min.css`, dest: 'docs/css/'}//css dans docs
         ]
-      })
+      }),
+      del({targets: [`docs/js/${name}.js`, `docs/js/${name}Polyfill.js`, `docs/css/${name}.css`], hook: 'writeBundle'})
     ]
   },
 ];
