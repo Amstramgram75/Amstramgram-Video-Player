@@ -9,7 +9,9 @@ import cssnano from 'cssnano';
 
 const path = require('path'),
       name = path.basename(__dirname),
+      editJsonFile = require("edit-json-file"),
       pjson = require('./package.json'),
+      pjsonArray = ['version', 'description', 'keywords', 'author', 'homepage', 'repository', 'bugs', 'license'],
       cssBanner =  `amstramgramVideoPlayer.js
 @version : ${pjson.version}
 @licence : ${pjson.license}
@@ -21,8 +23,12 @@ ${cssBanner}
       cssBannerMin = `amstramgramVideoPlayer.js--@version:${pjson.version}--@licence:${pjson.license}--@url:${pjson.homepage}`,
       bannerMin = `/*${cssBannerMin}*/`
 
-
-
+let file = editJsonFile(`./dist/package.json`);
+pjsonArray.forEach(el=>{
+  file.set(el, pjson[el])
+})
+file.save();
+      
 export default [
   {//ESM
     input: `app/js/${name}.js`,
