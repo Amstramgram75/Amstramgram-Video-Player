@@ -607,8 +607,9 @@ class AmstramgramVideoPlayer {
     el.parentNode.insertBefore(wrapper, el); //Pour éviter tout problème sous Androïd, on reset la source de l'élément original
     //avant de le supprimer
 
-    el.setAttribute('src', ''); // el.removeAttribute('src')
-
+    el.setAttribute('src', '');
+    el.removeAttribute('src');
+    el.load();
     el.parentNode.removeChild(el);
     /************************************************
      *                                              *
@@ -807,6 +808,7 @@ class AmstramgramVideoPlayer {
       container.classList.remove('amst__loadedmetadata');
       media.src = '';
       media.preload = 'none';
+      media.load();
       media.src = self.params.src;
     } //On écoute l'évènement 'amstEvent__' généré par la méthode reset()
 
@@ -1709,8 +1711,10 @@ class AmstramgramVideoPlayer {
           'aria-label': self.params.volumeButton.label.unmute,
           class: 'amst__unmute'
         });
+        media.setAttribute('muted', '');
       } else {
         media.muted = false;
+        media.removeAttribute('muted');
         volumeBeforeMute = media.volume;
 
         if (volumeButton.classList.contains('amst__unmute')) {

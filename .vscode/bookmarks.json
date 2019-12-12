@@ -23,137 +23,137 @@
 				"label": "CONSTRUCTION HTML"
 			},
 			{
-				"line": 598,
+				"line": 599,
 				"column": 0,
 				"label": "DÉCLARATIONS DES VARIABLES"
 			},
 			{
-				"line": 689,
+				"line": 690,
 				"column": 0,
 				"label": "PLAY"
 			},
 			{
-				"line": 727,
+				"line": 728,
 				"column": 0,
 				"label": "PAUSE"
 			},
 			{
-				"line": 753,
+				"line": 754,
 				"column": 0,
 				"label": "RESET"
 			},
 			{
-				"line": 786,
+				"line": 788,
 				"column": 0,
 				"label": "HIDECONTROLS"
 			},
 			{
-				"line": 832,
+				"line": 834,
 				"column": 0,
 				"label": "SHOWCONTROLS"
 			},
 			{
-				"line": 851,
+				"line": 853,
 				"column": 0,
 				"label": "UPDATEBUTTONS"
 			},
 			{
-				"line": 971,
+				"line": 973,
 				"column": 0,
 				"label": "SOURCE"
 			},
 			{
-				"line": 1091,
+				"line": 1093,
 				"column": 0,
 				"label": "ÉVÈNEMENTS MEDIA"
 			},
 			{
-				"line": 1186,
+				"line": 1188,
 				"column": 0,
 				"label": "UPDATEBUFFER"
 			},
 			{
-				"line": 1233,
+				"line": 1235,
 				"column": 0,
 				"label": "UPDATETIMERAIL"
 			},
 			{
-				"line": 1270,
+				"line": 1272,
 				"column": 0,
 				"label": "ÉVTS TACTILES SUR LA VIDÉO"
 			},
 			{
-				"line": 1393,
+				"line": 1395,
 				"column": 0,
 				"label": "ÉVTS GÉNÉRAUX"
 			},
 			{
-				"line": 1412,
+				"line": 1414,
 				"column": 0,
 				"label": "AFFICHER/CACHER LES CONTRÔLES"
 			},
 			{
-				"line": 1435,
+				"line": 1437,
 				"column": 0,
 				"label": "ÉVÉNEMENTS SUR RAIL"
 			},
 			{
-				"line": 1477,
+				"line": 1479,
 				"column": 0,
 				"label": "ÉVTS SOURIS SUR SLIDER"
 			},
 			{
-				"line": 1508,
+				"line": 1510,
 				"column": 0,
 				"label": "VOLUMECHANGE"
 			},
 			{
-				"line": 1563,
+				"line": 1567,
 				"column": 0,
 				"label": "VOLUME CLICK SUR HP"
 			},
 			{
-				"line": 1581,
+				"line": 1585,
 				"column": 0,
 				"label": "VOLUME POTENTIOMÈTRE - SOURIS & CLAVIER"
 			},
 			{
-				"line": 1674,
+				"line": 1678,
 				"column": 0,
 				"label": "FULLSCREEN"
 			},
 			{
-				"line": 1769,
+				"line": 1773,
 				"column": 0,
 				"label": "RESIZE"
 			},
 			{
-				"line": 1855,
+				"line": 1859,
 				"column": 0,
 				"label": "GETTERS/SETTERS"
 			},
 			{
-				"line": 1913,
+				"line": 1917,
 				"column": 0,
 				"label": "MÉTHODES"
 			},
 			{
-				"line": 1998,
+				"line": 2002,
 				"column": 0,
 				"label": "PROPRIÉTÉS GLOBALES"
 			},
 			{
-				"line": 2038,
+				"line": 2042,
 				"column": 0,
 				"label": "BUILDUI"
 			},
 			{
-				"line": 2138,
+				"line": 2142,
 				"column": 0,
 				"label": "UTILITAIRES"
 			},
 			{
-				"line": 2213,
+				"line": 2217,
 				"column": 0,
 				"label": "$ et $$"
 			}
