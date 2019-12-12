@@ -63,97 +63,97 @@
 				"label": "SOURCE"
 			},
 			{
-				"line": 1093,
+				"line": 1098,
 				"column": 0,
 				"label": "ÉVÈNEMENTS MEDIA"
 			},
 			{
-				"line": 1188,
+				"line": 1193,
 				"column": 0,
 				"label": "UPDATEBUFFER"
 			},
 			{
-				"line": 1235,
+				"line": 1240,
 				"column": 0,
 				"label": "UPDATETIMERAIL"
 			},
 			{
-				"line": 1272,
+				"line": 1277,
 				"column": 0,
 				"label": "ÉVTS TACTILES SUR LA VIDÉO"
 			},
 			{
-				"line": 1395,
+				"line": 1400,
 				"column": 0,
 				"label": "ÉVTS GÉNÉRAUX"
 			},
 			{
-				"line": 1414,
+				"line": 1419,
 				"column": 0,
 				"label": "AFFICHER/CACHER LES CONTRÔLES"
 			},
 			{
-				"line": 1437,
+				"line": 1442,
 				"column": 0,
 				"label": "ÉVÉNEMENTS SUR RAIL"
 			},
 			{
-				"line": 1479,
+				"line": 1484,
 				"column": 0,
 				"label": "ÉVTS SOURIS SUR SLIDER"
 			},
 			{
-				"line": 1510,
+				"line": 1515,
 				"column": 0,
 				"label": "VOLUMECHANGE"
 			},
 			{
-				"line": 1567,
+				"line": 1572,
 				"column": 0,
 				"label": "VOLUME CLICK SUR HP"
 			},
 			{
-				"line": 1585,
+				"line": 1592,
 				"column": 0,
 				"label": "VOLUME POTENTIOMÈTRE - SOURIS & CLAVIER"
 			},
 			{
-				"line": 1678,
+				"line": 1685,
 				"column": 0,
 				"label": "FULLSCREEN"
 			},
 			{
-				"line": 1773,
+				"line": 1780,
 				"column": 0,
 				"label": "RESIZE"
 			},
 			{
-				"line": 1859,
+				"line": 1866,
 				"column": 0,
 				"label": "GETTERS/SETTERS"
 			},
 			{
-				"line": 1917,
+				"line": 1924,
 				"column": 0,
 				"label": "MÉTHODES"
 			},
 			{
-				"line": 2002,
+				"line": 2009,
 				"column": 0,
 				"label": "PROPRIÉTÉS GLOBALES"
 			},
 			{
-				"line": 2042,
+				"line": 2049,
 				"column": 0,
 				"label": "BUILDUI"
 			},
 			{
-				"line": 2142,
+				"line": 2149,
 				"column": 0,
 				"label": "UTILITAIRES"
 			},
 			{
-				"line": 2217,
+				"line": 2224,
 				"column": 0,
 				"label": "$ et $$"
 			}

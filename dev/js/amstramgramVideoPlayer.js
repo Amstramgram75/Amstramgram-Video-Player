@@ -1138,6 +1138,12 @@ var AmstramgramVideoPlayer = (function () {
 
 	      self.volume = IS_MOBILE && self.params.volume > 0 ? 1 : self.params.volume;
 
+	      if (self.volume == 0) {
+	        media.setAttribute('muted', '');
+	      } else {
+	        media.removeAttribute('muted');
+	      }
+
 	      if (!volumeBeforeMute) {
 	        volumeBeforeMute = media.volume == 0 ? 0.1 : media.volume;
 	        if (IS_MOBILE) volumeBeforeMute = 1;
@@ -1749,9 +1755,11 @@ var AmstramgramVideoPlayer = (function () {
 	      if (media.muted) {
 	        media.volume = volumeBeforeMute;
 	        media.muted = false;
+	        media.removeAttribute('muted');
 	      } else {
 	        media.volume = 0;
 	        media.muted = true;
+	        media.setAttribute('muted', '');
 	      }
 	    });
 	    /************************************************
