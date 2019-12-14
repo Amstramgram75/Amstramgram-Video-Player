@@ -36,7 +36,6 @@
 				<video 
 					id="vid01"
 					src="https://jefaisdesbetises.net/medias/LesCastorsAutoConstructeurs-jefaisdesbetises.com.mp4"
-					autoplay
 					muted
 					loop>
 				</video>
@@ -179,16 +178,18 @@ new AmstramgramVideoPlayer(document.querySelector('#vid03'), {
 			/*
 			Basic 1
 			*/
-			new AmstramgramVideoPlayer(document.querySelector('#vid01'), {
+			let p1 = new AmstramgramVideoPlayer(document.querySelector('#vid01'), {
 				//Thumbnails source path
 				thumbnails: {src: "assets/castorsThumbs.jpg"},
 				//Ignore the volume eventually stored in session storage
 				volumeForced: true,
+				autoplay:true,
 				//When the player is ready, the main block "content" of the page 
 				//whose opacity was initialy set to 0 is transitioned to 1.
-				onInit: function(){document.body.classList.add('ready')}
+				onInit: function(){
+					document.body.classList.add('ready');
+				}
 			});
-
 			/*
 			Basic 2
 			*/

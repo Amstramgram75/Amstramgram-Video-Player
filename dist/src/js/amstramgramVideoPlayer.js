@@ -690,6 +690,7 @@ class AmstramgramVideoPlayer {
     this.events = {'next':[], 'previous':[]}
 
 
+
 /************************************************
  *                                              *
  *          FIN INSERTION DANS LE DOM           *
@@ -707,7 +708,10 @@ class AmstramgramVideoPlayer {
         //We try again
         setTimeout(()=>{
           playPromise = media.play()
-          playPromise.catch(()=>_pause())
+          playPromise.catch((error)=>{
+            _pause()
+            console.log('Error initiating video playback : ', error)
+          })
         }, 50)
       })
       //Si une autre instance est en cours de lecture, on la reset
@@ -868,10 +872,10 @@ class AmstramgramVideoPlayer {
     L'événement déclenche les écouteurs posés via la méthode on.
     */
     $('.amst__next').on('click', function(){
-      [...self.events['next']].forEach(listener => listener.bind(this));
+      [...self.events['next']].forEach(listener => listener.apply(this));
     })
     $('.amst__previous').on('click', function(){
-      [...self.events['previous']].forEach(listener => listener.bind(this));
+      [...self.events['previous']].forEach(listener => listener.apply(this));
     })
     /*
     Chacun des boutons next, previous, download, volume et fullscreen peut être désactivé ou caché.
@@ -892,12 +896,6 @@ class AmstramgramVideoPlayer {
     function getMovie(){
       window.location = self.src.substring(0, self.src.lastIndexOf('/')) + '/index.php?file=' + self.src.substring(self.src.lastIndexOf('/') + 1)
     }
-    $('.amst__next').on('click', function(){
-      [...self.events['next']].forEach(listener => listener.apply(this));
-    })
-    $('.amst__previous').on('click', function(){
-      [...self.events['previous']].forEach(listener => listener.apply(this));
-    })
     /*
     Mise à jour des class et attributs du bouton
     name : nom du bouton
@@ -1068,11 +1066,6 @@ class AmstramgramVideoPlayer {
       media.setAttributes(attributes)
       //Initialisation/Mise à jour du volume
       self.volume = (IS_MOBILE && self.params.volume > 0)?1:self.params.volume
-      if(self.volume == 0) {
-        media.setAttribute('muted', '')
-      } else {
-        media.removeAttribute('muted')
-      }
       if (!volumeBeforeMute) {
         volumeBeforeMute = (media.volume == 0)?0.1:media.volume
         if (IS_MOBILE) volumeBeforeMute = 1
@@ -1089,15 +1082,10 @@ class AmstramgramVideoPlayer {
       $('.amst__currenttime').innerHTML = secondsToTimeCode(0, (self.params.duration > 3600));
       //Mise à jour des boutons
       updateAllButtons()
-      //Si autoplay, on lance la lecture
-      if (self.params.autoplay === true) {
-        _play()
-      }
+      if (self.params.autoplay == true) _play()
     }
     //On écoute le custom event 'amstEvent__src' généré par la méthode src()
     container.on('amstEvent__src', _src, false)
-    //Initialisation de la source
-    _src({detail:this.params})
 /************************************************
  *                                              *
  *                  FIN SOURCE                  *
@@ -1113,7 +1101,7 @@ class AmstramgramVideoPlayer {
         let myFormat = this.params.format = media.videoWidth / media.videoHeight
         //Actualisation de la taille du container en fonction du format réel de la vidéo
         if (AmstramgramVideoPlayer.currentFullScreenPlayer == self) {
-          w.dispatchEvent(new CustomEvent('optimizedResize'))
+          w.dispatchEvent(new CustomEvent('amst__optimizedResize'))
         } else {
           container.style.paddingBottom = 1 / myFormat * 100 + '%'
         }
@@ -1545,10 +1533,8 @@ class AmstramgramVideoPlayer {
           'aria-label': self.params.volumeButton.label.unmute,
           class: 'amst__unmute'
         })
-        media.setAttribute('muted','')
       } else {
         media.muted = false
-        media.removeAttribute('muted')
         volumeBeforeMute = media.volume
         if (volumeButton.classList.contains('amst__unmute')) {
           volumeButton.removeAttribute('class')
@@ -1585,11 +1571,9 @@ class AmstramgramVideoPlayer {
       if (media.muted) {
         media.volume = volumeBeforeMute
         media.muted = false
-        media.removeAttribute('muted')
       } else {
         media.volume = 0
         media.muted = true
-        media.setAttribute('muted', '')
       }
     })
 /************************************************
@@ -1730,7 +1714,7 @@ class AmstramgramVideoPlayer {
       d.addEventListener(fullscreenAPI.fullscreenchange, function(){
         if (d[fullscreenAPI.fullscreenElement] == wrapper) {//Si le player passe en plein écran
           //Écoute du resize
-          w.addEventListener('optimizedResize', resizeFullScreen)
+          w.addEventListener('amst__optimizedResize', resizeFullScreen)
           wrapper.classList.add('amst__isfullscreen')
           //On enlève la transition sur la padding du container
           container.classList.add('amst__notransition')
@@ -1743,7 +1727,7 @@ class AmstramgramVideoPlayer {
           resizeFullScreen()
         } else if (AmstramgramVideoPlayer.currentFullScreenPlayer == self){//Si le player sort du plein écran
           //On retire l'écouteur sur le resize
-          w.removeEventListener('optimizedResize', resizeFullScreen)
+          w.removeEventListener('amst__optimizedResize', resizeFullScreen)
           //On reset les dimensions éventuellement spécifiées par la fonction resizeFullScreen
           container.setAttribute('style',`padding-bottom:${1 / self.params.format * 100}%`)
           wrapper.classList.remove('amst__isfullscreen')
@@ -1810,8 +1794,8 @@ class AmstramgramVideoPlayer {
       },1)
     }
     
-    w.addEventListener('optimizedResize', resize)
-    w.addEventListener('optimizedScroll', resize)
+    w.addEventListener('amst__optimizedResize', resize)
+    w.addEventListener('amst__optimizedScroll', resize)
 
     function resize(){
       playerWidth = container.offsetWidth
@@ -1860,7 +1844,8 @@ class AmstramgramVideoPlayer {
     }
     //On ajoute l'instance dans le tableau regroupant toutes les autres instances de players
     AmstramgramVideoPlayer.players.push(this)
-    
+    //Initialisation de la source
+    _src({detail:this.params})
     if (params && typeof params.onInit === "function") {
       setTimeout(function(){params.onInit.call(self)},0)
     }
@@ -1902,7 +1887,6 @@ class AmstramgramVideoPlayer {
 
   get paused(){
     return this.media.paused
-    // return this.media.isPlaying
   }
   
   get duration(){
@@ -1920,6 +1904,11 @@ class AmstramgramVideoPlayer {
 
   set volume(vol){
     this.media.volume = vol
+    if (vol == 0) {
+      this.media.muted = true
+    } else {
+      this.media.muted = false
+    }
   }
   get volume(){
     return this.media.volume
@@ -1995,12 +1984,12 @@ class AmstramgramVideoPlayer {
     }
   }
   on(event, listener){
-    if (event == 'next' || event == 'previous') {
+    if (this.events.hasOwnProperty(event)) {
       this.events[event].push(listener)
     }
   }
   off(event, listener) {
-    if (event == 'next' || event == 'previous') {
+    if (this.events.hasOwnProperty(event)) {
         const idx = this.events[event].indexOf(listener);
         if (idx > -1) {
           this.events[event].splice(idx, 1);
@@ -2200,8 +2189,8 @@ let throttle = (type, name, obj = w)=>{
       }
   obj.addEventListener(type, func)
 };
-throttle('resize', 'optimizedResize')
-throttle('scroll', 'optimizedScroll')
+throttle('resize', 'amst__optimizedResize')
+throttle('scroll', 'amst__optimizedScroll')
 
 //https://stackoverflow.com/a/37164538
 function isObject(item) {
