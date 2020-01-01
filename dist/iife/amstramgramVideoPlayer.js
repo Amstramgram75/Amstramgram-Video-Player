@@ -444,10 +444,12 @@ var AmstramgramVideoPlayer = (function () {
 	} else {
 	  const testPointerMove = function (e) {
 	    _pointerType = e.pointerType ? e.pointerType : 'mouse';
+	    console.log('move');
 	    cleanTestPointer();
 	  },
 	        testTouchStart = function () {
 	    _pointerType = 'touch';
+	    console.log('touchstart');
 	    cleanTestPointer();
 	  },
 	        cleanTestPointer = function () {
@@ -461,6 +463,7 @@ var AmstramgramVideoPlayer = (function () {
 	  };
 
 	  w.addEventListener(myPointerMove, testPointerMove, false);
+	  w.addEventListener('touchstart', testTouchStart, false);
 	} //Détection du support de l'option passive sur les events
 	//https://github.com/WICG/EventListenerOptions/blob/gh-pages/EventListenerOptions.polyfill.js
 
@@ -2363,10 +2366,9 @@ var AmstramgramVideoPlayer = (function () {
 	    videoVolumeHTMLString += '</div>' + volumeSliderHTMLString;
 	  }
 
-	  let containerClass = _isIosDevice ? 'amst__container amst__isIosDevice' : 'amst__container';
 	  let buildUIStr = `
     <span class="amst__offscreen">${params.appLabel}</span>
-    <div class="${containerClass}" tabindex="0" role="application" aria-label="${params.appLabel}">
+    <div class="amst__container" tabindex="0" role="application" aria-label="${params.appLabel}">
       <div class="amst__mediaelement">
         <video></video>
       </div>

@@ -479,9 +479,6 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
 .amst__container.amst__no-touch.amst__loadedmetadata .amst__seeking-wrapper {
 	display: block;
 }
-.amst__container.amst__isIosDevice .amst__seeking-wrapper{
-	display: none;
-}
 .amst__seeking {
 	background: #eee;
 	border: solid 1px #333;
