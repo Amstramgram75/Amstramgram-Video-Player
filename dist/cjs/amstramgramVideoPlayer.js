@@ -478,6 +478,8 @@ if (storage && storage.getItem('amst_supportPassiveEvents')) {
 
   });
 }
+
+const _isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform);
 /************************************************
  *                                              *
  *                 DÉBUT CLASS                  *
@@ -1043,7 +1045,7 @@ class AmstramgramVideoPlayer {
 
       mySrc = typeof mySrc === 'object' ? mySrc : {
         src: mySrc
-      }; // if (isNaN(mySrc.volumeGroup)) mySrc.volumeGroup = self.params.volumeGroup
+      };
 
       if (!isNaN(mySrc.volume) && (mySrc.volumeForced === true || !storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`))) {
         //Si un volume a été spécifié et que 
@@ -1090,7 +1092,7 @@ class AmstramgramVideoPlayer {
       } //Le cas échéant, on charge l'image contenant les vignettes
 
 
-      if (self.params.thumbnails.src) {
+      if (self.params.thumbnails.src && !_isIosDevice) {
         let thumb = new Image();
 
         const thumbEvent = function (e) {
@@ -1145,8 +1147,9 @@ class AmstramgramVideoPlayer {
       if (!volumeBeforeMute) {
         volumeBeforeMute = media.volume == 0 ? 0.1 : media.volume;
         if (IS_MOBILE) volumeBeforeMute = 1;
-      } //Initialisation/Mise à jour du format
+      }
 
+      media.dispatchEvent(new Event('volumechange')); //Initialisation/Mise à jour du format
 
       container.style.paddingBottom = 1 / self.params.format * 100 + '%'; //Initialisation/Mise à jour du poster
 
@@ -1160,7 +1163,12 @@ class AmstramgramVideoPlayer {
       $('.amst__currenttime').innerHTML = secondsToTimeCode(0, self.params.duration > 3600); //Mise à jour des boutons
 
       updateAllButtons();
-      if (self.params.autoplay == true) _play();
+
+      if (self.params.autoplay == true) {
+        media.load();
+
+        _play();
+      }
     } //On écoute le custom event 'amstEvent__src' généré par la méthode src()
 
 
@@ -1418,7 +1426,7 @@ class AmstramgramVideoPlayer {
       toggleControls = false; //Variable passant à true s'il s'agit d'un déplacement vertical
 
       target.on('touchend', touchEnd, passive ? {
-        passive: true
+        passive: false
       } : false);
       target.on('touchmove', touchMove, passive ? {
         passive: false
@@ -1452,7 +1460,7 @@ class AmstramgramVideoPlayer {
           horizontalMove--;
         }
 
-        if (horizontalMove >= moveThreshold) {
+        if (horizontalMove >= moveThreshold && !_isIosDevice) {
           //Si le mouvement horizontal se confirme
           seekingRatio = Math.min(Math.max(timeRatio + distX / playerWidth, 0), 0.999);
           if (!seekingTouchWidth) seekingTouchWidth = seekingTouch.offsetWidth;
@@ -1501,6 +1509,8 @@ class AmstramgramVideoPlayer {
       }
 
       function touchEnd(e) {
+        e.preventDefault();
+
         if (seekingRatio != undefined) {
           //Si seeking et donc swipe horizontal
           //On place la tête de lecture au temps résultant
@@ -1694,15 +1704,13 @@ class AmstramgramVideoPlayer {
       } //Mise à jour en cas de mute/demute
 
 
-      if (media.volume == 0) {
-        media.muted = true;
+      if (media.muted) {
         volumeButton.setAttributes({
           title: self.params.volumeButton.label.unmute,
           'aria-label': self.params.volumeButton.label.unmute,
           class: 'amst__unmute'
         });
       } else {
-        media.muted = false;
         volumeBeforeMute = media.volume;
 
         if (volumeButton.classList.contains('amst__unmute')) {
@@ -2128,13 +2136,8 @@ class AmstramgramVideoPlayer {
   }
 
   set volume(vol) {
+    this.media.muted = vol == 0 ? true : false;
     this.media.volume = vol;
-
-    if (vol == 0) {
-      this.media.muted = true;
-    } else {
-      this.media.muted = false;
-    }
   }
 
   get volume() {
@@ -2359,9 +2362,10 @@ function buildUI(params) {
     videoVolumeHTMLString += '</div>' + volumeSliderHTMLString;
   }
 
+  let containerClass = _isIosDevice ? 'amst__container amst__isIosDevice' : 'amst__container';
   let buildUIStr = `
     <span class="amst__offscreen">${params.appLabel}</span>
-    <div class="amst__container" tabindex="0" role="application" aria-label="${params.appLabel}">
+    <div class="${containerClass}" tabindex="0" role="application" aria-label="${params.appLabel}">
       <div class="amst__mediaelement">
         <video></video>
       </div>

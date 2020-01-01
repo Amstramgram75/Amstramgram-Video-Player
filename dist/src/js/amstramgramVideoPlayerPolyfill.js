@@ -2,7 +2,7 @@
   * AmstramgramVideoPlayer v1.0.0
   * https://github.com/Amstramgram75/Amstramgram-Video-Player
   *
-  * Copyright (c) 2019 Amstramgram
+  * Copyright (c) 2020 Amstramgram
   * Licensed under the MIT license
  */
 

@@ -472,6 +472,8 @@ var AmstramgramVideoPlayer = (function () {
 
 	  });
 	}
+
+	const _isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform);
 	/************************************************
 	 *                                              *
 	 *                 DÉBUT CLASS                  *
@@ -638,8 +640,7 @@ var AmstramgramVideoPlayer = (function () {
 	          timeCurrent = $('.amst__currenttime-bar'),
 	          seeking = $('.amst__seeking'),
 	          volumeButton = $('.amst__volumebutton button'),
-	          volumeSlider = $('.amst__volume-slider'),
-	          isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform); //Variables
+	          volumeSlider = $('.amst__volume-slider'); //Variables
 
 
 	    let //Largeur du lecteur actualisée sur l'évènement resize 
@@ -1085,7 +1086,7 @@ var AmstramgramVideoPlayer = (function () {
 	      } //Le cas échéant, on charge l'image contenant les vignettes
 
 
-	      if (self.params.thumbnails.src && !isIosDevice) {
+	      if (self.params.thumbnails.src && !_isIosDevice) {
 	        let thumb = new Image();
 
 	        const thumbEvent = function (e) {
@@ -1453,7 +1454,7 @@ var AmstramgramVideoPlayer = (function () {
 	          horizontalMove--;
 	        }
 
-	        if (horizontalMove >= moveThreshold && !isIosDevice) {
+	        if (horizontalMove >= moveThreshold && !_isIosDevice) {
 	          //Si le mouvement horizontal se confirme
 	          seekingRatio = Math.min(Math.max(timeRatio + distX / playerWidth, 0), 0.999);
 	          if (!seekingTouchWidth) seekingTouchWidth = seekingTouch.offsetWidth;
@@ -2355,9 +2356,10 @@ var AmstramgramVideoPlayer = (function () {
 	    videoVolumeHTMLString += '</div>' + volumeSliderHTMLString;
 	  }
 
+	  let containerClass = _isIosDevice ? 'amst__container amst__isIosDevice' : 'amst__container';
 	  let buildUIStr = `
     <span class="amst__offscreen">${params.appLabel}</span>
-    <div class="amst__container" tabindex="0" role="application" aria-label="${params.appLabel}">
+    <div class="${containerClass}" tabindex="0" role="application" aria-label="${params.appLabel}">
       <div class="amst__mediaelement">
         <video></video>
       </div>

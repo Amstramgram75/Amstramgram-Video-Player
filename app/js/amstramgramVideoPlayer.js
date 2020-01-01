@@ -457,6 +457,13 @@ if (storage && storage.getItem('amst_supportPassiveEvents')) {
   })
 }
 
+const _isIosDevice =
+  typeof window !== 'undefined' &&
+  window.navigator &&
+  window.navigator.platform &&
+  /iP(ad|hone|od)/.test(window.navigator.platform);
+
+
 
 /************************************************
  *                                              *
@@ -622,12 +629,7 @@ class AmstramgramVideoPlayer {
       timeCurrent = $('.amst__currenttime-bar'),
       seeking = $('.amst__seeking'),
       volumeButton = $('.amst__volumebutton button'),
-      volumeSlider = $('.amst__volume-slider'),
-      isIosDevice =
-        typeof window !== 'undefined' &&
-        window.navigator &&
-        window.navigator.platform &&
-        /iP(ad|hone|od)/.test(window.navigator.platform);
+      volumeSlider = $('.amst__volume-slider')
 
 
       
@@ -1023,7 +1025,7 @@ class AmstramgramVideoPlayer {
         self.params = mergeDeep(self.params, mySrc)
       }
       //Le cas échéant, on charge l'image contenant les vignettes
-      if (self.params.thumbnails.src && !isIosDevice) {
+      if (self.params.thumbnails.src && !_isIosDevice) {
         let thumb = new Image()
         const thumbEvent = function(e){
           thumb.removeEventListener('load', thumbEvent)
@@ -1337,7 +1339,7 @@ class AmstramgramVideoPlayer {
           } else {//Vertical
             horizontalMove --
           }
-          if (horizontalMove >= moveThreshold && !isIosDevice) {//Si le mouvement horizontal se confirme
+          if (horizontalMove >= moveThreshold && !_isIosDevice) {//Si le mouvement horizontal se confirme
             seekingRatio = Math.min(Math.max(timeRatio + (distX / playerWidth),0),0.999)
             if (!seekingTouchWidth) seekingTouchWidth = seekingTouch.offsetWidth
             const translate = Math.min(Math.max(seekingRatio * playerWidth - 0.5 * seekingTouchWidth, 0), playerWidth - seekingTouchWidth) + 'px'
@@ -2066,9 +2068,11 @@ function buildUI(params){
     videoVolumeHTMLString += ('</div>' + volumeSliderHTMLString)
   }
 
+  let containerClass = (_isIosDevice)?'amst__container amst__isIosDevice':'amst__container'
+
   let buildUIStr = `
     <span class="amst__offscreen">${params.appLabel}</span>
-    <div class="amst__container" tabindex="0" role="application" aria-label="${params.appLabel}">
+    <div class="${containerClass}" tabindex="0" role="application" aria-label="${params.appLabel}">
       <div class="amst__mediaelement">
         <video></video>
       </div>

@@ -19,6 +19,7 @@ Simple, elegant, ligthweight although powerfull and versatile HTML5 video player
 * [Customization](#customization)
 * [API](#api)
 * [Compatibility](#compatibility)
+* [Thanks](#thanks)
 * [Donation](#donation)
 * [Credits](#credits)
 * [License](#license)
@@ -470,6 +471,13 @@ If you have absolutly no idea about how to polyfill, copy the `amstramgramVideoP
 </script>
 ```
 Thus, the polyfill file will only be downloaded if needed...
+___
+## Thanks
+<a href="https://www.browserstack.com/" target="_blanck">
+  <img src="https://live.browserstack.com/images/opensource/browserstack-logo.svg" width="192px" height="42px">
+</a>
+
+Thanks to <a href="https://www.browserstack.com/" target="_blanck">BrowserStack</a> for providing the infrastructure that allows me to test in real browsers !
 ___
 ## Donation
 If you find this project useful and want to say thanks, you can buy me a cup of coffee, a beer, a computer, a sofa, a haunted manor or whatever you want...  
