@@ -29,7 +29,7 @@ Simple, elegant, ligthweight although powerfull and versatile HTML5 video player
 * Written in pure JavaScript, no dependencies required
 * Touch-devices support
 * Two UI modes : normal / compact
-* Preview thumbnails support
+* Preview thumbnails support (but not for evil iOS - see [Compatibility](#compatibility))
 * SVG buttons included in css, no extra files to download
 * Previous, play/pause, next, fullscreen, download buttons
 * All buttons titles configurables
@@ -452,6 +452,7 @@ ___
 ___
 ## Compatibility
 All modern browers on desktop, Android and iOS are supported.  
+__However, because of its currents limitations, iOS won't display the thumbnails.__  
 __Internet Explorer 11__ needs some polyfills (what a surprise !) :
 * [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill)
 * [Array.from](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from#Polyfill)
