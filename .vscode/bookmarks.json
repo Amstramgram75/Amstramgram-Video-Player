@@ -8,122 +8,122 @@
 				"label": "INITIALISATION"
 			},
 			{
-				"line": 469,
+				"line": 468,
 				"column": 0,
 				"label": "DÉBUT CLASS"
 			},
 			{
-				"line": 485,
+				"line": 484,
 				"column": 0,
 				"label": "RÉCUPÉRATION / TRAITEMENT DES PARAMÈTRES"
 			},
 			{
-				"line": 577,
+				"line": 576,
 				"column": 0,
 				"label": "CONSTRUCTION HTML"
 			},
 			{
-				"line": 606,
+				"line": 605,
 				"column": 0,
 				"label": "DÉCLARATIONS DES VARIABLES"
 			},
 			{
-				"line": 699,
+				"line": 698,
 				"column": 0,
 				"label": "PLAY"
 			},
 			{
-				"line": 741,
+				"line": 740,
 				"column": 0,
 				"label": "PAUSE"
 			},
 			{
-				"line": 767,
+				"line": 766,
 				"column": 0,
 				"label": "RESET"
 			},
 			{
-				"line": 801,
+				"line": 800,
 				"column": 0,
 				"label": "HIDECONTROLS"
 			},
 			{
-				"line": 847,
+				"line": 846,
 				"column": 0,
 				"label": "SHOWCONTROLS"
 			},
 			{
-				"line": 866,
+				"line": 865,
 				"column": 0,
 				"label": "UPDATEBUTTONS"
 			},
 			{
-				"line": 980,
+				"line": 979,
 				"column": 0,
 				"label": "SOURCE"
 			},
 			{
-				"line": 1098,
+				"line": 1097,
 				"column": 0,
 				"label": "ÉVÈNEMENTS MEDIA"
 			},
 			{
-				"line": 1193,
+				"line": 1192,
 				"column": 0,
 				"label": "UPDATEBUFFER"
 			},
 			{
-				"line": 1240,
+				"line": 1239,
 				"column": 0,
 				"label": "UPDATETIMERAIL"
 			},
 			{
-				"line": 1277,
+				"line": 1276,
 				"column": 0,
 				"label": "ÉVTS TACTILES SUR LA VIDÉO"
 			},
 			{
-				"line": 1401,
+				"line": 1400,
 				"column": 0,
 				"label": "ÉVTS GÉNÉRAUX"
 			},
 			{
-				"line": 1420,
+				"line": 1419,
 				"column": 0,
 				"label": "AFFICHER/CACHER LES CONTRÔLES"
 			},
 			{
-				"line": 1443,
+				"line": 1442,
 				"column": 0,
 				"label": "ÉVÉNEMENTS SUR RAIL"
 			},
 			{
-				"line": 1485,
+				"line": 1484,
 				"column": 0,
 				"label": "ÉVTS SOURIS SUR SLIDER"
 			},
 			{
-				"line": 1516,
+				"line": 1515,
 				"column": 0,
 				"label": "VOLUMECHANGE"
 			},
 			{
-				"line": 1569,
+				"line": 1568,
 				"column": 0,
 				"label": "VOLUME CLICK SUR HP"
 			},
 			{
-				"line": 1587,
+				"line": 1586,
 				"column": 0,
 				"label": "VOLUME POTENTIOMÈTRE - SOURIS & CLAVIER"
 			},
 			{
-				"line": 1680,
+				"line": 1679,
 				"column": 0,
 				"label": "FULLSCREEN"
 			},
 			{
-				"line": 1783,
+				"line": 1782,
 				"column": 0,
 				"label": "RESIZE"
 			},
