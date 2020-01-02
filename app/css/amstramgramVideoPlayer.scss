@@ -83,6 +83,15 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
 /* FULLSCREEN */
 .amst__video.amst__isfullscreen {
 	display: flex;
+	width: 100%;
+	height: 100%;
+	background: #000;
+}
+.amst__video.amst__isfullscreen.amst__fakefullscreen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1111111111111;
 }
 .amst__video.amst__isfullscreen .amst__container{
 	margin: auto;

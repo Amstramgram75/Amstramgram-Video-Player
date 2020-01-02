@@ -330,9 +330,12 @@ const style = d.createElement("style"); // WebKit hack
 style.appendChild(d.createTextNode(""));
 d.head.appendChild(style);
 style.sheet.insertRule(`.amst__time>span{width:${timeWidth}px;`, 0);
-style.sheet.insertRule(`.amst__long .amst__time>span{width:${longTimeWidth}px;`, 0); //Détection de la fonctionnalité fullscreen et de ses éventuels préfixes
+style.sheet.insertRule(`.amst__long .amst__time>span{width:${longTimeWidth}px;`, 0);
 
-let fullscreenAPI = false;
+const _isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform); //Détection de la fonctionnalité fullscreen et de ses éventuels préfixes
+
+
+let fullscreenAPI;
 
 if (storage && storage.getItem('amst_fullscreenAPI') != undefined) {
   fullscreenAPI = JSON.parse(storage.getItem('amst_fullscreenAPI'));
@@ -360,7 +363,10 @@ if (storage && storage.getItem('amst_fullscreenAPI') != undefined) {
       }
     }
 
-    return false;
+    return {
+      fake: true,
+      fullscreenchange: 'fullscreenchange'
+    };
   }();
 
   storage.setItem('amst_fullscreenAPI', JSON.stringify(fullscreenAPI));
@@ -443,12 +449,10 @@ if (storage && storage.getItem('amst_pointerType')) {
 } else {
   const testPointerMove = function (e) {
     _pointerType = e.pointerType ? e.pointerType : 'mouse';
-    console.log('move');
     cleanTestPointer();
   },
         testTouchStart = function () {
     _pointerType = 'touch';
-    console.log('touchstart');
     cleanTestPointer();
   },
         cleanTestPointer = function () {
@@ -481,8 +485,6 @@ if (storage && storage.getItem('amst_supportPassiveEvents')) {
 
   });
 }
-
-const _isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform);
 /************************************************
  *                                              *
  *                 DÉBUT CLASS                  *
@@ -722,7 +724,8 @@ class AmstramgramVideoPlayer {
     //Fonction déclenchée par l'évènement 'amstEvent__play' généré par la méthode publique play()
 
     function _play() {
-      //https://developers.google.com/web/updates/2016/03/play-returns-promise
+      if (!container.classList.contains('amst__loadedmetadata')) media.load(); //https://developers.google.com/web/updates/2016/03/play-returns-promise
+
       let playPromise = media.play();
       if (playPromise) playPromise.catch(() => {
         //We try again
@@ -1896,88 +1899,96 @@ class AmstramgramVideoPlayer {
     */
 
 
-    if (fullscreenAPI) {
-      let scrollX = 0,
-          scrollY = 0;
-      const fullScreenButton = $('.amst__fullscreen>button');
-      fullScreenButton.on('click', () => {
-        if (d[fullscreenAPI.fullscreenElement] !== null) {
-          //On est en mode plein écran
-          //On en sort
-          d[fullscreenAPI.exitFullscreen]();
+    let scrollX = 0,
+        scrollY = 0;
+    const fullScreenButton = $('.amst__fullscreen>button');
+    fullScreenButton.on('click', () => {
+      if (AmstramgramVideoPlayer.currentFullScreenPlayer) {
+        //On est en mode plein écran
+        //On reset la propriété currentFullScreenPlayer de la class
+        AmstramgramVideoPlayer.currentFullScreenPlayer = undefined; //On en sort
+
+        if (fullscreenAPI.fake) {
+          wrapper.classList.remove('amst__fakefullscreen');
+          d.dispatchEvent(new Event(fullscreenAPI.fullscreenchange));
         } else {
-          //On n'est pas en mode plein écran
-          //On mémorise la position dans la page pour pouvoir la rétablir à la sortie du plein écran
-          scrollX = w.pageXOffset;
-          scrollY = w.pageYOffset; //On passe en plein écran
-
-          wrapper[fullscreenAPI.requestFullscreen](); // container[fullscreenAPI.requestFullscreen]()
-          //On initialise la propriété currentFullScreenPlayer de la class
-
-          AmstramgramVideoPlayer.currentFullScreenPlayer = self;
+          d[fullscreenAPI.exitFullscreen]();
         }
-      }); //Ecoute de l'évènement fullscreenchange
+      } else {
+        //On n'est pas en mode plein écran
+        //On mémorise la position dans la page pour pouvoir la rétablir à la sortie du plein écran
+        scrollX = w.pageXOffset;
+        scrollY = w.pageYOffset; //On initialise la propriété currentFullScreenPlayer de la class
 
-      d.addEventListener(fullscreenAPI.fullscreenchange, function () {
-        if (d[fullscreenAPI.fullscreenElement] == wrapper) {
-          //Si le player passe en plein écran
-          //Écoute du resize
-          w.addEventListener('amst__optimizedResize', resizeFullScreen);
-          wrapper.classList.add('amst__isfullscreen'); //On enlève la transition sur la padding du container
+        AmstramgramVideoPlayer.currentFullScreenPlayer = self; //On passe en plein écran
 
-          container.classList.add('amst__notransition'); //Mise à jour du bouton et de ses labels
+        if (fullscreenAPI.fake) {
+          wrapper.classList.add('amst__fakefullscreen');
+          d.dispatchEvent(new Event(fullscreenAPI.fullscreenchange));
+        } else {
+          wrapper[fullscreenAPI.requestFullscreen]();
+        }
+      }
+    }); //Ecoute de l'évènement fullscreenchange
 
-          fullScreenButton.setAttributes({
-            title: exitFullScreenLabel,
-            'aria-label': exitFullScreenLabel,
-            class: ' amst__unfullscreen'
-          });
-          resizeFullScreen();
-        } else if (AmstramgramVideoPlayer.currentFullScreenPlayer == self) {
-          //Si le player sort du plein écran
-          //On retire l'écouteur sur le resize
-          w.removeEventListener('amst__optimizedResize', resizeFullScreen); //On reset les dimensions éventuellement spécifiées par la fonction resizeFullScreen
+    d.addEventListener(fullscreenAPI.fullscreenchange, function () {
+      if (AmstramgramVideoPlayer.currentFullScreenPlayer == self) {
+        //Si le player passe en plein écran
+        //Écoute du resize
+        w.addEventListener('amst__optimizedResize', resizeFullScreen);
+        wrapper.classList.add('amst__isfullscreen'); //On enlève la transition sur la padding du container
 
-          container.setAttribute('style', `padding-bottom:${1 / self.params.format * 100}%`);
-          wrapper.classList.remove('amst__isfullscreen'); //Mise à jour du bouton et de ses labels
+        container.classList.add('amst__notransition'); //Mise à jour du bouton et de ses labels
 
-          fullScreenButton.setAttributes({
-            title: enterFullScreenLabel,
-            'aria-label': enterFullScreenLabel,
-            class: ''
-          }); //On se repositionne sur la page
+        fullScreenButton.setAttributes({
+          title: exitFullScreenLabel,
+          'aria-label': exitFullScreenLabel,
+          class: ' amst__unfullscreen'
+        });
+        resizeFullScreen();
+      } else {
+        //Si le player sort du plein écran
+        //On retire l'écouteur sur le resize
+        w.removeEventListener('amst__optimizedResize', resizeFullScreen); //On reset les dimensions éventuellement spécifiées par la fonction resizeFullScreen
+
+        container.setAttribute('style', `padding-bottom:${1 / self.params.format * 100}%`);
+        wrapper.classList.remove('amst__isfullscreen'); //Mise à jour du bouton et de ses labels
+
+        fullScreenButton.setAttributes({
+          title: enterFullScreenLabel,
+          'aria-label': enterFullScreenLabel,
+          class: ''
+        }); //On se repositionne sur la page
+
+        setTimeout(() => {
+          w.scroll(scrollX, scrollY);
+          resize(); //On remet la transition sur le padding du container
 
           setTimeout(() => {
-            w.scroll(scrollX, scrollY); //On remet la transition sur le padding du container
+            container.classList.remove('amst__notransition');
+          }, 50);
+        }, 50);
+      }
+    }, false);
 
-            setTimeout(() => {
-              container.classList.remove('amst__notransition');
-            }, 50);
-          }, 50); //On reset la propriété currentFullScreenPlayer de la class
+    const resizeFullScreen = function () {
+      if (w.innerWidth / w.innerHeight > self.params.format) {
+        //Si l'écran est plus large que la vidéo
+        container.css({
+          width: w.innerHeight * self.params.format + 'px',
+          height: '100%',
+          'paddingBottom': 0
+        });
+      } else {
+        container.css({
+          width: '100%',
+          height: 'auto',
+          'paddingBottom': 1 / self.params.format * 100 + '%'
+        });
+      }
 
-          AmstramgramVideoPlayer.currentFullScreenPlayer = undefined;
-        }
-      }, false);
-
-      const resizeFullScreen = function () {
-        if (w.innerWidth / w.innerHeight > self.params.format) {
-          //Si l'écran est plus large que la vidéo
-          container.css({
-            width: w.innerHeight * self.params.format + 'px',
-            height: '100%',
-            'paddingBottom': 0
-          });
-        } else {
-          container.css({
-            width: '100%',
-            height: 'auto',
-            'paddingBottom': 1 / self.params.format * 100 + '%'
-          });
-        }
-
-        resize();
-      };
-    }
+      resize();
+    };
     /************************************************
      *                                              *
      *                FIN FULLSCREEN                *
