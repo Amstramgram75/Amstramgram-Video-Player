@@ -361,7 +361,6 @@ if (storage && storage.getItem('amst_fullscreenAPI') != undefined) {
       }
     }
     return {fake:true, fullscreenchange:'fullscreenchange'}
-    return false;
   })()
   storage.setItem('amst_fullscreenAPI', JSON.stringify(fullscreenAPI))
 }
@@ -413,7 +412,7 @@ Donc, sur une surface tactile, touchstart sera déclenché avant mousemove
 et si l'on détecte un mousemove, c'est bel et bien que l'on n'est pas sur tactile.
 
 Par défaut, l'interface graphique est orientée touchDevice.
-Si l'on constate que l'on est sur le dispositif de pointage n'est pas tactile,
+Si l'on constate que le dispositif de pointage n'est pas tactile,
 on applique au container principal une class no-touch.
 Cette class assure la prise en charge de la pseudo-class css :hover.
 Par ailleurs, elle opère une réduction de moitié des hauteurs de la barre temporelle 
@@ -428,7 +427,7 @@ On déclare donc une variable _pointerType et on lui affecte la valeur 'unknown'
 On pose un premier écouteur pour détecter un éventuel déplacement du pointeur
 et un second sur l'évènement touchstart.
 Si on détecte un touchstart, on donne la valeur 'touch' à la variable _pointerType.
-Si on détecte un déplacement, on passe la valeur 'mouse' à _pointerType..
+Si on détecte un déplacement, on passe la valeur 'mouse' à _pointerType.
 Aussitôt la détection effectuée, on stoppe les deux écouteurs initialement posés
 et on transmet l'information aux éventuelles instances créées entretemps
 */  

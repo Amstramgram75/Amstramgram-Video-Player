@@ -30,17 +30,132 @@
 		</header>
 		<div class="content">
 			<h2>Thumbnails</h2>
-			<h2>As soon as possible</h2>
+			<p class="margintop20">
+				The thumbnails file consists of a collection of thumbnails joined together on a single line.<br>
+				Obviously, all of them share the same width and height.<br>
+				So, if we whish a succession of 100 thumbnails of 120 pixels width, we get a picture of 120 x 100 = 12000 pixels.<br>
+				Something like this&nbsp;:
+			</p>
+			<div class="margintop10 thumbsContainer">
+				<img src="assets/castorsThumbs.jpg" width="12000">
+			</div>
+			<p class="margintop10">
+				To build it, we can use the power of <a href="https://www.ffmpeg.org/" target="_blank">FFmpeg Project</a> who provides a well-known collection of video tools.
+			</p>
+			<h4 class="title">Number of frames</h4>
+			<p>
+				First, we need to get the number of frames in our video.<br>
+				Suppose our video file is named <span class="italic bold">LesCastorsAutoConstructeurs.mp4</span>, <a href="https://www.ffmpeg.org/ffprobe.html" target="_blank">ffprobe</a> can give it with one quite simple command line&nbsp;:
+			</p>
+			<p class="smaller italic">
+				(Okay, this assumes the <span class="bold">FFmpeg</span> folder is in your path environment variable and you launch a terminal in the video file folder... But I think you're brilliant enough to guess it !)
+			</p>
+			<pre class="margintop10">
+<code class="shell">
+	ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of csv=p=0 -i LesCastorsAutoConstructeurs.mp4
+	5261
+</code></pre>
+			<ul class="margintop10">
+				<li>
+					<mark>-v error</mark> : hide the info output for a better readability.<br>
+				</li>
+				<li>
+					<mark>-select_streams v:0</mark> : select only the video stream.<br>
+				</li>
+				<li>
+					<mark>-show_entries stream=nb_frames</mark> : show only the entry for nb_frames.
+				</li>
+				<li>
+					<mark>-of csv=p=0</mark> : minimize the output to nb_frames.
+				</li>
+				<li>
+					<mark>-i LesCastorsAutoConstructeurs.mp4</mark> : set our video as input.
+				</li>
+				<li>
+					<mark>5261</mark> : the answer to our question.
+				</li>
+			</ul>
+			<p class="margintop10">
+				You can get the full explanation and some others methods <a href="https://stackoverflow.com/a/28376817" target="_blank">here</a>.
+			</p>
+			<h4 class="title">Generating the thumbs</h4>
+				<p>
+					Imagine we want to extract <span class="italic bold">100</span> thumbnails of <span class="italic bold">120</span> pixels width from our video <span class="italic bold">LesCastorsAutoConstructeurs.mp4</span> which contains <span class="italic bold">5261</span> frames to a single image named <span class="italic bold">preview.jpg</span>. That's to say we have to take a snapshot each <span class="italic bold">52</span> frames.<br>
+					The magical line to achieve such a result looks like this&nbsp;:
+				</p>
+<pre class="margintop10">
+<code class="shell">
+	ffmpeg -i LesCastorsAutoConstructeurs.mp4 -y -frames 1 -q:v 10 -vf "select=not(mod(n\,52)),scale=120:-1,tile=100x1" preview.jpg
+</code></pre>
+			<ul class="margintop10">
+				<li>
+					<mark>-i LesCastorsAutoConstructeurs.mp4</mark> : take our video as input.<br>
+				</li>
+				<li>
+					<mark>-y</mark> : overwrite the output file (preview.jpg) if it exists.<br>
+				</li>
+				<li>
+					<mark>-frames 1</mark> : output only one frame.
+				</li>
+				<li>
+					<mark>-q:v 10</mark> : set maximum constant quality (VBR) encoding.
+				</li>
+				<li>
+					<mark>-vf</mark> : create the filtergraph.
+				</li>
+				<li>
+					<mark>"select=not(mod(n\,52)),scale=120:-1,tile=100x1"</mark> : our filtergraph which <a href="https://www.ffmpeg.org/ffmpeg-filters.html#Examples-137" target="_blank">select</a>  one frame every 52, use the <a href="https://trac.ffmpeg.org/wiki/Scaling" target="_blank">scale filter</a> to fix the width to 120 pixels while keeping the aspect ratio (this is why we get <span class="italic">:-1</span>) and finally output the result to a 100x1 tile.
+				</li>
+			</ul>
+			<h4 class="title">All in one</h4>
+			<p>
+				I guess that some of you would like an easiest and more human-friendly solution.<br>
+				So am I...<br>
+				As I wanted to give a try to <a href="https://kotlinlang.org/" target="_blank">Kotlin</a>, I've decided to build a little piece of soft with it to do the job.<br>
+				And this is how the result looks like&nbsp;:
+			</p>
+			<div class="gallery">
+				<a href="assets/Amstramgram Thumbnails Generator - FFmpeg Folder.jpg" data-caption="Point the ffmpeg folder path.">
+						<img src="assets/Amstramgram Thumbnails Generator - FFmpeg Folder - Cover.jpg" alt="Amstramgram Thumbnails Generator - FFmpeg Folder">
+				</a>
+				<a href="assets/Amstramgram Thumbnails Generator - Video File.jpg" data-caption="Select the video file." style="display:none">
+						<img src="assets/Amstramgram Thumbnails Generator - FFmpeg Folder - Cover.jpg" alt="Amstramgram Thumbnails Generator - FFmpeg Folder">
+				</a>
+				<a href="assets/Amstramgram Thumbnails Generator - Options.jpg" data-caption="Options and destination." style="display:none">
+						<img src="assets/Amstramgram Thumbnails Generator - FFmpeg Folder - Cover.jpg" alt="Amstramgram Thumbnails Generator - FFmpeg Folder">
+				</a>
+				<a href="assets/Amstramgram Thumbnails Generator - Processing.jpg" data-caption="Processing..." style="display:none">
+						<img src="assets/Amstramgram Thumbnails Generator - FFmpeg Folder - Cover.jpg" alt="Amstramgram Thumbnails Generator - FFmpeg Folder">
+				</a>
+				<a href="assets/Amstramgram Thumbnails Generator - End.jpg" data-caption="That's all, folks !" style="display:none">
+						<img src="assets/Amstramgram Thumbnails Generator - FFmpeg Folder - Cover.jpg" alt="Amstramgram Thumbnails Generator - FFmpeg Folder">
+				</a>
+				<p class="italic center smaller">
+					Click to enlarge and see the other windows.
+				</p>
+			</div>
+			<p>
+				First, you need to point the ffmpeg executable folder path (if it's not in the path environment variable of your system), then select the video file, and, finally, choose the number and the width of the thumbnails and the destination file.<br>
+				That's done, you only have to wait for the process to finish.
+			</p>
+			<p>
+				You can download it from here.<br>
+				However, as other Java applications, remember you need to have <a href="https://www.java.com/" target="_blank">Java Runtime Environment</a> installed so you may run it.
+			</p>
 		</div>
+		<footer></footer>
+		<link rel="stylesheet" href="css/baguetteBox.min.css">
 		<link rel="stylesheet" href="css/main.css">
 		<link rel='stylesheet' href="css/amstramgramVideoPlayer.min.css">
 		<script src="js/highlight.pack.js"></script>
 		<script src="js/amstramgramVideoPlayer.min.js"></script>
+		<script src="js/baguetteBox.min.js"></script>
 		<script>
 			//Highlight.js initialisation
 			hljs.initHighlightingOnLoad();
 			hljs.configure({tabReplace: '   '}); // 2 spaces
 			hljs.getLanguage('javascript').k.amst = ' AmstramgramVideoPlayer';
+			baguetteBox.run('.gallery');
 			document.body.classList.add('ready')
 		</script>
 	</body>

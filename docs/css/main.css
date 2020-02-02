@@ -36,6 +36,25 @@ body.ready .content, body.ready header{
 a, a:link, a:hover, a:visited, a:active{
   color: #a10304;
   text-decoration: none;
+  font-weight: bold;
+}
+.center{
+  text-align: center;
+}
+.italic{
+  font-style: italic;
+}
+.bold{
+  font-weight: bold;
+}
+.margintop10{
+  margin-top: 10px;
+}
+.margintop20{
+  margin-top: 20px;
+}
+.smaller{
+  font-size: 0.75em;
 }
 h1{
   color:#a10304;
@@ -49,7 +68,7 @@ h2{
   font-size: 1.5em;
   margin-bottom: 0.5em;
 }
-h2:before, h2:after{
+h2:before, h2:after, h4.title:before{
   content: '';
   display: inline-block;
   box-sizing: border-box;
@@ -59,7 +78,7 @@ h2:before, h2:after{
   border-radius: 50%;
   background: #c9be9f;
 }
-h2:before{
+h2:before, h4.title:before{
   margin-right:0.2em;
 }
 h2:after{
@@ -72,6 +91,17 @@ h3{
   text-align: center;
   margin: 0.5em auto 0 auto;
 }
+h4{
+  text-align: left;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #cb852a;
+  margin: 1.5em 0 0.5em 0;
+}
+h4.title:before{
+  background: #cb852a;
+}
+
 .videoContainer{
   margin-bottom: 1em;;
 }
@@ -83,9 +113,19 @@ video{
   max-width: 600px;
   align-self: center;
 }
-p{
+p, ul{
   font-size: 0.8rem;
   text-align: justify;
+}
+ul{
+  padding-left: 1em;
+}
+li{
+  padding-bottom: 0.2em;
+}
+mark{
+  background-color: #cb852a;
+  font-size: 0.85em;
 }
 .codeContainer{
   position: relative;
@@ -123,8 +163,6 @@ pre code{
   font-size: 0.75em;
 }
 pre code h4{
-  color:#cb852a;
-  font-weight: bold;
   text-decoration: underline;;
 }
 pre code h4:after{
@@ -201,7 +239,7 @@ footer{
   background: #c9be9f;
 }
 @media screen and (max-width: 1050px) {
-  .content>div:not(.videoContainer), .content>p{
+  .content>div:not(.videoContainer), .content>p, .content>h4{
     width: 95%;
     margin-left: auto;
     margin-right: auto;
@@ -527,5 +565,17 @@ li.active a{
   .header .menu-btn:checked ~ .menu-icon {
     transform: translate(-140px,-60px);
   }
+}
+.thumbsContainer{
+  max-width: 1000px;
+  overflow-x: scroll;
+}
+.gallery{
+  margin: 20px auto 20px auto;
+  text-align: center;
+}
+.gallery img{
+  width: 100%;
+  max-width: 400px;;
 }
 
