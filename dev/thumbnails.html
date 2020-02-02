@@ -10,7 +10,7 @@
 				var d = document,
 						s = d.createElement('script');
 				s.async = "false";
-				s.src = "js/amstramgramVideoPlayerPolyfill.js";
+				s.src = "js/amstramgramVideoPlayerPolyfill.min.js";
 				d.head.appendChild(s);
 			} 
 		</script>
@@ -45,10 +45,10 @@
 			<h4 class="title">Number of frames</h4>
 			<p>
 				First, we need to get the number of frames in our video.<br>
-				Suppose our video file is named <span class="italic bold">LesCastorsAutoConstructeurs.mp4</span>, <a href="https://www.ffmpeg.org/ffprobe.html" target="_blank">ffprobe</a> can give it with one quite simple command line&nbsp;:
+				Suppose our video file is named <span class="italic bold">LesCastorsAutoConstructeurs.mp4</span>, <a href="https://www.ffmpeg.org/ffprobe.html" target="_blank">ffprobe</a> can give us what we need with one quite simple command line&nbsp;:
 			</p>
 			<p class="smaller italic">
-				(Okay, this assumes the <span class="bold">FFmpeg</span> folder is in your path environment variable and you launch a terminal in the video file folder... But I think you're brilliant enough to guess it !)
+				(Okay, this assumes the <span class="bold">FFmpeg</span> folder is specified in your path environment variable and that you launch a terminal in the video file folder... But I think you're brilliant enough to guess it !)
 			</p>
 			<pre class="margintop10">
 <code class="shell">
@@ -76,11 +76,11 @@
 				</li>
 			</ul>
 			<p class="margintop10">
-				You can get the full explanation and some others methods <a href="https://stackoverflow.com/a/28376817" target="_blank">here</a>.
+				You can get the full explanation and some alternative methods <a href="https://stackoverflow.com/a/28376817" target="_blank">here</a>.
 			</p>
 			<h4 class="title">Generating the thumbs</h4>
 				<p>
-					Imagine we want to extract <span class="italic bold">100</span> thumbnails of <span class="italic bold">120</span> pixels width from our video <span class="italic bold">LesCastorsAutoConstructeurs.mp4</span> which contains <span class="italic bold">5261</span> frames to a single image named <span class="italic bold">preview.jpg</span>. That's to say we have to take a snapshot each <span class="italic bold">52</span> frames.<br>
+					Imagine we want to extract <span class="italic bold">100</span> thumbnails of <span class="italic bold">120</span> pixels width from our video <span class="italic bold">LesCastorsAutoConstructeurs.mp4</span> to a single image named <span class="italic bold">preview.jpg</span>. Our video contains <span class="italic bold">5261</span> frames. So, we have to take a snapshot each <span class="italic bold">52</span> frames.<br>
 					The magical line to achieve such a result looks like this&nbsp;:
 				</p>
 <pre class="margintop10">
@@ -104,13 +104,13 @@
 					<mark>-vf</mark> : create the filtergraph.
 				</li>
 				<li>
-					<mark>"select=not(mod(n\,52)),scale=120:-1,tile=100x1"</mark> : our filtergraph which <a href="https://www.ffmpeg.org/ffmpeg-filters.html#Examples-137" target="_blank">select</a>  one frame every 52, use the <a href="https://trac.ffmpeg.org/wiki/Scaling" target="_blank">scale filter</a> to fix the width to 120 pixels while keeping the aspect ratio (this is why we get <span class="italic">:-1</span>) and finally output the result to a 100x1 tile.
+					<mark>"select=not(mod(n\,52)),scale=120:-1,tile=100x1"</mark> : our filtergraph which <a href="https://www.ffmpeg.org/ffmpeg-filters.html#Examples-137" target="_blank">selects</a>  one frame every 52, uses the <a href="https://trac.ffmpeg.org/wiki/Scaling" target="_blank">scale filter</a> to fix the width to 120 pixels while keeping the aspect ratio (this is why we get <span class="italic">:-1</span>) and finally outputs the result to a 100x1 tile.
 				</li>
 			</ul>
 			<h4 class="title">All in one</h4>
 			<p>
 				I guess that some of you would like an easiest and more human-friendly solution.<br>
-				So am I...<br>
+				So was I...<br>
 				As I wanted to give a try to <a href="https://kotlinlang.org/" target="_blank">Kotlin</a>, I've decided to build a little piece of soft with it to do the job.<br>
 				And this is how the result looks like&nbsp;:
 			</p>
@@ -135,7 +135,7 @@
 				</p>
 			</div>
 			<p>
-				First, you need to point the ffmpeg executable folder path (if it's not in the path environment variable of your system), then select the video file, and, finally, choose the number and the width of the thumbnails and the destination file.<br>
+				First, you need to point the ffmpeg executable folder path (if it's not in the path environment variable of your system, otherwise, this step is simply skipped), then select the video file, and, finally, choose the number and the width of the thumbnails and the destination file.<br>
 				That's done, you only have to wait for the process to finish.
 			</p>
 			<p>
@@ -146,9 +146,9 @@
 		<footer></footer>
 		<link rel="stylesheet" href="css/baguetteBox.min.css">
 		<link rel="stylesheet" href="css/main.css">
-		<link rel='stylesheet' href="css/amstramgramVideoPlayer.css">
+		<link rel='stylesheet' href="css/amstramgramVideoPlayer.min.css">
 		<script src="js/highlight.pack.js"></script>
-		<script src="js/amstramgramVideoPlayer.js"></script>
+		<script src="js/amstramgramVideoPlayer.min.js"></script>
 		<script src="js/baguetteBox.min.js"></script>
 		<script>
 			//Highlight.js initialisation
