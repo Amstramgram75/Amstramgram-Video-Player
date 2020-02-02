@@ -102,7 +102,7 @@ new AmstramgramVideoPlayer(document.querySelector('video'),{
   // Custom options
 });
 ```
-When setting the source, you can pass a simple string giving the video file path or an object including the source path and several others options as duration, poster, thumbnails and so on...
+When setting the source, you can pass a simple string giving the video file path or an object including the source path and several other options as duration, poster, thumbnails and so on...
 ```js
 const player = new AmstramgramVideoPlayer(document.querySelector('video'));
 player.src = {
@@ -132,7 +132,7 @@ Default :
 &ensp;&ensp;`disabled: false,`  
 &ensp;&ensp;`hidden: false`  
 `}`  
-_Donwload_ button properties.
+_Download_ button properties.
 ___
 :black_medium_small_square: __duration__&ensp;&ensp;{Integer}  
 Default : 120  
@@ -189,11 +189,11 @@ Default :
 &ensp;&ensp;`disabled: true,`  
 &ensp;&ensp;`hidden: true`  
 `}`  
-_Next_ button properties.
+_Previous_ button properties.
 ___
 :black_medium_small_square: __skipTime__&ensp;&ensp;{Number} or {String}  
 Default : `"1%"`  
-Value in seconds or percent of the total duration for the time skip aplied when left or right arrows are pressed.
+Value in seconds or percent of the total duration for the time skip applied when left or right keyboard arrows are pressed.
 ___
 :black_medium_small_square: __thumbnails__&ensp;&ensp;{Object}  
 Default :  
@@ -203,6 +203,7 @@ Default :
 `}`  
 `src` is a string defining the path of the image used for the preview thumbnails and `number` gives the number of thumbnails included.  
 This number makes it possible to deduce the width of a thumbnail from the natural width property of the image. Then, the height is simply deduce from the video ratio.  
+You can find all the details on how to generate the thumbnails file [here](https://amstramgram75.github.io/Amstramgram-Video-Player/thumbnails.html)
 ___
 :black_medium_small_square: __volume__&ensp;&ensp;{Number}  
 Default : `0.8` on desktop, `1` on mobile and tablet.  
