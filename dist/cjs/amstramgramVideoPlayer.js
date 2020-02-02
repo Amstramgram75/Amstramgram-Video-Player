@@ -1,6 +1,6 @@
 /*
 amstramgramVideoPlayer.js
-@version : 1.0.0
+@version : 1.0.1
 @licence : MIT
 @author : Amstramgram
 @url : https://github.com/Amstramgram75/Amstramgram-Video-Player

@@ -1,5 +1,5 @@
 /*!
-  * AmstramgramVideoPlayer v1.0.0
+  * AmstramgramVideoPlayer v1.0.1
   * https://github.com/Amstramgram75/Amstramgram-Video-Player
   *
   * Copyright (c) 2020 Amstramgram

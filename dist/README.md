@@ -203,7 +203,7 @@ Default :
 `}`  
 `src` is a string defining the path of the image used for the preview thumbnails and `number` gives the number of thumbnails included.  
 This number makes it possible to deduce the width of a thumbnail from the natural width property of the image. Then, the height is simply deduce from the video ratio.  
-You can find all the details on how to generate the thumbnails file [here](https://amstramgram75.github.io/Amstramgram-Video-Player/thumbnails.html)
+__You can find all the details on how to generate the thumbnails file [here](https://amstramgram75.github.io/Amstramgram-Video-Player/thumbnails.html)__
 ___
 :black_medium_small_square: __volume__&ensp;&ensp;{Number}  
 Default : `0.8` on desktop, `1` on mobile and tablet.  
