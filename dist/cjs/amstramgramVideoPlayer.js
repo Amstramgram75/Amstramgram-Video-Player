@@ -1,6 +1,6 @@
 /*
 amstramgramVideoPlayer.js
-@version : 1.0.1
+@version : 1.0.2
 @licence : MIT
 @author : Amstramgram
 @url : https://github.com/Amstramgram75/Amstramgram-Video-Player
@@ -329,8 +329,8 @@ const style = d.createElement("style"); // WebKit hack
 
 style.appendChild(d.createTextNode(""));
 d.head.appendChild(style);
-style.sheet.insertRule(`.amst__time>span{width:${timeWidth}px;`, 0);
-style.sheet.insertRule(`.amst__long .amst__time>span{width:${longTimeWidth}px;`, 0);
+style.sheet.insertRule(".amst__time>span{width:".concat(timeWidth, "px;"), 0);
+style.sheet.insertRule(".amst__long .amst__time>span{width:".concat(longTimeWidth, "px;"), 0);
 
 const _isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform); //Détection de la fonctionnalité fullscreen et de ses éventuels préfixes
 
@@ -386,7 +386,7 @@ if (storage && storage.getItem('amst_transitionPrefix') != undefined && storage.
   transitionPrefix = storage.getItem('amst_transitionPrefix');
   transformPrefix = storage.getItem('amst_transformPrefix');
 } else {
-  let GetVendorPrefix = function (arrayOfPrefixes) {
+  let GetVendorPrefix = function GetVendorPrefix(arrayOfPrefixes) {
     let tmp = d.createElement("div"),
         result = '';
 
@@ -447,15 +447,15 @@ let _pointerType = 'unknown';
 if (storage && storage.getItem('amst_pointerType')) {
   _pointerType = storage.getItem('amst_pointerType');
 } else {
-  const testPointerMove = function (e) {
+  const testPointerMove = function testPointerMove(e) {
     _pointerType = e.pointerType ? e.pointerType : 'mouse';
     cleanTestPointer();
   },
-        testTouchStart = function () {
+        testTouchStart = function testTouchStart() {
     _pointerType = 'touch';
     cleanTestPointer();
   },
-        cleanTestPointer = function () {
+        cleanTestPointer = function cleanTestPointer() {
     storage.setItem('amst_pointerType', _pointerType);
     w.removeEventListener(myPointerMove, testPointerMove);
     w.removeEventListener('touchstart', testTouchStart);
@@ -953,8 +953,8 @@ class AmstramgramVideoPlayer {
     function updateButtonsAttributes(name, label) {
       const lowerCaseName = name.toLowerCase(),
             //pour volumeButton
-      buttonContainer = $(`.amst__${lowerCaseName}`),
-            button = $(`.amst__${lowerCaseName} > button`); //Mise à jour de l'attribut HTML disabled en fonction de l'option disabled.
+      buttonContainer = $(".amst__".concat(lowerCaseName)),
+            button = $(".amst__".concat(lowerCaseName, " > button")); //Mise à jour de l'attribut HTML disabled en fonction de l'option disabled.
 
       if (self.params[name].disabled === true) {
         button.setAttribute('disabled', '');
@@ -1053,13 +1053,13 @@ class AmstramgramVideoPlayer {
         src: mySrc
       };
 
-      if (!isNaN(mySrc.volume) && (mySrc.volumeForced === true || !storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`))) {
+      if (!isNaN(mySrc.volume) && (mySrc.volumeForced === true || !storage.getItem("amst_volumegroup".concat(mySrc.volumeGroup)))) {
         //Si un volume a été spécifié et que 
         //l'option volumeForced est présente ou que le volumeGroup ne figure pas dans sessionStorage
         self.params.volume = mySrc.volume;
-        storage.setItem(`amst_volumegroup${mySrc.volumeGroup}`, mySrc.volume);
-      } else if (storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`)) {
-        self.params.volume = storage.getItem(`amst_volumegroup${mySrc.volumeGroup}`);
+        storage.setItem("amst_volumegroup".concat(mySrc.volumeGroup), mySrc.volume);
+      } else if (storage.getItem("amst_volumegroup".concat(mySrc.volumeGroup))) {
+        self.params.volume = storage.getItem("amst_volumegroup".concat(mySrc.volumeGroup));
       } //On ne conserve dans mySrc que les propriétés relevantes. 
 
 
@@ -1101,7 +1101,7 @@ class AmstramgramVideoPlayer {
       if (self.params.thumbnails.src && !_isIosDevice) {
         let thumb = new Image();
 
-        const thumbEvent = function (e) {
+        const thumbEvent = function thumbEvent(e) {
           thumb.removeEventListener('load', thumbEvent);
           thumb.removeEventListener('error', thumbEvent);
 
@@ -1112,9 +1112,9 @@ class AmstramgramVideoPlayer {
             thumbWidth = thumb.naturalWidth / self.params.thumbnails.number; //On applique le style résultant aux éléments seeking et et seekingTouch
 
             let css = {
-              width: `${thumb.naturalWidth / self.params.thumbnails.number}px`,
-              height: `${thumb.naturalHeight}px`,
-              'background-image': `url("${self.params.thumbnails.src}")`
+              width: "".concat(thumb.naturalWidth / self.params.thumbnails.number, "px"),
+              height: "".concat(thumb.naturalHeight, "px"),
+              'background-image': "url(\"".concat(self.params.thumbnails.src, "\")")
             };
             seeking.css(css);
             seekingTouch.css(css);
@@ -1155,12 +1155,12 @@ class AmstramgramVideoPlayer {
         if (IS_MOBILE) volumeBeforeMute = 1;
       }
 
-      media.dispatchEvent(new Event('volumechange')); //Initialisation/Mise à jour du format
+      media.dispatchEvent(new CustomEvent('volumechange')); //Initialisation/Mise à jour du format
 
       container.style.paddingBottom = 1 / self.params.format * 100 + '%'; //Initialisation/Mise à jour du poster
 
       if (self.params.poster) {
-        layerPoster.style.backgroundImage = `url("${self.params.poster}")`;
+        layerPoster.style.backgroundImage = "url(\"".concat(self.params.poster, "\")");
         layerPoster.classList.remove('amst__hidden');
       } //Initialisation/Mise à jour des informations temporelles
 
@@ -1357,23 +1357,23 @@ class AmstramgramVideoPlayer {
         //Mise à jour de timeCurrent
         timeCurrent.css({
           [transitionPrefix]: trans,
-          [transformPrefix]: `scaleX(${ratio})`
+          [transformPrefix]: "scaleX(".concat(ratio, ")")
         }); //Mise à jour de handle
 
         handle.css({
           [transitionPrefix]: trans,
-          [transformPrefix]: `translateX(${translate})`
+          [transformPrefix]: "translateX(".concat(translate, ")")
         });
       } else {
         //Mise à jour de timeCurrent
         timeCurrent.css({
           [transitionPrefix]: trans,
-          [transformPrefix]: `scaleX(${ratio})`
+          [transformPrefix]: "scaleX(".concat(ratio, ")")
         }); //Mise à jour de handle
 
         handle.css({
           [transitionPrefix]: trans,
-          [transformPrefix]: `translateX(${translate})`
+          [transformPrefix]: "translateX(".concat(translate, ")")
         });
         updateTimeRailAnimation = requestAnimationFrame(updateTimeRail);
       }
@@ -1472,7 +1472,7 @@ class AmstramgramVideoPlayer {
           if (!seekingTouchWidth) seekingTouchWidth = seekingTouch.offsetWidth;
           const translate = Math.min(Math.max(seekingRatio * playerWidth - 0.5 * seekingTouchWidth, 0), playerWidth - seekingTouchWidth) + 'px';
           let css = {
-            [transformPrefix]: `translateX(${translate})`
+            [transformPrefix]: "translateX(".concat(translate, ")")
           };
 
           if (self.params.thumbnails.src) {
@@ -1480,7 +1480,7 @@ class AmstramgramVideoPlayer {
           }
 
           seekingTouch.css(css);
-          $('.amst__seeking-touch-cache').style[transformPrefix] = `scaleX(${seekingRatio})`;
+          $('.amst__seeking-touch-cache').style[transformPrefix] = "scaleX(".concat(seekingRatio, ")");
           $('.amst__seeking-touch > span').innerHTML = secondsToTimeCode(media.duration * seekingRatio, media.duration > 3600);
 
           if (horizontalMove == moveThreshold) {
@@ -1677,11 +1677,11 @@ class AmstramgramVideoPlayer {
             thumbBackgroundPosition = -Math.floor(seekingRatio * 100) * thumbWidth + 'px',
             seekingWrapperHalfWidth = 0.5 * seekingWidth - 6;
       if (self.params.thumbnails.src) seeking.style.backgroundPosition = thumbBackgroundPosition + ' 0';
-      $('.amst__cursor').style[transformPrefix] = `translateX(${seekingWrapperPosition}px)`; //On fait en sorte que le wrapper ne déborde pas aux extrémités de la barre temporelle
+      $('.amst__cursor').style[transformPrefix] = "translateX(".concat(seekingWrapperPosition, "px)"); //On fait en sorte que le wrapper ne déborde pas aux extrémités de la barre temporelle
 
       seekingWrapperPosition = Math.max(seekingWrapperPosition, seekingWrapperHalfWidth);
       seekingWrapperPosition = Math.min(seekingWrapperPosition, sliderWidth - seekingWrapperHalfWidth);
-      $('.amst__seeking-wrapper').style[transformPrefix] = `translateX(${seekingWrapperPosition}px)`;
+      $('.amst__seeking-wrapper').style[transformPrefix] = "translateX(".concat(seekingWrapperPosition, "px)");
       $('.amst__seeking > span').innerHTML = secondsToTimeCode(seekingRatio * media.duration, media.duration > 3600);
     });
     /************************************************
@@ -1730,7 +1730,7 @@ class AmstramgramVideoPlayer {
 
 
       if (storage && self.params.volumeGroup > -1) {
-        storage.setItem(`amst_volumegroup${self.params.volumeGroup}`, self.volume);
+        storage.setItem("amst_volumegroup".concat(self.params.volumeGroup), self.volume);
       }
 
       self.params.volume = self.volume; //Propagation du changement de volume au éventuels autres players du même volumeGroup
@@ -1777,7 +1777,7 @@ class AmstramgramVideoPlayer {
         volumeSlider.on(myPointerMove, updateVolume).on(myPointerLeave, cleanVolumeEvents).on(myPointerUp, updateVolume).on(myPointerUp, cleanVolumeEvents);
       });
 
-      const updateVolume = function (e) {
+      const updateVolume = function updateVolume(e) {
         let ratio;
 
         if (videoVolumeOrientation == 'horizontal') {
@@ -1793,7 +1793,7 @@ class AmstramgramVideoPlayer {
         self.volume = ratio;
       };
 
-      const cleanVolumeEvents = function () {
+      const cleanVolumeEvents = function cleanVolumeEvents() {
         volumeSlider.off(myPointerMove, updateVolume).off(myPointerLeave, cleanVolumeEvents).off(myPointerUp, updateVolume).off(myPointerUp, cleanVolumeEvents);
 
         if (videoVolumeOrientation == 'vertical') {
@@ -1951,7 +1951,7 @@ class AmstramgramVideoPlayer {
         //On retire l'écouteur sur le resize
         w.removeEventListener('amst__optimizedResize', resizeFullScreen); //On reset les dimensions éventuellement spécifiées par la fonction resizeFullScreen
 
-        container.setAttribute('style', `padding-bottom:${1 / self.params.format * 100}%`);
+        container.setAttribute('style', "padding-bottom:".concat(1 / self.params.format * 100, "%"));
         wrapper.classList.remove('amst__isfullscreen'); //Mise à jour du bouton et de ses labels
 
         fullScreenButton.setAttributes({
@@ -1971,7 +1971,7 @@ class AmstramgramVideoPlayer {
       }
     }, false);
 
-    const resizeFullScreen = function () {
+    const resizeFullScreen = function resizeFullScreen() {
       if (w.innerWidth / w.innerHeight > self.params.format) {
         //Si l'écran est plus large que la vidéo
         container.css({
@@ -2041,7 +2041,7 @@ class AmstramgramVideoPlayer {
       //ne sera fixée qu'à la fin de l'animation posée sur le padding-bottom du container.
 
       if (!IS_MOBILE) {
-        const updateVolumeRect = function (e) {
+        const updateVolumeRect = function updateVolumeRect(e) {
           volumeRect = $('.amst__volume-total').getBoundingClientRect();
 
           if (e && e.target == container) {
@@ -2189,7 +2189,9 @@ class AmstramgramVideoPlayer {
     }
   }
 
-  hideControls(delayed = false, forced = false) {
+  hideControls() {
+    let delayed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    let forced = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     this.container.dispatchEvent(new CustomEvent('amstEvent__hideControls', {
       'detail': {
         delayed: delayed,
@@ -2353,22 +2355,16 @@ function buildUI(params) {
       volumeSliderHTMLString = '';
 
   if (!IS_MOBILE) {
-    volumeSliderHTMLString = `
-      <div class="amst__volume-slider" aria-label="${params.volumeSliderLabel}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" aria-valuetext="100%" role="slider" aria-orientation="${params.videoVolumeOrientation}" tabindex="0" title="${params.volumeHelpLabel}">
-        <span class="amst__offscreen">${params.volumeHelpLabel}</span>
-        <div class="amst__volume-total">
-          <div class="amst__volume-current" style="height: 100%;"></div>`;
+    volumeSliderHTMLString = "\n      <div class=\"amst__volume-slider\" aria-label=\"".concat(params.volumeSliderLabel, "\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"100\" aria-valuetext=\"100%\" role=\"slider\" aria-orientation=\"").concat(params.videoVolumeOrientation, "\" tabindex=\"0\" title=\"").concat(params.volumeHelpLabel, "\">\n        <span class=\"amst__offscreen\">").concat(params.volumeHelpLabel, "</span>\n        <div class=\"amst__volume-total\">\n          <div class=\"amst__volume-current\" style=\"height: 100%;\"></div>");
 
     if (params.videoVolumeOrientation != 'horizontal') {
-      volumeSliderHTMLString += `<div class="amst__volume-handle" style="bottom: 100%; margin-bottom: -3px;"></div>`;
+      volumeSliderHTMLString += "<div class=\"amst__volume-handle\" style=\"bottom: 100%; margin-bottom: -3px;\"></div>";
     }
 
-    volumeSliderHTMLString += `</div></div>`;
+    volumeSliderHTMLString += "</div></div>";
   }
 
-  videoVolumeHTMLString = `
-    <div class="amst__button amst__volumebutton">
-      <button type="button" tabindex="0"></button>`;
+  videoVolumeHTMLString = "\n    <div class=\"amst__button amst__volumebutton\">\n      <button type=\"button\" tabindex=\"0\"></button>";
 
   if (params.videoVolumeOrientation != 'horizontal') {
     videoVolumeHTMLString += volumeSliderHTMLString + '</div>';
@@ -2376,72 +2372,10 @@ function buildUI(params) {
     videoVolumeHTMLString += '</div>' + volumeSliderHTMLString;
   }
 
-  let buildUIStr = `
-    <span class="amst__offscreen">${params.appLabel}</span>
-    <div class="amst__container" tabindex="0" role="application" aria-label="${params.appLabel}">
-      <div class="amst__mediaelement">
-        <video></video>
-      </div>
-    <div class="amst__layers">
-      <div class="amst__layer-poster">
-        <canvas></canvas>
-      </div>
-      <div class="amst__layer-loading">
-        <div class="amst__loading">
-          <span class="amst__svg"></span>
-        </div>
-      </div>
-      <div class="amst__layer-play">
-        <div class="amst__svg" role="button" tabindex="0" aria-label="${params.playLabel}" aria-pressed="false"></div>
-      </div>
-      <div class="amst__layer-seeking-touch">
-        <div class="amst__seeking-touch-cache"></div>
-        <span class="amst__time amst__seeking-touch">
-          <span></span>
-        </span>
-      </div>
-    </div>
-    <div class="amst__controls">
-      <div class="amst__button amst__previous">
-        <button type="button" title="${params.previous.label}" aria-label="${params.previous.label}" tabindex="0"></button>
-      </div>
-      <div class="amst__button amst__playpause">
-        <button type="button" title="${params.playLabel}" aria-label="${params.playLabel}" tabindex="0"></button>
-      </div>
-      <div class="amst__button amst__next">
-        <button type="button" title="${params.next.label}" aria-label="${params.next.label}" tabindex="0"></button>
-      </div>
-      <div class="amst__time" role="timer" aria-live="off">
-        <span class="amst__currenttime">00:00</span>
-      </div>
-      <div class="amst__rail">
-        <span class="amst__slider" role="slider" tabindex="0">
-          <span class="amst__buffering-bar"></span>
-          <canvas class="amst__loaded-bar"></canvas>
-          <span class="amst__currenttime-bar"></span>
-          <span class="amst__handle"><span></span></span>
-          <span class="amst__cursor"><span></span></span>
-          <span class="amst__seeking-wrapper">
-            <span class="amst__time amst__seeking">
-              <span>00:00</span>
-            </span>
-          </span>
-        </span>
-      </div>
-      <div class="amst__time amst__time-duration">
-        <span class="amst__duration">00:00</span>
-      </div>`;
+  let buildUIStr = "\n    <span class=\"amst__offscreen\">".concat(params.appLabel, "</span>\n    <div class=\"amst__container\" tabindex=\"0\" role=\"application\" aria-label=\"").concat(params.appLabel, "\">\n      <div class=\"amst__mediaelement\">\n        <video></video>\n      </div>\n    <div class=\"amst__layers\">\n      <div class=\"amst__layer-poster\">\n        <canvas></canvas>\n      </div>\n      <div class=\"amst__layer-loading\">\n        <div class=\"amst__loading\">\n          <span class=\"amst__svg\"></span>\n        </div>\n      </div>\n      <div class=\"amst__layer-play\">\n        <div class=\"amst__svg\" role=\"button\" tabindex=\"0\" aria-label=\"").concat(params.playLabel, "\" aria-pressed=\"false\"></div>\n      </div>\n      <div class=\"amst__layer-seeking-touch\">\n        <div class=\"amst__seeking-touch-cache\"></div>\n        <span class=\"amst__time amst__seeking-touch\">\n          <span></span>\n        </span>\n      </div>\n    </div>\n    <div class=\"amst__controls\">\n      <div class=\"amst__button amst__previous\">\n        <button type=\"button\" title=\"").concat(params.previous.label, "\" aria-label=\"").concat(params.previous.label, "\" tabindex=\"0\"></button>\n      </div>\n      <div class=\"amst__button amst__playpause\">\n        <button type=\"button\" title=\"").concat(params.playLabel, "\" aria-label=\"").concat(params.playLabel, "\" tabindex=\"0\"></button>\n      </div>\n      <div class=\"amst__button amst__next\">\n        <button type=\"button\" title=\"").concat(params.next.label, "\" aria-label=\"").concat(params.next.label, "\" tabindex=\"0\"></button>\n      </div>\n      <div class=\"amst__time\" role=\"timer\" aria-live=\"off\">\n        <span class=\"amst__currenttime\">00:00</span>\n      </div>\n      <div class=\"amst__rail\">\n        <span class=\"amst__slider\" role=\"slider\" tabindex=\"0\">\n          <span class=\"amst__buffering-bar\"></span>\n          <canvas class=\"amst__loaded-bar\"></canvas>\n          <span class=\"amst__currenttime-bar\"></span>\n          <span class=\"amst__handle\"><span></span></span>\n          <span class=\"amst__cursor\"><span></span></span>\n          <span class=\"amst__seeking-wrapper\">\n            <span class=\"amst__time amst__seeking\">\n              <span>00:00</span>\n            </span>\n          </span>\n        </span>\n      </div>\n      <div class=\"amst__time amst__time-duration\">\n        <span class=\"amst__duration\">00:00</span>\n      </div>");
   buildUIStr += videoVolumeHTMLString;
-  if (fullscreenAPI) buildUIStr += `        
-      <div class="amst__button amst__fullscreen">
-        <button type="button" title="${params.fullscreen.label}" aria-label="${params.fullscreen.label}" tabindex="0"></button>
-      </div>`;
-  buildUIStr += `
-      <div class="amst__button amst__download">
-        <button type="button" title="${params.download.label}" aria-label="${params.download.label}" tabindex="0"></button>
-      </div>
-    </div>
-  `;
+  if (fullscreenAPI) buildUIStr += "        \n      <div class=\"amst__button amst__fullscreen\">\n        <button type=\"button\" title=\"".concat(params.fullscreen.label, "\" aria-label=\"").concat(params.fullscreen.label, "\" tabindex=\"0\"></button>\n      </div>");
+  buildUIStr += "\n      <div class=\"amst__button amst__download\">\n        <button type=\"button\" title=\"".concat(params.download.label, "\" aria-label=\"").concat(params.download.label, "\" tabindex=\"0\"></button>\n      </div>\n    </div>\n  ");
   return buildUIStr;
 }
 /************************************************
@@ -2487,7 +2421,9 @@ class AmstRoundedRect {
 
 }
 
-let throttle = (type, name, obj = w) => {
+let throttle = function throttle(type, name) {
+  let obj = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : w;
+
   let running = false,
       func = e => {
     if (running) return;
@@ -2541,7 +2477,7 @@ function mergeDeep(target, source) {
 
 
 let _$ = context => {
-  let $ = function (selector) {
+  let $ = function $(selector) {
     let el = typeof selector === 'string' ? context.querySelector(selector) : selector;
 
     if (el) {
@@ -2559,7 +2495,8 @@ let _$ = context => {
         Object.keys(attrs).forEach(key => el.setAttribute(key, attrs[key]));
       };
 
-      el.on = function (events, handler, options = false) {
+      el.on = function (events, handler) {
+        let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         events.split(' ').forEach(e => el.addEventListener(e, handler, options));
         return el;
       };
@@ -2592,7 +2529,8 @@ let _$$ = context => {
       }
     };
 
-    els.on = function (events, handler, options = false) {
+    els.on = function (events, handler) {
+      let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       els.forEach(el => {
         events.split(' ').forEach(e => el.addEventListener(e, handler, options));
       });

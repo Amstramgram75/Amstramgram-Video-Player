@@ -1,6 +1,6 @@
 /*
 amstramgramVideoPlayer.js
-@version : 1.0.1
+@version : 1.0.2
 @licence : MIT
 @author : Amstramgram
 @url : https://github.com/Amstramgram75/Amstramgram-Video-Player
@@ -1075,7 +1075,7 @@ class AmstramgramVideoPlayer {
         volumeBeforeMute = (media.volume == 0)?0.1:media.volume;
         if (IS_MOBILE) volumeBeforeMute = 1;
       }
-      media.dispatchEvent(new Event('volumechange'));
+      media.dispatchEvent(new CustomEvent('volumechange'));
       //Initialisation/Mise à jour du format
       container.style.paddingBottom = 1 / self.params.format * 100 + '%';
       //Initialisation/Mise à jour du poster

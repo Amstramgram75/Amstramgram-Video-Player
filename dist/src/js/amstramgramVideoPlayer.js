@@ -1,5 +1,5 @@
 /*!
-  * AmstramgramVideoPlayer v1.0.1
+  * AmstramgramVideoPlayer v1.0.2
   * https://github.com/Amstramgram75/Amstramgram-Video-Player
   *
   * Copyright (c) 2020 Amstramgram
@@ -7,6 +7,7 @@
  */
 
 import '../css/amstramgramVideoPlayer.scss'
+
 /*TODO :
   Menu contextuel
   Tuto thumnails
@@ -1077,7 +1078,7 @@ class AmstramgramVideoPlayer {
         volumeBeforeMute = (media.volume == 0)?0.1:media.volume
         if (IS_MOBILE) volumeBeforeMute = 1
       }
-      media.dispatchEvent(new Event('volumechange'))
+      media.dispatchEvent(new CustomEvent('volumechange'))
       //Initialisation/Mise à jour du format
       container.style.paddingBottom = 1 / self.params.format * 100 + '%'
       //Initialisation/Mise à jour du poster
