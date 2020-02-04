@@ -1,6 +1,6 @@
 <h1 align="center">Work in progress...</h1>
 
-[![GitHub Release](https://img.shields.io/badge/release-v1.0.1-orange)](https://github.com/Amstramgram75/Amstramgram-Video-Player/releases)
+[![GitHub Release](https://img.shields.io/badge/release-v1.0.2-orange)](https://github.com/Amstramgram75/Amstramgram-Video-Player/releases)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Amstramgram75/Amstramgram-Video-Player/blob/master/LICENSE)
 [![dependency Status](https://david-dm.org/Amstramgram75/Amstramgram-Video-Player/status.svg)](https://david-dm.org/Amstramgram75/Amstramgram-Video-Player)
 [![devDependency Status](https://david-dm.org/Amstramgram75/Amstramgram-Video-Player/dev-status.svg)](https://david-dm.org/Amstramgram75/Amstramgram-Video-Player?type=dev)
