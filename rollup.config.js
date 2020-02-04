@@ -13,6 +13,15 @@ export default {
   },
   plugins: [
     sass({output: `dev/css/${name}.css`}),    
-      babel()	
+    babel({
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": "> 0.25%, not dead"
+          }
+        ]
+      ]
+    })	
   ]
 };

@@ -99,7 +99,16 @@ export default [
       ignoreImport({
         extensions: ['.scss', '.css']
       }),
-      babel()
+      babel({
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "targets": "> 0.25%, not dead"
+            }
+          ]
+        ]
+      })	
     ]
   },
   {//IIFE minify
@@ -114,7 +123,16 @@ export default [
       ignoreImport({
         extensions: ['.scss', '.css']
       }),
-      babel(),
+      babel({
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "targets": "> 0.25%, not dead"
+            }
+          ]
+        ]
+      }),	
       terser()
     ]
   },
@@ -129,7 +147,16 @@ export default [
       ignoreImport({
         extensions: ['.scss', '.css']
       }),
-      babel()
+      babel({
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "targets": "since 2018"
+            }
+          ]
+        ]
+      }),	
     ]
   },
   {//CommonJS minify
@@ -143,7 +170,16 @@ export default [
       ignoreImport({
         extensions: ['.scss', '.css']
       }),
-      babel(),
+      babel({
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "targets": "since 2018"
+            }
+          ]
+        ]
+      }),	
       terser(),
       copy({
         targets: [
