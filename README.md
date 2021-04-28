@@ -1,6 +1,6 @@
 <h1 align="center">Deprecated and replaced by Amstramgram-Media-Player</h1>
 
-(https://github.com/Amstramgram75/Amstramgram-Media-Player
+https://github.com/Amstramgram75/Amstramgram-Media-Player
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Amstramgram75/Amstramgram-Video-Player)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Amstramgram75/Amstramgram-Video-Player/blob/master/LICENSE)
